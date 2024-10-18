@@ -1,0 +1,11 @@
+@import '../../../../../constants/color.scss';
+
+
+.small-task {
+    &-container {
+        margin : 20px 0px;
+    }
+    &-item {
+        width: 95%;
+    }
+}

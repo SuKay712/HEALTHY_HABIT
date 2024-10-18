@@ -5,16 +5,22 @@ import PublicRoute from "./public-route";
 import LoadableComponent from "../../components/loadable-component";
 
 const Schedule = LoadableComponent(() => import("../pages/schedule/index.jsx"));
+const MainLayout = LoadableComponent(() =>
+    import("../pages/layout/MainLayout.jsx")
+);
 
 const AllRoutes = () => {
     return (
         <Routes>
             {/* // public route  */}
             <Route element={<PublicRoute />}>
-                <Route path="/schedule" element={<Schedule />} />
+                <Route
+                    path="/schedule"
+                    element={<MainLayout Component={<Schedule/>} currentPage="Lịch trình"/>}
+                />
             </Route>
 
-            {/* organization route */}
+            {/* admin route */}
             <Route element={<AdminRoute />}>
                 {/* <Route
                     path="/create-post/:activityId"
@@ -22,7 +28,7 @@ const AllRoutes = () => {
                 /> */}
             </Route>
 
-            {/* candidate route */}
+            {/* user route */}
             <Route element={<UserRoute />}></Route>
         </Routes>
     );

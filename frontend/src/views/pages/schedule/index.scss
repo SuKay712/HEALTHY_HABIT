@@ -1,0 +1,39 @@
+@import '../../../constants/color.scss';
+
+.schedule{
+    &-container {
+        margin : 0px 16px;
+        margin-top: 16px;
+    }
+
+    &-content-container {
+        background-color: $white;
+        border-radius: 10px;
+        min-height: 85vh;
+        padding : 10px
+    }
+
+    &-add-task-button {
+        color: $dark_blue;
+        background-color: $white;
+        border: 1px solid $dark_blue;
+    }
+
+    &-add-task-button:hover {
+        color: $white !important;
+        background-color: $dark_blue !important;
+        border: 1px solid $dark_blue !important;
+    }
+
+    &-date-time-picker {
+        color: $dark_blue;
+        background-color: $white;
+        border: 1px solid $dark_blue;
+    }
+
+    &-content-header-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+}
