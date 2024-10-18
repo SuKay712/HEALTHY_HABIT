@@ -1,29 +1,33 @@
-package com.example.backend.controllers;
+package com.example.backend.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.backend.models.User;
-import com.example.backend.services.UserService;
+import com.example.backend.dto.response.BaseResponse;
+import com.example.backend.dto.response.UserProfileResponse;
+import com.example.backend.model.User;
+import com.example.backend.service.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping("api/user")
 public class UserController {
+  private final UserService userService;
 
-  @Autowired
-  UserService userService;
-
-  @PostMapping("/add")
-  public User createUser(@RequestBody User user) {
-    return userService.addUser(user);
+  @GetMapping("/profile/{id}")
+  public ResponseEntity<BaseResponse<UserProfileResponse>> getUserProfile(@PathVariable String id) {
+    return userService.getUserProfile(id);
   }
 
-  @GetMapping("/getAll")
-  public List<User> getUsers() {
-    return userService.findAllUsers();
+  @GetMapping("/")
+  public ResponseEntity<BaseResponse<List<User>>> getAllUser() {
+    return userService.getAllUsers();
   }
 }

@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
@@ -8,50 +9,28 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.Builder;
 import lombok.Data;
 
-@Document(collection = "Users")
+@Document(collection = "Posts")
 @Data
 @Builder
-public class User {
+public class Post {
+
   @Id
   private ObjectId id;
 
-  private String email;
+  private String userId;
 
-  @JsonIgnore
-  private String password;
+  private String content;
 
-  private String username;
+  private List<String> image;
 
-  private String displayName;
-
-  private String address;
-
-  private String tel;
-
-  private String avatar;
-
-  private boolean groupNotify;
-
-  private UserRole role;
-
-  @JsonIgnore
-  private boolean isVerify;
-
-  @JsonIgnore
-  private boolean canResetPassword;
-
-  @JsonIgnore
-  private String otp;
-
-  @JsonIgnore
-  private LocalDateTime otpGenerateTime;
+  private boolean inTrashcan;
 
   private boolean isDeleted;
+
+  private List<String> likes;
 
   @CreatedDate
   private LocalDateTime createdAt;

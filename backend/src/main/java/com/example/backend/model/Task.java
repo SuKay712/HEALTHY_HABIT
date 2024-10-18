@@ -1,55 +1,46 @@
 package com.example.backend.model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.aggregation.DateOperators.DayOfWeek;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
 import lombok.Data;
 
-@Document(collection = "Users")
+@Document(collection = "Tasks")
 @Data
 @Builder
-public class User {
+public class Task {
+
   @Id
   private ObjectId id;
 
-  private String email;
+  private String userId;
 
-  @JsonIgnore
-  private String password;
+  private String name;
 
-  private String username;
+  private String description;
 
-  private String displayName;
+  private String prize;
 
-  private String address;
+  private List<DayOfWeek> timer;
 
-  private String tel;
+  private String priority;
 
-  private String avatar;
+  private LocalDateTime dateStart;
 
-  private boolean groupNotify;
+  private LocalDateTime dateEnd;
 
-  private UserRole role;
+  private LocalTime timeExpired;
 
-  @JsonIgnore
-  private boolean isVerify;
-
-  @JsonIgnore
-  private boolean canResetPassword;
-
-  @JsonIgnore
-  private String otp;
-
-  @JsonIgnore
-  private LocalDateTime otpGenerateTime;
+  private boolean isNotify;
 
   private boolean isDeleted;
 
