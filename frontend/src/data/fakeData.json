@@ -1,0 +1,53 @@
+{
+    "task" : [
+        {
+            "date" : "17/10/2024",
+            "tasks" : [
+                {
+                    "aim" : "Dậy sớm",
+                    "description" : "Dậy sớm mỗi sáng",
+                    "startTime" : "05:00",
+                    "checked" : true
+                },
+                {
+                    "aim" : "Tập thể dục",
+                    "description" : "Tập thể dục mỗi sáng",
+                    "startTime" : "05:15",
+                    "checked" : false
+                },
+                {
+                    "aim" : "Đọc sách",
+                    "description" : "Đọc sách mỗi ngày 30 phút",
+                    "startTime" : "07:00",
+                    "checked" : true
+                }
+            ]
+        },
+        {
+            "date" : "18/10/2024"
+        },
+        {
+            "date" : "19/10/2024",
+            "tasks" : [
+                {
+                    "aim" : "Dậy sớm",
+                    "description" : "Dậy sớm mỗi sáng",
+                    "startTime" : "05:00",
+                    "checked" : true
+                },
+                {
+                    "aim" : "Tập thể dục",
+                    "description" : "Tập thể dục mỗi sáng",
+                    "startTime" : "05:15",
+                    "checked" : false
+                },
+                {
+                    "aim" : "Đọc sách",
+                    "description" : "Đọc sách mỗi ngày 30 phút",
+                    "startTime" : "07:00",
+                    "checked" : true
+                }
+            ]
+        }
+    ]
+}
