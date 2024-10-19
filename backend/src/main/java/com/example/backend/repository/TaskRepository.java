@@ -1,14 +1,12 @@
 package com.example.backend.repository;
 
-import java.util.Optional;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.backend.model.User;
+import com.example.backend.model.Task;
 
 @Repository
-public interface UserRepository extends MongoRepository<User, ObjectId> {
-  Optional<User> findByUsername(String username);
+public interface TaskRepository extends MongoRepository<Task, ObjectId> {
+
 }

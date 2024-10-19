@@ -1,27 +1,16 @@
-package com.example.backend.services;
+package com.example.backend.service;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
-import com.example.backend.models.User;
-import com.example.backend.repositories.UserRepository;
+import com.example.backend.dto.response.BaseResponse;
+import com.example.backend.dto.response.UserProfileResponse;
+import com.example.backend.model.User;
 
-@Service
-public class UserService {
+public interface UserService {
 
-  @Autowired
-  private UserRepository userRepository;
+  public ResponseEntity<BaseResponse<List<User>>> getAllUsers();
 
-  public User addUser(User user){
-    user.setId(UUID.randomUUID().toString().split("-")[0]);
-    return userRepository.save(user);
-  }
-
-  public List<User> findAllUsers() {
-    return userRepository.findAll();
-  }
-
+  public ResponseEntity<BaseResponse<UserProfileResponse>> getUserProfile(String username);
 }
