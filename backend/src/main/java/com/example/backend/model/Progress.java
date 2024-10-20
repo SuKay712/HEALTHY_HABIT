@@ -1,7 +1,8 @@
 package com.example.backend.model;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
+import com.example.backend.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class Progress {
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime date;
-  private String status;
+  @JsonFormat(pattern = "dd-MM-yyyy")
+  private LocalDate date;
+  private Status status;
 }

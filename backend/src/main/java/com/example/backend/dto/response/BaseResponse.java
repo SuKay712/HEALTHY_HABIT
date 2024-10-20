@@ -14,7 +14,7 @@ import lombok.Data;
 public class BaseResponse<T> {
   private final Boolean isSuccess;
   private final String message;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   private final LocalDateTime timeStamp;

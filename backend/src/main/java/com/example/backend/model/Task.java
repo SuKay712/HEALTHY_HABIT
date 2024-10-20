@@ -1,6 +1,8 @@
 package com.example.backend.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -8,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.example.backend.model.enums.DateOfWeek;
+import com.example.backend.model.enums.Priority;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -35,21 +39,22 @@ public class Task {
 
   private List<DateOfWeek> timer;
 
-  private String priority;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime dateStart;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-  private LocalDateTime dateEnd;
-  private String timeExpired;
+  private Priority priority;
+  @JsonFormat(pattern = "dd-MM-yyyy")
+  private LocalDate dateStart;
+  @JsonFormat(pattern = "dd-MM-yyyy")
+  private LocalDate dateEnd;
+  @JsonFormat(pattern = "HH:mm:ss")
+  private LocalTime timeExpired;
   private boolean isNotify;
-  private List<Progress>  tasksProgress;
+  private List<Progress> tasksProgress;
   private boolean isDeleted;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "dd-MM-yyyy")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @CreatedDate
   private LocalDateTime createdAt;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @LastModifiedDate

@@ -1,18 +1,22 @@
 package com.example.backend.service.impl;
 
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.TaskDTO;
+import com.example.backend.dto.request.CreateTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Progress;
 import com.example.backend.model.Task;
+import com.example.backend.model.enums.DateOfWeek;
+import com.example.backend.model.enums.Priority;
+import com.example.backend.model.enums.Status;
 import com.example.backend.repository.TaskRepository;
 import com.example.backend.service.TaskService;
 import com.example.backend.utils.DateTimeUtils;
@@ -22,31 +26,30 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
-  @Autowired
-  private TaskRepository taskRepository;
+  private final TaskRepository taskRepository;
 
   @Override
   public List<Task> getAllTasksByUserId(String userId) {
-    List<Task> listTask= taskRepository.findAll();
+    List<Task> listTask = taskRepository.findAll();
     return listTask;
   }
 
   @Override
   public Task getTaskById(String id) {
     return taskRepository.findById(id)
-      .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+        .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
   }
 
   @Override
   public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, String dateTime) {
     BaseResponse<TasksInDateResponse> response;
-    LocalDateTime inputDate = (dateTime == null || dateTime.isEmpty()) ?
-      LocalDateTime.now() : LocalDateTime.parse(dateTime);
-    LocalDateTime dayBefore = inputDate.minusDays(1);
-    LocalDateTime dayAfter = inputDate.plusDays(1);
+    LocalDate inputDate = (dateTime == null || dateTime.isEmpty()) ? LocalDate.now()
+        : LocalDate.parse(dateTime);
+    LocalDate dayBefore = inputDate.minusDays(1);
+    LocalDate dayAfter = inputDate.plusDays(1);
     // if(userId check){
-    //   response = new BaseResponse<>(false, "No User was found", null);
-    //   return response;
+    // response = new BaseResponse<>(false, "No User was found", null);
+    // return response;
     // }
     List<Task> listTask = taskRepository.findByUserId(userId);
 
@@ -56,23 +59,20 @@ public class TaskServiceImpl implements TaskService {
 
     for (Task task : listTask) {
       if (dayBefore.isAfter(task.getDateStart()) && dayBefore.isBefore(task.getDateEnd())) {
-        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore);
-        if (progress == null) continue;
-        yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
+        Status taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore).getStatus();
+        yesterdayTasks.add(new TaskDTO(task, taskStatus));
       }
       if (inputDate.isAfter(task.getDateStart()) && inputDate.isBefore(task.getDateEnd())) {
-        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate);
-        if (progress == null) continue;
-        yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
+        Status taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate).getStatus();
+        todayTasks.add(new TaskDTO(task, taskStatus));
       }
       if (dayAfter.isAfter(task.getDateStart()) && dayAfter.isBefore(task.getDateEnd())) {
-        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter);
-        if (progress == null) continue;
-        yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
+        Status taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter).getStatus();
+        tomorrowTasks.add(new TaskDTO(task, taskStatus));
       }
     }
     TasksInDateResponse tasksInDateResponse = new TasksInDateResponse(todayTasks, yesterdayTasks, tomorrowTasks);
-    if(todayTasks.isEmpty() && yesterdayTasks.isEmpty() && tomorrowTasks.isEmpty()){
+    if (todayTasks.isEmpty() && yesterdayTasks.isEmpty() && tomorrowTasks.isEmpty()) {
       response = new BaseResponse<>(true, "No Task", tasksInDateResponse);
       return response;
     }
@@ -81,10 +81,59 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public BaseResponse<Task> updateTask(String id, LocalDateTime time, String status) {
+  public BaseResponse<Task> createTask(CreateTaskRequest req) {
+    try {
+      Task task = Task.builder().userId(req.getUserId())
+          .name(req.getName())
+          .description(req.getDescription())
+          .prize(req.getPrize())
+          .priority(Priority.MEDIUM)
+          .dateStart(req.getDateStart())
+          .timeExpired(req.getTimeExpired())
+          .isNotify(true)
+          .isDeleted(false)
+          .build();
+      if (req.getTimer() != null && req.getDateEnd() != null) {
+        List<Progress> progressList = new ArrayList<>();
+        LocalDate currentDate = req.getDateStart();
+        if (req.getTimer().get(0) == DateOfWeek.ALL) {
+          while (!currentDate.isAfter(req.getDateEnd())) {
+            progressList.add(new Progress(currentDate, Status.INCOMPLETE));
+            currentDate = currentDate.plusDays(1);
+          }
+        } else {
+          while (!currentDate.isAfter(req.getDateEnd())) {
+            DayOfWeek currentDayOfWeek = currentDate.getDayOfWeek();
+            for (DateOfWeek day : req.getTimer()) {
+              if (day.getValue() == currentDayOfWeek.getValue()) {
+                progressList.add(new Progress(currentDate, Status.INCOMPLETE));
+                break;
+              }
+            }
+            currentDate = currentDate.plusDays(1);
+          }
+        }
+        task.setTimer(req.getTimer());
+        task.setTasksProgress(progressList);
+        task.setDateEnd(req.getDateEnd());
+      } else {
+        List<Progress> progresses = new ArrayList<>();
+        progresses.add(new Progress(req.getDateStart(), Status.INCOMPLETE));
+        task.setTasksProgress(progresses);
+      }
+      Task resulTask = taskRepository.save(task);
+      return new BaseResponse<Task>(true, "Create Task Success!!!", resulTask);
+    } catch (Exception e) {
+      return new BaseResponse<Task>(false, e.getMessage(), null);
+    }
+
+  }
+
+  @Override
+  public BaseResponse<Task> updateTask(String id, LocalDate time, Status status) {
     BaseResponse<Task> response;
     Optional<Task> optionalTask = taskRepository.findById(id);
-    if (optionalTask.isPresent()){
+    if (optionalTask.isPresent()) {
       Task task = optionalTask.get();
       Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), time);
       progress.setStatus(status);
