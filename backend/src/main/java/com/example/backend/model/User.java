@@ -37,7 +37,7 @@ public class User {
 
   private boolean groupNotify;
 
-  private UserRole role;
+  private boolean isAdmin;
 
   @JsonIgnore
   private boolean isVerify;
