@@ -3,6 +3,7 @@ package com.example.backend.service.impl;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.backend.dto.TaskDTO;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TasksInDateResponse;
+import com.example.backend.model.Progress;
 import com.example.backend.model.Task;
 import com.example.backend.repository.TaskRepository;
 import com.example.backend.service.TaskService;
@@ -54,16 +56,19 @@ public class TaskServiceImpl implements TaskService {
 
     for (Task task : listTask) {
       if (dayBefore.isAfter(task.getDateStart()) && dayBefore.isBefore(task.getDateEnd())) {
-        String taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore).getStatus();
-        yesterdayTasks.add(new TaskDTO(task, taskStatus));
+        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore);
+        if (progress == null) continue;
+        yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
       }
       if (inputDate.isAfter(task.getDateStart()) && inputDate.isBefore(task.getDateEnd())) {
-        String taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate).getStatus();
-        todayTasks.add(new TaskDTO(task, taskStatus));
+        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate);
+        if (progress == null) continue;
+        yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
       }
       if (dayAfter.isAfter(task.getDateStart()) && dayAfter.isBefore(task.getDateEnd())) {
-        String taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter).getStatus();
-        tomorrowTasks.add(new TaskDTO(task, taskStatus));
+        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter);
+        if (progress == null) continue;
+        yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
       }
     }
     TasksInDateResponse tasksInDateResponse = new TasksInDateResponse(todayTasks, yesterdayTasks, tomorrowTasks);
@@ -73,6 +78,21 @@ public class TaskServiceImpl implements TaskService {
     }
     response = new BaseResponse<>(true, "Fetched all tasks successfully", tasksInDateResponse);
     return response;
+  }
+
+  @Override
+  public BaseResponse<Task> updateTask(String id, LocalDateTime time, String status) {
+    BaseResponse<Task> response;
+    Optional<Task> optionalTask = taskRepository.findById(id);
+    if (optionalTask.isPresent()){
+      Task task = optionalTask.get();
+      Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), time);
+      progress.setStatus(status);
+      taskRepository.save(task);
+      response = new BaseResponse<>(true, "Fetched all tasks successfully", task);
+      return response;
+    }
+    return null;
   }
 
 }

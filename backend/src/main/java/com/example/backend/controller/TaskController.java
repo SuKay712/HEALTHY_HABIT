@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backend.dto.request.UpdateTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Task;
@@ -42,5 +45,8 @@ public class TaskController {
     return ResponseEntity.ok(taskService.getTasksInDateTime(userId, time));
   }
 
-
+  @PutMapping("/updateTask/{id}")
+  public ResponseEntity<BaseResponse<Task>> updateTask(@PathVariable String id, @RequestBody UpdateTaskRequest request) {
+    return ResponseEntity.ok(taskService.updateTask(id, request.getTime(), request.getStatus()));
+  }
 }
