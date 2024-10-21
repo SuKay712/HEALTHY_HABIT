@@ -1,15 +1,13 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-// import useAuth from "../../hooks/useAuth";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 
 const UserRoute = () => {
-    // const { account } = useAuth();
+  const { user } = useAuth();
 
-    // if (account && account.role === 1) {
-        return <Outlet />;
-    // } else {
-    //     return <Navigate to="/auth/login" />;
-    // }
+  if (!user) return <Navigate to='/login' />;
+
+  return <Outlet />;
 };
 
 export default UserRoute;
