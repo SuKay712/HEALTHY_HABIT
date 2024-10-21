@@ -17,6 +17,7 @@ import com.example.backend.dto.request.UpdateTaskRequest;
 import com.example.backend.dto.request.CreateTaskRequest;
 import com.example.backend.dto.request.TaskInDateRequest;
 import com.example.backend.dto.response.BaseResponse;
+import com.example.backend.dto.response.TaskInProgressAndEnded;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Task;
 import com.example.backend.service.TaskService;
@@ -58,4 +59,8 @@ public class TaskController {
     return ResponseEntity.ok(taskService.createTask(req));
   }
 
+  @GetMapping("task/filter/{userId}")
+  public ResponseEntity<BaseResponse<TaskInProgressAndEnded>> getTaskByStatusNow(@PathVariable String userId) {
+    return ResponseEntity.ok(taskService.getTaskByStatusNow(userId));
+  }
 }
