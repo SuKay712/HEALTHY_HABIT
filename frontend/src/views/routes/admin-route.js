@@ -1,16 +1,15 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-// import useAuth from "../../hooks/useAuth";
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../../context/authContext';
 
 const AdminRoute = () => {
-    // const { account } = useAuth();
+  const { user } = useAuth();
 
-    // if (account && account.role === 3) {
-        return <Outlet />;
-    // } else {
-    //     return <Navigate to="/auth/login" />;
-    // }
-    
+  if (!user) return <Navigate to='/login' />;
+
+  if (!user.admin) return <Navigate to='/' />;
+
+  return <Outlet />;
 };
 
 export default AdminRoute;

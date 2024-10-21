@@ -1,0 +1,21 @@
+@import '../../../constants/color.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+.login {
+  &-container {
+    display: flex;
+    width: 60%;
+    margin: 120px auto;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  &-bg {
+    width: 50%;
+  }
+  &-f {
+    width: 50%;
+  }
+}
