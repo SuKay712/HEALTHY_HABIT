@@ -31,7 +31,7 @@ public class CreateTaskRequest {
 
   private LocalDate dateEnd;
 
-  private LocalTime timeExpired;
+  private String timeExpired;
 
   public void setDateStart(String dateStart) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -42,9 +42,8 @@ public class CreateTaskRequest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     this.dateEnd = LocalDate.parse(dateEnd, formatter);
   }
-
-  public void setTimeExpired(String timeExpired) {
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    this.timeExpired = LocalTime.parse(timeExpired, formatter);
-  }
+  // public void setTimeExpired(String timeExpired) {
+  //   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+  //   this.timeExpired = LocalTime.parse(timeExpired, formatter);
+  // }
 }

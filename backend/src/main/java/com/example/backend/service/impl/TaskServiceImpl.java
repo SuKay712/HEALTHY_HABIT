@@ -41,10 +41,10 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, String dateTime) {
+  public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, LocalDate dateTime) {
     BaseResponse<TasksInDateResponse> response;
-    LocalDate inputDate = (dateTime == null || dateTime.isEmpty()) ? LocalDate.now()
-        : LocalDate.parse(dateTime);
+    LocalDate inputDate = (dateTime == null) ? LocalDate.now()
+        : dateTime;
     LocalDate dayBefore = inputDate.minusDays(1);
     LocalDate dayAfter = inputDate.plusDays(1);
     // if(userId check){
@@ -59,16 +59,22 @@ public class TaskServiceImpl implements TaskService {
 
     for (Task task : listTask) {
       if (dayBefore.isAfter(task.getDateStart()) && dayBefore.isBefore(task.getDateEnd())) {
-        Status taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore).getStatus();
-        yesterdayTasks.add(new TaskDTO(task, taskStatus));
+        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore);
+        if (progress != null){
+          yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
+        }
       }
       if (inputDate.isAfter(task.getDateStart()) && inputDate.isBefore(task.getDateEnd())) {
-        Status taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate).getStatus();
-        todayTasks.add(new TaskDTO(task, taskStatus));
+        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate);
+        if (progress != null){
+          todayTasks.add(new TaskDTO(task, progress.getStatus()));
+        }
       }
       if (dayAfter.isAfter(task.getDateStart()) && dayAfter.isBefore(task.getDateEnd())) {
-        Status taskStatus = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter).getStatus();
-        tomorrowTasks.add(new TaskDTO(task, taskStatus));
+        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter);
+        if (progress != null){
+          tomorrowTasks.add(new TaskDTO(task, progress.getStatus()));
+        }
       }
     }
     TasksInDateResponse tasksInDateResponse = new TasksInDateResponse(todayTasks, yesterdayTasks, tomorrowTasks);

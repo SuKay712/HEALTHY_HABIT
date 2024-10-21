@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.dto.request.UpdateTaskRequest;
 import com.example.backend.dto.request.CreateTaskRequest;
+import com.example.backend.dto.request.TaskInDateRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Task;
@@ -41,10 +42,9 @@ public class TaskController {
     return ResponseEntity.ok(response);
   }
 
-  @GetMapping("/task/date")
-  public ResponseEntity<BaseResponse<TasksInDateResponse>> getTasksInDatetime(@RequestParam String userId,
-      @RequestParam String time) {
-    return ResponseEntity.ok(taskService.getTasksInDateTime(userId, time));
+ @GetMapping("/task/date")
+  public ResponseEntity<BaseResponse<TasksInDateResponse>> getTasksInDatetime(@RequestBody TaskInDateRequest req) {
+    return ResponseEntity.ok(taskService.getTasksInDateTime(req.getUserId(), req.getTime()));
   }
 
   @PutMapping("/task/{id}")

@@ -45,7 +45,7 @@ public class Task {
   @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate dateEnd;
   @JsonFormat(pattern = "HH:mm:ss")
-  private LocalTime timeExpired;
+  private String timeExpired;
   private boolean isNotify;
   private List<Progress> tasksProgress;
   private boolean isDeleted;
