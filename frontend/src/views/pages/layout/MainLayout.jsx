@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./MainLayout.scss";
 import {
     AppstoreOutlined,
@@ -16,6 +16,7 @@ import { Button, Layout, Menu } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router";
 import HeaderComponent from "../../../components/header";
+import { AuthContext } from "../../../context/authContext";
 
 const { Sider } = Layout;
 
@@ -43,11 +44,13 @@ const items = [
 
 function MainLayout(props) {
     const { Component, currentPage = "Tổng quan" } = props;
-    // Component truyền phần ruột vào 
+    // Component truyền phần ruột vào
     // currentPage nhập 1 trong các giá trị ["Lịch trình","Tổng quan","Mục tiêu", "Tiến độ",
     // "Cộng đồng" , "Cá nhân", "Cài đặt", "Chỉnh sửa thông tin", "Chỉnh sửa thông báo"]
 
     const [collapsed, setCollapsed] = useState(false);
+
+    const { user } = useContext(AuthContext);
 
     const pages_url = {
         "Lịch trình": "/schedule",
@@ -99,7 +102,7 @@ function MainLayout(props) {
                 </div>
             </Sider>
             <Layout>
-                <HeaderComponent title={currentPage} />
+                <HeaderComponent title={currentPage} url={user.avatar} />
                 {Component}
             </Layout>
         </Layout>

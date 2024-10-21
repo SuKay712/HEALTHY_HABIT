@@ -1,0 +1,401 @@
+{
+    "task": {
+        "todayTasks": [
+            {
+                "task": {
+                    "id": "671636911c076c0cf656d804",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 12:50:37",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            },
+            {
+                "task": {
+                    "id": "671636921c076c0cf656d805",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 11:10:10",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            },
+            {
+                "task": {
+                    "id": "671636951c076c0cf656d806",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 11:10:13",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            },
+            {
+                "task": {
+                    "id": "671636961c076c0cf656d807",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 11:10:14",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            }
+        ],
+        "yesterdayTasks": [],
+        "tommorrowTasks": [
+            {
+                "task": {
+                    "id": "671636911c076c0cf656d804",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 12:50:37",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            },
+            {
+                "task": {
+                    "id": "671636921c076c0cf656d805",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 11:10:10",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            },
+            {
+                "task": {
+                    "id": "671636951c076c0cf656d806",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 11:10:13",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            },
+            {
+                "task": {
+                    "id": "671636961c076c0cf656d807",
+                    "userId": "67129cbb09f4ab91f1a24903",
+                    "name": "Complete Project",
+                    "description": "Finish the project by the end of the week.",
+                    "prize": "50 Points",
+                    "timer": ["ALL"],
+                    "priority": "MEDIUM",
+                    "dateStart": "23-10-2024",
+                    "dateEnd": "29-10-2024",
+                    "timeExpired": "17:00:00",
+                    "tasksProgress": [
+                        {
+                            "date": "23-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "24-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "25-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "26-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "27-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "28-10-2024",
+                            "status": "INCOMPLETE"
+                        },
+                        {
+                            "date": "29-10-2024",
+                            "status": "INCOMPLETE"
+                        }
+                    ],
+                    "createdAt": "21-10-2024",
+                    "updatedAt": "21-10-2024 11:10:14",
+                    "notify": true,
+                    "deleted": false
+                },
+                "status": "INCOMPLETE"
+            }
+        ]
+    }
+}
