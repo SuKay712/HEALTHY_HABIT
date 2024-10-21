@@ -1,13 +1,13 @@
-package com.example.backend.model;
+package com.example.backend.model.enums;
 
-public enum TaskPriority {
+public enum Priority {
   HIGH("Cao"),
   MEDIUM("Trung bình"),
   LOW("Thấp");
 
   private final String value;
 
-  TaskPriority(String description) {
+  Priority(String description) {
     this.value = description;
   }
 

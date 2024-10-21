@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,6 +39,8 @@ public class User {
   private boolean groupNotify;
 
   private boolean isAdmin;
+
+  private List<SavedPost> savedPost;
 
   @JsonIgnore
   private boolean isVerify;
