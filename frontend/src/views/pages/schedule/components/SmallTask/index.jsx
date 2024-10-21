@@ -1,21 +1,45 @@
 import React, { useState } from "react";
 import "./index.scss";
-import { Checkbox, Input } from "antd";
+import { Checkbox, Input, message } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { PROGRESSSTATUSENUM } from "../../../../../constants/enum";
+import progressAPI from "../../../../../api/progressAPI";
 
 function SmallTask(props) {
     const { smallTask } = props;
 
-    const {aim, description, startTime} = smallTask;
+    const { aim, description, startTime, id, checked, time } = smallTask;
 
-    const [checked, setChecked] = useState(smallTask.checked)
+    const [messageApi, contextHolder] = message.useMessage();
+    const [checkedTask, setCheckedTask] = useState(checked);
 
+    const updateTask = async (status) => {
+        try {
+            const checkedStatus = status
+                ? PROGRESSSTATUSENUM.complete
+                : PROGRESSSTATUSENUM.inComplete;
+            const response = await progressAPI.updateProgress(
+                id,
+                time,
+                checkedStatus
+            );
+            messageApi.success('Cập nhập trạng thái thành công ');
+            console.log(response);
+
+        } catch (e) {
+            messageApi.error('Cập nhập trạng thái thất bại');
+            console.log(e);
+        }
+    };
     const onChangeChecked = () => {
-        setChecked(!checked);
+        const afterStatus = !checkedTask;
+        updateTask(afterStatus);
+        setCheckedTask(afterStatus);
     };
 
     return (
         <div className="small-task-container row">
+            {contextHolder}
             <div className="col-3">
                 <Input
                     className="small-task-item"
@@ -42,7 +66,7 @@ function SmallTask(props) {
             <div className="col-1 d-flex justify-content-center">
                 <Checkbox
                     className="col-1"
-                    checked={checked}
+                    checked={checkedTask}
                     onChange={onChangeChecked}
                 />
             </div>

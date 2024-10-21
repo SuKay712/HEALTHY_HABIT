@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axiosClient from '../api/axiosClient';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     setLoading(true);
     try {
-      const response = await axiosClient.applicationNoAuth.post(
+      const response = await axiosClient.application.post(
         '/api/auth/login',
         {
           username,
