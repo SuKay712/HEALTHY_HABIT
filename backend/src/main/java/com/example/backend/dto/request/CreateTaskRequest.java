@@ -1,7 +1,6 @@
 package com.example.backend.dto.request;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -42,8 +41,4 @@ public class CreateTaskRequest {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     this.dateEnd = LocalDate.parse(dateEnd, formatter);
   }
-  // public void setTimeExpired(String timeExpired) {
-  //   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-  //   this.timeExpired = LocalTime.parse(timeExpired, formatter);
-  // }
 }

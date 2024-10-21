@@ -2,7 +2,6 @@ package com.example.backend.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;

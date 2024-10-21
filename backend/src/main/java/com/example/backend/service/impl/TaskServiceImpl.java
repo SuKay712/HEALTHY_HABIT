@@ -2,15 +2,18 @@ package com.example.backend.service.impl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.TaskDTO;
 import com.example.backend.dto.request.CreateTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
+import com.example.backend.dto.response.TaskInProgressAndEnded;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Progress;
 import com.example.backend.model.Task;
@@ -60,19 +63,19 @@ public class TaskServiceImpl implements TaskService {
     for (Task task : listTask) {
       if (dayBefore.isAfter(task.getDateStart()) && dayBefore.isBefore(task.getDateEnd())) {
         Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore);
-        if (progress != null){
+        if (progress != null) {
           yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
         }
       }
       if (inputDate.isAfter(task.getDateStart()) && inputDate.isBefore(task.getDateEnd())) {
         Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate);
-        if (progress != null){
+        if (progress != null) {
           todayTasks.add(new TaskDTO(task, progress.getStatus()));
         }
       }
       if (dayAfter.isAfter(task.getDateStart()) && dayAfter.isBefore(task.getDateEnd())) {
         Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter);
-        if (progress != null){
+        if (progress != null) {
           tomorrowTasks.add(new TaskDTO(task, progress.getStatus()));
         }
       }
@@ -104,7 +107,14 @@ public class TaskServiceImpl implements TaskService {
         LocalDate currentDate = req.getDateStart();
         if (req.getTimer().get(0) == DateOfWeek.ALL) {
           while (!currentDate.isAfter(req.getDateEnd())) {
-            progressList.add(new Progress(currentDate, Status.INCOMPLETE));
+            if (currentDate.isBefore(LocalDate.now())) {
+              progressList.add(new Progress(currentDate, Status.OVERDUE));
+            } else if (currentDate.equals(LocalDate.now())
+                && LocalTime.parse(req.getTimeExpired()).isBefore(LocalTime.now())) {
+              progressList.add(new Progress(currentDate, Status.OVERDUE));
+            } else {
+              progressList.add(new Progress(currentDate, Status.INCOMPLETE));
+            }
             currentDate = currentDate.plusDays(1);
           }
         } else {
@@ -148,6 +158,36 @@ public class TaskServiceImpl implements TaskService {
       return response;
     }
     return null;
+  }
+
+  @Override
+  public BaseResponse<TaskInProgressAndEnded> getTaskByStatusNow(String userId) {
+    try {
+      List<Task> tempTask = taskRepository.findByUserId(userId);
+      LocalDate now = LocalDate.now();
+      List<Task> inProgressTasks = tempTask.stream()
+          .filter(task -> {
+            LocalDate dateStart = task.getDateStart();
+            LocalDate dateEnd = task.getDateEnd();
+            return (dateStart != null
+                && ((dateStart.isBefore(now) && (dateEnd == null || dateEnd.isAfter(now))) // Đang trong tiến trình
+                    || dateStart.isAfter(now))); // Chuẩn bị bắt đầu (trong tương lai)
+          })
+          .collect(Collectors.toList());
+
+      List<Task> endedTasks = tempTask.stream()
+          .filter(task -> {
+            LocalDate dateEnd = task.getDateEnd();
+            return dateEnd != null && dateEnd.isBefore(now); // Task đã quá hạn
+          })
+          .collect(Collectors.toList());
+
+      return new BaseResponse<>(true, "Fetched tasks by status successfully!",
+          new TaskInProgressAndEnded(inProgressTasks, endedTasks));
+    } catch (Exception e) {
+      return new BaseResponse<>(false, "Fetched tasks by status fail!", null);
+    }
+
   }
 
 }
