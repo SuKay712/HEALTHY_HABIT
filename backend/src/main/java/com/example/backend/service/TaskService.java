@@ -13,7 +13,7 @@ import com.example.backend.model.enums.Status;
 public interface TaskService {
   public List<Task> getAllTasksByUserId(String userId);
 
-  public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, LocalDate dateTime);
+  public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, String dateTime);
 
   public Task getTaskById(String id);
 

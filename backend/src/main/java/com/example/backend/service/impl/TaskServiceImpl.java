@@ -3,6 +3,7 @@ package com.example.backend.service.impl;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,10 +45,11 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, LocalDate dateTime) {
+  public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, String dateTime) {
     BaseResponse<TasksInDateResponse> response;
-    LocalDate inputDate = (dateTime == null) ? LocalDate.now()
-        : dateTime;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    LocalDate inputDate = (dateTime == null || dateTime.isEmpty()) ? LocalDate.now()
+        : LocalDate.parse(dateTime, formatter);
     LocalDate dayBefore = inputDate.minusDays(1);
     LocalDate dayAfter = inputDate.plusDays(1);
     // if(userId check){

@@ -44,8 +44,8 @@ public class TaskController {
   }
 
  @GetMapping("/task/date")
-  public ResponseEntity<BaseResponse<TasksInDateResponse>> getTasksInDatetime(@RequestBody TaskInDateRequest req) {
-    return ResponseEntity.ok(taskService.getTasksInDateTime(req.getUserId(), req.getTime()));
+  public ResponseEntity<BaseResponse<TasksInDateResponse>> getTasksInDatetime(@RequestParam String userId, @RequestParam String time) {
+    return ResponseEntity.ok(taskService.getTasksInDateTime(userId, time));
   }
 
   @PutMapping("/task/{id}")
