@@ -3,6 +3,9 @@ package com.example.backend.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.backend.dto.request.CreateTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
@@ -21,5 +24,10 @@ public interface TaskService {
 
   public BaseResponse<Task> createTask(CreateTaskRequest req);
 
-  public BaseResponse<TaskInProgressAndEnded> getTaskByStatusNow(String userId);
+  public BaseResponse<TaskInProgressAndEnded> getTaskInProgressAndEnded(String userId);
+
+  public Page<Task> getInProgressTasks(String userId, Pageable pageable);
+
+  public Page<Task> getEndedTasks(String userId, Pageable pageable);
+
 }

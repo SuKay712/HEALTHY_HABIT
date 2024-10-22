@@ -3,6 +3,9 @@ package com.example.backend.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.dto.request.UpdateTaskRequest;
 import com.example.backend.dto.request.CreateTaskRequest;
-import com.example.backend.dto.request.TaskInDateRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
 import com.example.backend.dto.response.TasksInDateResponse;
@@ -43,8 +45,9 @@ public class TaskController {
     return ResponseEntity.ok(response);
   }
 
- @GetMapping("/task/date")
-  public ResponseEntity<BaseResponse<TasksInDateResponse>> getTasksInDatetime(@RequestParam String userId, @RequestParam String time) {
+  @GetMapping("/task/date")
+  public ResponseEntity<BaseResponse<TasksInDateResponse>> getTasksInDatetime(@RequestParam String userId,
+      @RequestParam String time) {
     return ResponseEntity.ok(taskService.getTasksInDateTime(userId, time));
   }
 
@@ -59,8 +62,28 @@ public class TaskController {
     return ResponseEntity.ok(taskService.createTask(req));
   }
 
-  @GetMapping("task/filter/{userId}")
+  @GetMapping("/task/filter/{userId}")
   public ResponseEntity<BaseResponse<TaskInProgressAndEnded>> getTaskByStatusNow(@PathVariable String userId) {
-    return ResponseEntity.ok(taskService.getTaskByStatusNow(userId));
+    return ResponseEntity.ok(taskService.getTaskInProgressAndEnded(userId));
+  }
+
+  @GetMapping("/task/in-progress")
+  public ResponseEntity<Page<Task>> getInProgressTasks(
+      @RequestParam String userId,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    Page<Task> tasks = taskService.getInProgressTasks(userId, pageable);
+    return ResponseEntity.ok(tasks);
+  }
+
+  @GetMapping("/task/ended")
+  public ResponseEntity<Page<Task>> getEndedTasks(
+      @RequestParam String userId,
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "10") int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    Page<Task> tasks = taskService.getEndedTasks(userId, pageable);
+    return ResponseEntity.ok(tasks);
   }
 }
