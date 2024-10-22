@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.TaskDTO;
@@ -163,7 +165,7 @@ public class TaskServiceImpl implements TaskService {
   }
 
   @Override
-  public BaseResponse<TaskInProgressAndEnded> getTaskByStatusNow(String userId) {
+  public BaseResponse<TaskInProgressAndEnded> getTaskInProgressAndEnded(String userId) {
     try {
       List<Task> tempTask = taskRepository.findByUserId(userId);
       LocalDate now = LocalDate.now();
@@ -190,6 +192,18 @@ public class TaskServiceImpl implements TaskService {
       return new BaseResponse<>(false, "Fetched tasks by status fail!", null);
     }
 
+  }
+
+  @Override
+  public Page<Task> getInProgressTasks(String userId, Pageable pageable) {
+    LocalDate now = LocalDate.now();
+    return taskRepository.findInProgressTasks(userId, now, pageable);
+  }
+
+  @Override
+  public Page<Task> getEndedTasks(String userId, Pageable pageable) {
+    LocalDate now = LocalDate.now();
+    return taskRepository.findEndedTasks(userId, now, pageable);
   }
 
 }
