@@ -18,7 +18,9 @@ function Schedule() {
 
     useEffect(() => {
         const callAPI = async () => {
-            const response = await progressAPI.getTaskByDate(user.id, selectedDay.format('DD-MM-YYYY'));
+            console.log(user)
+
+            const response = await progressAPI.getTaskByDate(user.userId, selectedDay.format('DD-MM-YYYY'));
             // const response = await progressAPI.getTaskByDate(
             //     "67129cbb09f4ab91f1a24903",
             //     "24-10-2024"
@@ -104,6 +106,7 @@ function Schedule() {
                         value={selectedDay}
                         onChange={handleChange}
                         format="DD-MM-YYYY"
+
                         placeholder="Chọn ngày"
                         className="schedule-date-time-picker"
                     />
