@@ -1,0 +1,20 @@
+@import "../../../constants/color.scss";
+
+h4 {
+  color: $dark_blue;
+}
+
+.truncate-select:hover .truncate-tooltip {
+  opacity: 100;
+  border-color: $dark_blue;
+}
+
+.truncate-tooltip {
+  bottom: 120%;
+  width: 100%;
+  opacity: 0;
+  background-color: $light_blue;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+}
