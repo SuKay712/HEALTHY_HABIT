@@ -54,10 +54,7 @@ public class TaskServiceImpl implements TaskService {
         : LocalDate.parse(dateTime, formatter);
     LocalDate dayBefore = inputDate.minusDays(1);
     LocalDate dayAfter = inputDate.plusDays(1);
-    // if(userId check){
-    // response = new BaseResponse<>(false, "No User was found", null);
-    // return response;
-    // }
+
     List<Task> listTask = taskRepository.findByUserId(userId);
 
     List<TaskDTO> todayTasks = new ArrayList<>();
@@ -65,31 +62,37 @@ public class TaskServiceImpl implements TaskService {
     List<TaskDTO> tomorrowTasks = new ArrayList<>();
 
     for (Task task : listTask) {
-      if (dayBefore.isAfter(task.getDateStart()) && dayBefore.isBefore(task.getDateEnd())) {
-        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore);
-        if (progress != null) {
-          yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
+      LocalDate taskStart = task.getDateStart();
+      LocalDate taskEnd = task.getDateEnd();
+
+      if (taskStart != null && taskEnd != null) {
+        if (!dayBefore.isBefore(taskStart) && !dayBefore.isAfter(taskEnd)) {
+          Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayBefore);
+          if (progress != null) {
+            yesterdayTasks.add(new TaskDTO(task, progress.getStatus()));
+          }
         }
-      }
-      if (inputDate.isAfter(task.getDateStart()) && inputDate.isBefore(task.getDateEnd())) {
-        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate);
-        if (progress != null) {
-          todayTasks.add(new TaskDTO(task, progress.getStatus()));
+        if (!inputDate.isBefore(taskStart) && !inputDate.isAfter(taskEnd)) {
+          Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), inputDate);
+          if (progress != null) {
+            todayTasks.add(new TaskDTO(task, progress.getStatus()));
+          }
         }
-      }
-      if (dayAfter.isAfter(task.getDateStart()) && dayAfter.isBefore(task.getDateEnd())) {
-        Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter);
-        if (progress != null) {
-          tomorrowTasks.add(new TaskDTO(task, progress.getStatus()));
+        if (!dayAfter.isBefore(taskStart) && !dayAfter.isAfter(taskEnd)) {
+          Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), dayAfter);
+          if (progress != null) {
+            tomorrowTasks.add(new TaskDTO(task, progress.getStatus()));
+          }
         }
       }
     }
+
     TasksInDateResponse tasksInDateResponse = new TasksInDateResponse(todayTasks, yesterdayTasks, tomorrowTasks);
     if (todayTasks.isEmpty() && yesterdayTasks.isEmpty() && tomorrowTasks.isEmpty()) {
       response = new BaseResponse<>(true, "No Task", tasksInDateResponse);
-      return response;
+    } else {
+      response = new BaseResponse<>(true, "Fetched all tasks successfully", tasksInDateResponse);
     }
-    response = new BaseResponse<>(true, "Fetched all tasks successfully", tasksInDateResponse);
     return response;
   }
 
