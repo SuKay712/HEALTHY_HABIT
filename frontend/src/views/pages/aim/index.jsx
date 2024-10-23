@@ -5,9 +5,11 @@ import { postTask } from "../../../api/aimAPI";
 import { AuthContext } from "../../../context/authContext";
 import AimInCompleted from "./components/AimInCompleted";
 import AimEnded from "./components/AimEnded";
+import { toastError, toastSuccess } from "../../../utils/toast";
 
 const Aim = () => {
   const options = [
+    { value: "ALL", label: "Lặp lại hàng ngày" },
     { value: "MONDAY", label: "Lặp lại mỗi thứ 2" },
     { value: "TUESDAY", label: "Lặp lại mỗi thứ 3" },
     { value: "WEDNESDAY", label: "Lặp lại mỗi thứ 4" },
@@ -15,7 +17,6 @@ const Aim = () => {
     { value: "FRIDAY", label: "Lặp lại mỗi thứ 6" },
     { value: "SATURDAY", label: "Lặp lại mỗi thứ 7" },
     { value: "SUNDAY", label: "Lặp lại mỗi chủ nhật" },
-    { value: "ALL", label: "Lặp lại hàng ngày" },
   ];
 
   const [formData, setFormData] = useState({
@@ -28,14 +29,69 @@ const Aim = () => {
     timeExpired: "",
   });
 
+  const [newAim, setNewAim] = useState(null);
+
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
+    const day = today.getDate().toString().padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  };
+
+  const getCurrentTime = () => {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, "0");
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
-    // Kiểm tra nếu input là ngày thì định dạng lại theo DD-MM-YYYY
+    setFormData((prevData) => {
+      let updatedFormData = { ...prevData, [name]: value };
 
-    setFormData({
-      ...formData,
-      [name]: value,
+      if (
+        name === "dateStart" &&
+        new Date(value) > new Date(prevData.dateEnd)
+      ) {
+        updatedFormData.dateEnd = "";
+        updatedFormData.timeExpired = "";
+      }
+
+      if (formData.dateStart) {
+        if (
+          name === "dateEnd" &&
+          new Date(value) < new Date(prevData.dateStart)
+        ) {
+          alert("Ngày kết thúc phải sau ngày bắt đầu!");
+          updatedFormData.dateEnd = "";
+        }
+      }
+
+      if (name === "dateEnd" && value === getCurrentDate()) {
+        updatedFormData.timeExpired = "";
+      }
+
+      if (name === "timeExpired") {
+        const currentTime = getCurrentTime();
+        const currentDate = getCurrentDate();
+        if (!formData.dateEnd) {
+          toastError("Vui lòng chọn ngày kết thúc!");
+          return prevData;
+        }
+
+        if (formData.dateEnd === currentDate) {
+          if (value && value <= currentTime) {
+            toastError("Giờ hết hạn phải sau giờ hiện tại!");
+            return prevData;
+          }
+        }
+      }
+
+      return updatedFormData;
     });
   };
 
@@ -48,21 +104,41 @@ const Aim = () => {
   const [showOptions, setShowOptions] = useState(false);
 
   const handleSelectChange = (value) => {
-    const isSelected = selectedOptions.includes(value);
-    const newSelectedOptions = isSelected
-      ? selectedOptions.filter((option) => option !== value) // Nếu đã chọn, thì bỏ chọn
-      : [...selectedOptions, value]; // Nếu chưa chọn, thêm vào danh sách
+    let newSelectedOptions = [];
 
-    setSelectedOptions(newSelectedOptions); // Cập nhật trạng thái đã chọn
+    if (selectedOptions.includes(value)) {
+      if (value !== "ALL") {
+        if (selectedOptions.includes(value)) {
+          newSelectedOptions = selectedOptions.filter(
+            (option) => option !== value
+          );
+        }
+
+        if (newSelectedOptions.length === 0) setSelectedOptions([]);
+        else setSelectedOptions(newSelectedOptions);
+      } else {
+        setSelectedOptions([]);
+      }
+    } else {
+      if (value === "ALL") {
+        setSelectedOptions(["ALL"]);
+      } else {
+        const newSelectedOptions = selectedOptions.filter(
+          (option) => option !== "ALL"
+        );
+        if (newSelectedOptions.length === 6) setSelectedOptions(["ALL"]);
+        else setSelectedOptions([...newSelectedOptions, value]);
+      }
+    }
 
     setFormData((prevState) => ({
       ...prevState,
-      timer: newSelectedOptions, // Cập nhật timer với tùy chọn đã chọn
+      timer: newSelectedOptions,
     }));
   };
 
   const handleToggleOptions = () => {
-    setShowOptions(!showOptions); // Đảo ngược trạng thái hiển thị
+    setShowOptions(!showOptions);
   };
 
   const handleClickOutside = (event) => {
@@ -116,20 +192,25 @@ const Aim = () => {
     try {
       // Gọi API thông qua aimAPI
       const result = await postTask(dataToSend);
-      console.log("API response:", result);
-      // Reset form sau khi gửi thành công
-      setFormData({
-        name: "",
-        description: "",
-        prize: "",
-        dateStart: "",
-        dateEnd: "",
-        timer: [], // Reset timer
-        timeExpired: "",
-      });
-      setSelectedOptions([]);
+      if (result) {
+        toastSuccess("Thêm mục tiêu thành công!");
+        console.log("API response:", result);
+        // Reset form sau khi gửi thành công
+        setFormData({
+          name: "",
+          description: "",
+          prize: "",
+          dateStart: "",
+          dateEnd: "",
+          timer: [],
+          timeExpired: "",
+        });
+        setNewAim(result);
+        setSelectedOptions([]);
+      }
     } catch (error) {
       console.error("Có lỗi xảy ra khi gọi API:", error);
+      toastError("Có lỗi gì đó");
     }
   };
 
@@ -178,6 +259,7 @@ const Aim = () => {
                 name="dateStart"
                 value={formData.dateStart}
                 onChange={handleInputChange}
+                min={getCurrentDate()}
               />
             </div>
             <div className="col-md-3">
@@ -188,6 +270,8 @@ const Aim = () => {
                 name="dateEnd"
                 value={formData.dateEnd}
                 onChange={handleInputChange}
+                min={formData.dateStart || getCurrentDate()}
+                disable={formData.dateStart ? false : true}
               />
             </div>
             <div className="col-md-3">
@@ -337,7 +421,7 @@ const Aim = () => {
 
       <div style={{ marginLeft: 20 }}>
         <h4>Đang tiến hành</h4>
-        <AimInCompleted />
+        <AimInCompleted newAim={newAim} />
       </div>
       <div style={{ marginLeft: 20, marginTop: 20 }}>
         <h4>Đã hoàn thành</h4>
