@@ -20,13 +20,9 @@ function Schedule() {
         const callAPI = async () => {
             console.log(user)
 
-            const response = await progressAPI.getTaskByDate(user.userId, selectedDay.format('DD-MM-YYYY'));
-            // const response = await progressAPI.getTaskByDate(
-            //     "67129cbb09f4ab91f1a24903",
-            //     "24-10-2024"
-            // );
-
-            const responseData = response.data.data;
+            try {
+                const response = await progressAPI.getTaskByDate(user.userId, selectedDay.format('DD-MM-YYYY'));
+                const responseData = response.data.data;
 
             const previousDay = selectedDay
                 .subtract(1, "day")
@@ -82,6 +78,16 @@ function Schedule() {
                 }),
             });
             setData(data2);
+
+            } catch (error) {
+                console.log(error)
+            }
+            // const response = await progressAPI.getTaskByDate(
+            //     "67129cbb09f4ab91f1a24903",
+            //     "24-10-2024"
+            // );
+
+            
         };
         callAPI();
     }, [user.id, selectedDay]);

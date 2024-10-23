@@ -6,7 +6,7 @@ const UserRoute = () => {
   const { user } = useAuth();
 
   if (!user) return <Navigate to='/login' />;
-
+  
   return <Outlet />;
 };
 
