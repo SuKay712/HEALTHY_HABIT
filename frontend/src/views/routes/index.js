@@ -6,6 +6,7 @@ import LoadableComponent from "../../components/loadable-component";
 import Login from "../pages/login";
 
 const Schedule = LoadableComponent(() => import("../pages/schedule/index.jsx"));
+const General = LoadableComponent(() => import("../pages/general/index.jsx"));
 const MainLayout = LoadableComponent(() =>
     import("../pages/layout/MainLayout.jsx")
 );
@@ -40,6 +41,10 @@ const AllRoutes = () => {
                     }
                 />
             </Route>
+            <Route
+                    path="/general"
+                    element={<MainLayout Component={<General/>} currentPage="Tổng quan"/>}
+                />
         </Routes>
     );
 };
