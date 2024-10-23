@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { getTaskInComplete } from "../../../../../api/aimAPI";
 import "./index.scss";
 import { AuthContext } from "../../../../../context/authContext";
 import Pagination from "../Pagination";
+import useBlockScroll from "../../../../../hooks/use-block-scroll";
 
-const AimInCompleted = (userId) => {
-  console.log("userId: ", userId);
+const AimInCompleted = ({ newAim }) => {
   const [dataInCompleted, setDataInCompleted] = useState([]);
 
   const [aimViewed, setAimViewed] = useState(null);
@@ -18,12 +18,16 @@ const AimInCompleted = (userId) => {
 
   const { user } = useContext(AuthContext);
 
+  const prevNewAimRef = useRef(newAim);
+
+  // hook ngăn chặn scroll khi đang xem chi tiết mục tiêu
+  useBlockScroll(aimViewed !== null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const params = {
-          // userId: user.id,
-          userId: "67129cbb09f4ab91f1a249103",
+          userId: user.userId,
           page: paging - 1,
           size: 5,
         };
@@ -32,12 +36,17 @@ const AimInCompleted = (userId) => {
 
         setDataInCompleted(response.content);
         setTotalPages(response.totalPages);
+
+        if (prevNewAimRef.current !== newAim) {
+          setPaging(response.totalPages);
+          prevNewAimRef.current = newAim;
+        }
       } catch (error) {
         console.error("Có lỗi xảy ra khi gọi API:", error);
       }
     };
     fetchData();
-  }, [paging]);
+  }, [paging, newAim]);
 
   if (dataInCompleted.length === 0) {
     return (

@@ -21,8 +21,7 @@ const AimEnded = (userID) => {
     const fetchData = async () => {
       try {
         const params = {
-          // userId: user.id,
-          userId: "67129cbb09f4ab91f1a249103",
+          userId: user.userId,
           page: paging - 1,
           size: 5,
         };
@@ -36,7 +35,7 @@ const AimEnded = (userID) => {
       }
     };
     fetchData();
-  }, [paging]);
+  }, [paging, dataEnded]);
 
   if (dataEnded.length === 0) {
     return (
