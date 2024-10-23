@@ -7,17 +7,6 @@ import AimInCompleted from "./components/AimInCompleted";
 import AimEnded from "./components/AimEnded";
 
 const Aim = () => {
-  const sampleData = [
-    { id: 1, name: "Nguyễn Văn A", email: "a@example.com", phone: "123456789" },
-    { id: 2, name: "Trần Thị B", email: "b@example.com", phone: "987654321" },
-    { id: 3, name: "Lê Văn C", email: "c@example.com", phone: "456789123" },
-  ];
-  const sampleData1 = [
-    { id: 1, name: "Nguyễn Văn A", email: "a@example.com", phone: "123456789" },
-    { id: 2, name: "Trần Thị B", email: "b@example.com", phone: "987654321" },
-    { id: 3, name: "Lê Văn C", email: "c@example.com", phone: "456789123" },
-  ];
-
   const options = [
     { value: "MONDAY", label: "Lặp lại mỗi thứ 2" },
     { value: "TUESDAY", label: "Lặp lại mỗi thứ 3" },

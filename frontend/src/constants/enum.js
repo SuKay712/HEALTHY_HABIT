@@ -1,4 +1,4 @@
 export const PROGRESSSTATUSENUM = {
-    complete : "COMPLETE",
-    inComplete : "INCOMPLETE"
-}
+  complete: "COMPLETE",
+  inComplete: "INCOMPLETE",
+};
