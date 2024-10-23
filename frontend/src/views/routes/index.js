@@ -6,42 +6,44 @@ import LoadableComponent from "../../components/loadable-component";
 import Login from "../pages/login";
 
 const Schedule = LoadableComponent(() => import("../pages/schedule/index.jsx"));
+const Aim = LoadableComponent(() => import("../pages/aim/index.jsx"));
 const MainLayout = LoadableComponent(() =>
-    import("../pages/layout/MainLayout.jsx")
+  import("../pages/layout/MainLayout.jsx")
 );
 
 const AllRoutes = () => {
-    return (
-        <Routes>
-            <Route path="/" element={<Navigate to={"/login"} />} />
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to={"/login"} />} />
 
-            {/* // public route  */}
-            <Route element={<PublicRoute />}>
-                <Route path="/login" element={<Login />} />
-            </Route>
+      {/* // public route  */}
+      <Route element={<PublicRoute />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
 
-            {/* admin route */}
-            <Route element={<AdminRoute />}>
-                {/* <Route
+      {/* admin route */}
+      <Route element={<AdminRoute />}>
+        {/* <Route
                     path="/create-post/:activityId"
                     element={<MainLayout component={CreatePost} />}
                 /> */}
-            </Route>
+      </Route>
 
-            {/* user route */}
-            <Route element={<UserRoute />}>
-                <Route
-                    path="/schedule"
-                    element={
-                        <MainLayout
-                            Component={<Schedule />}
-                            currentPage="Lịch trình"
-                        />
-                    }
-                />
-            </Route>
-        </Routes>
-    );
+      {/* user route */}
+      <Route element={<UserRoute />}>
+        <Route
+          path="/schedule"
+          element={
+            <MainLayout Component={<Schedule />} currentPage="Lịch trình" />
+          }
+        />
+        <Route
+          path="/aim"
+          element={<MainLayout Component={<Aim />} currentPage="Mục tiêu" />}
+        />
+      </Route>
+    </Routes>
+  );
 };
 
 export default AllRoutes;
