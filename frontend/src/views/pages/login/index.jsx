@@ -13,7 +13,9 @@ function Login() {
     <div className='login'>
       <div className='login-container'>
         <Background className='login-bg' />
-        <LoginForm className='login-f' />
+        <div className='login-f-container'>
+          <LoginForm className='login-f' />
+        </div>
       </div>
     </div>
   );
