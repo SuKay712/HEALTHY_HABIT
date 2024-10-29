@@ -29,13 +29,16 @@ function LoginForm({ className }) {
   const { login, loading } = useAuth();
 
   const handleLogin = async () => {
-    if (data.username.trim().length === 0 || data.password.trim().length === 0)
+    if (
+      data.username.trim().length === 0 ||
+      data.password.trim().length === 0
+    ) {
+      messageApi.error('Vui lòng điền đầy đủ tài khoản và mật khẩu');
       return;
+    }
     const result = await login(data.username, data.password);
 
-    if (result) {
-      messageApi.success('Đăng nhập thành công');
-    } else {
+    if (!result) {
       messageApi.error('Tài khoản hoặc mật khẩu không đúng');
     }
   };
@@ -86,7 +89,7 @@ function LoginForm({ className }) {
           >
             Hiển thị mật khẩu
           </Checkbox>
-          <Button type='link' disabled={loading}>
+          <Button type='link' disabled={loading} className='login-form-link'>
             Quên mật khẩu
           </Button>
         </div>

@@ -1,5 +1,13 @@
 @import '../../../../../constants/color.scss';
 
 .login-background {
-  object-fit: cover;
+  background-color: red;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &-svg {
+    width: 100%;
+    height: 100%;
+  }
 }
