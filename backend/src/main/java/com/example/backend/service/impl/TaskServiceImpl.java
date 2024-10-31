@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.TaskDTO;
 import com.example.backend.dto.request.CreateTaskRequest;
+import com.example.backend.dto.request.UpdateBigTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
 import com.example.backend.dto.response.TasksInDateResponse;
@@ -108,6 +109,7 @@ public class TaskServiceImpl implements TaskService {
           .timeExpired(req.getTimeExpired())
           .isNotify(true)
           .isDeleted(false)
+          .dateEnd(req.getDateStart())
           .build();
       if (req.getTimer() != null && req.getDateEnd() != null) {
         List<Progress> progressList = new ArrayList<>();
@@ -200,13 +202,106 @@ public class TaskServiceImpl implements TaskService {
   @Override
   public Page<Task> getInProgressTasks(String userId, Pageable pageable) {
     LocalDate now = LocalDate.now();
-    return taskRepository.findInProgressTasks(userId, now, pageable);
+    LocalTime currentTime = LocalTime.now();
+    String nowTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    return taskRepository.findInProgressTasks(userId, now, nowTime, pageable);
   }
 
   @Override
   public Page<Task> getEndedTasks(String userId, Pageable pageable) {
     LocalDate now = LocalDate.now();
-    return taskRepository.findEndedTasks(userId, now, pageable);
+    LocalTime currentTime = LocalTime.now();
+    String nowTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    return taskRepository.findEndedTasks(userId, now, nowTime, pageable);
+  }
+
+  @Override
+  public BaseResponse<Task> updateBigTask(UpdateBigTaskRequest req) {
+    try {
+      Task updatedTask = taskRepository.findById(req.getTaskId())
+          .orElseThrow(() -> new RuntimeException("Task not found"));
+
+      boolean isTimerChanged = req.getTimer() != null && !req.getTimer().isEmpty()
+          && !req.getTimer().equals(updatedTask.getTimer());
+      boolean isDateEndChanged = req.getDateEnd() != null && !req.getDateEnd().equals(updatedTask.getDateEnd());
+      boolean isTimeExpiredChanged = req.getTimeExpired() != null && !req.getTimeExpired().isEmpty()
+          && !req.getTimeExpired().equals(updatedTask.getTimeExpired());
+
+      if (req.getName() != null && !req.getName().isEmpty()) {
+        updatedTask.setName(req.getName());
+      }
+      if (req.getPriority() != null) {
+        updatedTask.setPriority(req.getPriority());
+      }
+      if (req.getDescription() != null && !req.getDescription().isEmpty()) {
+        updatedTask.setDescription(req.getDescription());
+      }
+      if (req.getPrize() != null && !req.getPrize().isEmpty()) {
+        updatedTask.setPrize(req.getPrize());
+      }
+      if (isTimerChanged) {
+        updatedTask.setTimer(req.getTimer());
+      }
+      if (isDateEndChanged) {
+        updatedTask.setDateEnd(req.getDateEnd());
+      }
+      if (isTimeExpiredChanged) {
+        updatedTask.setTimeExpired(req.getTimeExpired());
+      }
+
+      if (isTimerChanged || isDateEndChanged || isTimeExpiredChanged) {
+        List<Progress> newProgressList = new ArrayList<>();
+        LocalDate startDate = LocalDate.now().isAfter(updatedTask.getDateStart()) ? LocalDate.now()
+            : updatedTask.getDateStart();
+
+        // Retain previous progress entries before startDate
+        for (Progress progress : updatedTask.getTasksProgress()) {
+          if (progress.getDate().isBefore(startDate) ||
+              (progress.getDate().equals(startDate) && progress.getStatus() == Status.OVERDUE)) {
+            newProgressList.add(progress);
+          }
+        }
+
+        // Create new progress entries from startDate to dateEnd
+        while (!startDate.isAfter(updatedTask.getDateEnd())) {
+          DayOfWeek currentDayOfWeek = startDate.getDayOfWeek();
+          if (updatedTask.getTimer().contains(DateOfWeek.ALL) ||
+              updatedTask.getTimer().stream().anyMatch(day -> day.getValue() == currentDayOfWeek.getValue())) {
+            if (startDate.isBefore(LocalDate.now())) {
+              newProgressList.add(new Progress(startDate, Status.OVERDUE));
+            } else if (startDate.equals(LocalDate.now())) {
+              if (LocalTime.now().isAfter(LocalTime.parse(updatedTask.getTimeExpired()))) {
+                newProgressList.add(new Progress(startDate, Status.OVERDUE));
+              } else {
+                newProgressList.add(new Progress(startDate, Status.INCOMPLETE));
+              }
+            } else {
+              newProgressList.add(new Progress(startDate, Status.INCOMPLETE));
+            }
+          }
+          startDate = startDate.plusDays(1);
+        }
+        updatedTask.setTasksProgress(newProgressList);
+      }
+
+      Task resultTask = taskRepository.save(updatedTask);
+      return new BaseResponse<Task>(true, "Update Task Success!!!", resultTask);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return new BaseResponse<Task>(false, "Update Task Failed!!!", null);
+    }
+  }
+
+  @Override
+  public BaseResponse<Void> deleteBigTask(String taskId) {
+    try {
+      Task deletedTask = taskRepository.findById(taskId)
+          .orElseThrow(() -> new RuntimeException("Task not found"));
+      taskRepository.delete(deletedTask);
+      return new BaseResponse<Void>(true, "Delete Task Success!!!", null);
+    } catch (Exception e) {
+      return new BaseResponse<Void>(false, "Delete Task Failed!!!", null);
+    }
   }
 
 }

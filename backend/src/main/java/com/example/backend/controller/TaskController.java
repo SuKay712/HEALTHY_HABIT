@@ -2,11 +2,11 @@ package com.example.backend.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.backend.dto.request.UpdateTaskRequest;
 import com.example.backend.dto.request.CreateTaskRequest;
+import com.example.backend.dto.request.UpdateBigTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Task;
 import com.example.backend.service.TaskService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("api/user")
+@RequiredArgsConstructor
 public class TaskController {
-  @Autowired
-  private TaskService taskService;
+  private final TaskService taskService;
 
   @GetMapping("/task")
   public ResponseEntity<BaseResponse<List<Task>>> getMethodName(@RequestParam String param) {
@@ -85,5 +88,15 @@ public class TaskController {
     Pageable pageable = PageRequest.of(page, size);
     Page<Task> tasks = taskService.getEndedTasks(userId, pageable);
     return ResponseEntity.ok(tasks);
+  }
+
+  @PutMapping("/task")
+  public ResponseEntity<BaseResponse<Task>> updateBigTask(@RequestBody UpdateBigTaskRequest req) {
+    return ResponseEntity.ok(taskService.updateBigTask(req));
+  }
+
+  @DeleteMapping("/task/{taskId}")
+  public ResponseEntity<BaseResponse<Void>> deleteBigTask(@PathVariable String taskId) {
+    return ResponseEntity.ok(taskService.deleteBigTask(taskId));
   }
 }
