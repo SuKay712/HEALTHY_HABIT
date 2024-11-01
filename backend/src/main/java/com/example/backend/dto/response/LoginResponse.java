@@ -13,6 +13,7 @@ public class LoginResponse {
     private String address;
     private String tel;
     private String avatar;
+    private String backgroundImage;
     private boolean groupNotify;
     private boolean isAdmin;
 }
