@@ -13,4 +13,5 @@ public class UserProfileResponse {
   private String address;
   private String tel;
   private String avatar;
+  private String backgroundImage;
 }

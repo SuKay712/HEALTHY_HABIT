@@ -3,7 +3,6 @@ package com.example.backend.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -19,7 +18,7 @@ import lombok.Data;
 @Builder
 public class User {
   @Id
-  private ObjectId id;
+  private String id;
 
   private String email;
 
@@ -35,6 +34,8 @@ public class User {
   private String tel;
 
   private String avatar;
+
+  private String backgroundImage;
 
   private boolean groupNotify;
 

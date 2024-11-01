@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.backend.dto.request.ChangePasswordRequest;
 import com.example.backend.dto.request.LoginRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.LoginResponse;
@@ -12,6 +13,7 @@ import com.example.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -31,4 +33,8 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("changepwd")
+    public ResponseEntity<BaseResponse<Void>> changePassword(@RequestBody ChangePasswordRequest req) {
+        return ResponseEntity.ok(authService.changePassword(req));
+    }
 }
