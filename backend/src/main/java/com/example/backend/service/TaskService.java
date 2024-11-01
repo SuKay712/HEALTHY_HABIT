@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.example.backend.dto.request.CreateTaskRequest;
+import com.example.backend.dto.request.UpdateBigTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
 import com.example.backend.dto.response.TasksInDateResponse;
@@ -29,5 +30,9 @@ public interface TaskService {
   public Page<Task> getInProgressTasks(String userId, Pageable pageable);
 
   public Page<Task> getEndedTasks(String userId, Pageable pageable);
+
+  public BaseResponse<Task> updateBigTask(UpdateBigTaskRequest req);
+
+  public BaseResponse<Void> deleteBigTask(String taskId);
 
 }
