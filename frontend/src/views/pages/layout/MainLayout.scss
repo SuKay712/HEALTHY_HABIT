@@ -1,34 +1,50 @@
-@import '../../../constants/color.scss';
+@import "../../../constants/color.scss";
 
 .sidebar-title-container {
-    display: flex;
-    justify-content: center;
-    margin : 20px 0px;
-    .sidebar-title {
-        color : $dark_blue;
-        font-size: 25px;
-    }
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px ;
+  .sidebar-title {
+    color: $dark_blue;
+    font-size: 25px;
+  }
 }
 
 .slider-container {
-    background-color: $medium_blue;
-    .ant-layout-sider-trigger {
-        background-color: $dark_blue;
-    }
-    .ant-menu-item-selected {
-        color : $dark_blue
-    }
+  background-color: $medium_blue;
+  // min-height: 80vh;
+  .ant-layout-sider-trigger {
+    background-color: $dark_blue;
+  }
+  .ant-menu-item-selected {
+    color: $dark_blue;
+  }
+}
+
+.sticky-siderbar-container {
+  position: sticky;
+  top: 20px;
+  z-index: 1000;
+  min-height: 90vh;
+  margin-top: 20px;
 }
 
 .logout-button {
-    color : $dark_blue;
-    background-color: $white;
-    border: 1px solid $dark_blue;
-    margin-top: 20px;
+  color: $dark_blue;
+  background-color: $white;
+  border: 1px solid $dark_blue;
+  margin-top: 20px;
 }
 
 .logout-button:hover {
-    color : $white !important;
-    background-color: $dark_blue !important;
-    border: none;
+  color: $white !important;
+  background-color: $dark_blue !important;
+  border: none;
+}
+
+.header-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: $white;
 }

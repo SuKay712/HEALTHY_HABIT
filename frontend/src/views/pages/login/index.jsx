@@ -7,7 +7,7 @@ import './index.scss';
 function Login() {
   const { user } = useAuth();
 
-  if (user) return <Navigate to='/schedule' />;
+  if (user) return <Navigate to='/general' />;
 
   return (
     <div className='login'>

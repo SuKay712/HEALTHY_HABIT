@@ -1,0 +1,47 @@
+@import "../../../constants/color.scss";
+
+.progress {
+  &-container {
+    padding: 20px 20px;
+  }
+  &-filter-container {
+    background-color: $light_blue;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &-filter-main-container {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+  }
+  &-fitler-item {
+    display: flex;
+    align-items: center;
+    p {
+      margin: 0px;
+      padding: 0;
+      margin-right: 10px;
+    }
+  }
+  &-fitler-item-input{
+    width: 130px;
+    text-align: center;
+  }
+  &-search-button {
+    background-color: $dark_blue !important;
+    color: $white !important;
+    border: 1px solid black;
+  }
+  &-search-button:hover {
+    background-color: $white !important;
+    color: $dark_blue !important;
+  }
+  &-small-statistic-container {
+    background-color: $light_blue;
+    border-radius: 5px;
+    padding : 10px 0px;
+    margin : 10px 0px;
+  }
+}
