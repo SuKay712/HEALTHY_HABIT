@@ -51,9 +51,7 @@ function MainLayout(props) {
 
   const [collapsed, setCollapsed] = useState(false);
 
-
-    const { user,logout } = useContext(AuthContext);
-
+  const { user, logout } = useContext(AuthContext);
 
   const pages_url = {
     "Lịch trình": "/schedule",
@@ -69,51 +67,56 @@ function MainLayout(props) {
 
   const navigate = useNavigate();
 
-    const onMenuClick = (menuItem) => {
-        navigate(menuItem.key);
-        // console.log(menuItem.key);
-    };
-    const handleLogout =()=>{
-        logout();
-        navigate("/login");
-    }
-    return (
-        <Layout
-            style={{
-                minHeight: "100vh",
-            }}
-        >
-            <Sider
-                collapsible
-                collapsed={collapsed}
-                onCollapse={(value) => setCollapsed(value)}
-                className="slider-container"
+  const onMenuClick = (menuItem) => {
+    navigate(menuItem.key);
+    // console.log(menuItem.key);
+  };
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+  return (
+    <Layout
+      style={{
+        height : "100%",
+        width : "100%"
+      }}
+    >
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+        className="slider-container"
+      >
+        <div className="sticky-siderbar-container">
+          <div className={`sidebar-title-container`}>
+            <h2 class="sidebar-title">{collapsed ? "HH" : "HEALTHY HABIT"}</h2>
+          </div>
+          <Menu
+            className="slider-container"
+            defaultSelectedKeys={[pages_url[currentPage]]}
+            mode="inline"
+            theme="light"
+            items={items}
+            onClick={onMenuClick}
+          />
+          <div className="d-flex justify-content-center">
+            <Button
+              className="logout-button"
+              icon={<LogoutOutlined />}
+              onClick={handleLogout}
             >
-                <div className={`sidebar-title-container`}>
-                    <h2 class="sidebar-title">
-                        {collapsed ? "HH" : "HEALTHY HABIT"}
-                    </h2>
-                </div>
-                <Menu
-                    className="slider-container"
-                    defaultSelectedKeys={[pages_url[currentPage]]}
-                    mode="inline"   
-                    theme="light"
-                    items={items}
-                    onClick={onMenuClick}
-                />
-                <div className="d-flex justify-content-center">
-                    <Button className="logout-button" icon={<LogoutOutlined />} onClick={handleLogout}>
-                        {!collapsed && "Đăng xuất"}
-                    </Button>
-                </div>
-            </Sider>
-            <Layout>
-                <HeaderComponent title={currentPage} url={user.avatar} />
-                {Component}
-            </Layout>
-        </Layout>
-    );
+              {!collapsed && "Đăng xuất"}
+            </Button>
+          </div>
+        </div>
+      </Sider>
+      <Layout>
+        <HeaderComponent title={currentPage} url={user.avatar} />
+        {Component}
+      </Layout>
+    </Layout>
+  );
 }
 
 export default MainLayout;

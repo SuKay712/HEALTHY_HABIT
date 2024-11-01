@@ -1,0 +1,32 @@
+@import "../../../../constants/color.scss";
+
+.small-statistic {
+  &-container {
+    padding : 10px;
+    margin : 10px;
+    background-color: $white;
+  }
+  &-chart-container {
+    height: 400px;
+    position: relative;
+  }
+  &-chart-title {
+    position: absolute;
+    top : 50%;
+    left: 10px;
+    color : $dark_blue;
+    font-weight: bold;
+    font-size: 18px;
+  }
+  &-tasks-container{
+    background-color: $light_blue;
+    padding : 10px 20px;
+    border-radius: 10px;
+  }
+  &-tasks-title {
+    width: 100%;
+    text-align: center;
+    color: $dark_teal;
+    margin-bottom: 15px;
+  }
+}

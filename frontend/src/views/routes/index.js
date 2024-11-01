@@ -11,6 +11,7 @@ const General = LoadableComponent(() => import("../pages/general/index.jsx"));
 const MainLayout = LoadableComponent(() =>
   import("../pages/layout/MainLayout.jsx")
 );
+const Progress = LoadableComponent(() => import("../pages/progress/index.jsx"));
 
 const AllRoutes = () => {
   return (
@@ -33,19 +34,23 @@ const AllRoutes = () => {
       {/* user route */}
       <Route element={<UserRoute />}>
         <Route
+          path="/aim"
+          element={<MainLayout Component={<Aim />} currentPage="Mục tiêu" />}
+        />
+        <Route
           path="/schedule"
           element={
             <MainLayout Component={<Schedule />} currentPage="Lịch trình" />
           }
         />
-        <Route
-          path="/aim"
-          element={<MainLayout Component={<Aim />} currentPage="Mục tiêu" />}
-        />
       </Route>
       <Route
         path="/general"
         element={<MainLayout Component={<General />} currentPage="Tổng quan" />}
+      />
+      <Route
+        path="/progress"
+        element={<MainLayout Component={<Progress />} currentPage="Tiến độ" />}
       />
     </Routes>
   );

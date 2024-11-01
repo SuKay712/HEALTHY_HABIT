@@ -49,5 +49,77 @@
                 }
             ]
         }
+    ],
+    "progress" : [
+        {
+            "date" : "08/09/2024",
+            "tasks" : [
+                {
+                    "name" : "Làm bài tập anh",
+                    "time" : "5 giờ 30 phút",
+                    "piority" : "HIGH"
+                },
+                {
+                    "name" : "Lau nhà",
+                    "time" : "30 phút",
+                    "piority" : "MEDIUM"
+                },
+                {
+                    "name" : "Làm bài tập anh",
+                    "time" : "3 giờ",
+                    "piority" : "LOW"
+                },
+                {
+                    "name" : "Lau nhà",
+                    "time" : "30 phút",
+                    "piority" : "MEDIUM"
+                },
+                {
+                    "name" : "Làm bài tập anh",
+                    "time" : "3 giờ",
+                    "piority" : "LOW"
+                }
+            ],
+            "percent" : {
+                "COMPLETE" : 40,
+                "INCOMPLETE" : 50,
+                "OVERDUE" : 10
+            }
+        },
+        {
+            "date" : "07/09/2024",
+            "tasks" : [
+                {
+                    "name" : "Làm bài tập anh",
+                    "time" : "5 giờ 30 phút",
+                    "piority" : "HIGH"
+                },
+                {
+                    "name" : "Lau nhà",
+                    "time" : "30 phút",
+                    "piority" : "MEDIUM"
+                },
+                {
+                    "name" : "Làm bài tập anh",
+                    "time" : "3 giờ",
+                    "piority" : "LOW"
+                },
+                {
+                    "name" : "Lau nhà",
+                    "time" : "30 phút",
+                    "piority" : "MEDIUM"
+                },
+                {
+                    "name" : "Làm bài tập anh",
+                    "time" : "3 giờ",
+                    "piority" : "LOW"
+                }
+            ],
+            "percent" : {
+                "COMPLETE" : 40,
+                "INCOMPLETE" : 50,
+                "OVERDUE" : 10
+            }
+        }
     ]
 }
