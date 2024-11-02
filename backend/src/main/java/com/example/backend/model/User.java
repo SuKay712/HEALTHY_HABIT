@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
@@ -58,8 +59,10 @@ public class User {
   private boolean isDeleted;
 
   @CreatedDate
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDateTime createdAt;
 
   @LastModifiedDate
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDateTime updatedAt;
 }

@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
       User user = userRepository.findById(userId).orElseThrow();
       // cloudinaryUtils.deleteImageByUrl(user.getAvatar());
       user.setAvatar(cloudinaryUtils.uploadImage(image));
+      userRepository.save(user);
       return new BaseResponse<Void>(true, "Update avatar successfull!", null);
     } catch (Exception e) {
       return new BaseResponse<Void>(false, "Update avatar failed!", null);
@@ -77,6 +78,7 @@ public class UserServiceImpl implements UserService {
       User user = userRepository.findById(userId).orElseThrow();
       // cloudinaryUtils.deleteImageByUrl(user.getBackgroundImage());
       user.setBackgroundImage(cloudinaryUtils.uploadImage(backgroundImage));
+      userRepository.save(user);
       return new BaseResponse<Void>(true, "Update avatar successfull!", null);
     } catch (Exception e) {
       return new BaseResponse<Void>(false, "Update avatar failed!", null);

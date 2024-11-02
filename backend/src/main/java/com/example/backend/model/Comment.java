@@ -9,6 +9,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,21 +20,24 @@ import lombok.Data;
 public class Comment {
 
   @Id
-  private ObjectId id;
+  private String id;
 
-  private Long userId;
+  private String userId;
 
-  private Long postId;
+  private String postId;
 
   private String content;
 
   private List<String> image;
 
   @CreatedDate
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDateTime createdAt;
 
   @LastModifiedDate
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDateTime updatedAt;
 
   private List<Comment> commentChild;
+  private User user;
 }

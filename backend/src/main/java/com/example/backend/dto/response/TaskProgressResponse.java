@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.backend.model.Task;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class TaskProgressResponse {
   private final List<Task> incompletedTasks = new ArrayList<>();
   private int overduedTasksCount;
   private int completedTasksCount;
+  @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate localDate;
 
 }
