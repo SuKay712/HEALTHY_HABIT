@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -14,12 +15,14 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Document(collection = "Posts")
 @Data
 @Builder
+@AllArgsConstructor
 public class Post {
 
   @Id
@@ -36,7 +39,8 @@ public class Post {
   private boolean isDeleted;
 
   private List<String> likes;
-
+  @Builder.Default
+  private List<Comment> comments = new ArrayList<>();
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
   @JsonDeserialize(using = LocalDateTimeDeserializer.class)
   @JsonSerialize(using = LocalDateTimeSerializer.class)

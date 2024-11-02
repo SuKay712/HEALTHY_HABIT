@@ -1,7 +1,10 @@
 package com.example.backend.service.impl;
 
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
+import java.util.List;
+
 import com.example.backend.dto.request.CreatePostRequest;
 import com.example.backend.dto.request.UpdatePostRequest;
 import com.example.backend.dto.response.BaseResponse;
@@ -65,5 +68,11 @@ public class PostServiceImpl implements PostService {
       System.out.println(e.getMessage());
       return new BaseResponse<Post>(false, "Update Post Failed!!!", null);
     }
+  }
+
+  @Override
+  public BaseResponse<List<Post>> getAllPost(String userId) {
+    List<Post> listPosts = postRepository.findPostsWithCommentsByUserId(userId);
+    return new BaseResponse<>(true, "123", listPosts);
   }
 }

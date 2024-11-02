@@ -1,5 +1,7 @@
 package com.example.backend.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,6 +17,12 @@ import com.example.backend.model.Post;
 import com.example.backend.service.PostService;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.cloudinary.http44.api.Response;
+
 
 @RestController
 @RequestMapping("api/user")
@@ -50,4 +58,10 @@ public class PostController {
         .build();
     return ResponseEntity.ok(postService.updatePost(req));
   }
+
+  @GetMapping("/post")
+  public ResponseEntity<BaseResponse<List<Post>>> getMethodName(@RequestParam String param) {
+    return ResponseEntity.ok(postService.getAllPost(param));
+  }
+
 }
