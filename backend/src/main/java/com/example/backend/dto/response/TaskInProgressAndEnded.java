@@ -14,8 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaskInProgressAndEnded {
-
   private List<Task> inProgressTasks;
   private List<Task> endedTasks;
-
 }

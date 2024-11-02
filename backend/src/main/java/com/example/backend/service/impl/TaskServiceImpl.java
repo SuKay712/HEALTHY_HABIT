@@ -2,6 +2,7 @@ package com.example.backend.service.impl;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import com.example.backend.dto.request.CreateTaskRequest;
 import com.example.backend.dto.request.UpdateBigTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
+import com.example.backend.dto.response.TaskProgressResponse;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Progress;
 import com.example.backend.model.Task;
@@ -36,9 +38,60 @@ public class TaskServiceImpl implements TaskService {
   private final TaskRepository taskRepository;
 
   @Override
-  public List<Task> getAllTasksByUserId(String userId) {
-    List<Task> listTask = taskRepository.findAll();
-    return listTask;
+  public BaseResponse<List<TaskProgressResponse>> getAllTasksByUserId(String userId, String dateTime) {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    LocalDate inputDate = (dateTime == null || dateTime.isEmpty()) ? LocalDate.now()
+        : LocalDate.parse(dateTime, formatter);
+    LocalDate dayAfter = inputDate.plusDays(1);
+    List<Task> listTask = taskRepository.findByUserId(userId);
+    TaskProgressResponse inputDateProgress = TaskProgressResponse.builder().localDate(inputDate).build();
+    TaskProgressResponse dayAfterProgress = TaskProgressResponse.builder().localDate(dayAfter).build();
+    List<Task> incompletedTasks = new ArrayList<>();
+    int overduedTasksCount;
+    int completedTasksCount;
+    for (Task task : listTask) {
+      List<Progress> tasksProgress = task.getTasksProgress(); // Assuming this gets the progress list
+      for (Progress progress : tasksProgress) {
+        if (progress.getDate().isEqual(inputDate)){
+          switch (progress.getStatus()) {
+            case Status.OVERDUE:
+              overduedTasksCount = inputDateProgress.getOverduedTasksCount() + 1;
+              inputDateProgress.setOverduedTasksCount(overduedTasksCount);
+              break;
+            case Status.INCOMPLETE:
+              inputDateProgress.getIncompletedTasks().add(task);
+              break;
+            case Status.COMPLETE:
+              completedTasksCount = inputDateProgress.getCompletedTasksCount() + 1;
+              inputDateProgress.setOverduedTasksCount(completedTasksCount);
+              break;
+            default:
+              break;
+          }
+        }
+        else if (progress.getDate().isEqual(inputDate)) {
+          switch (progress.getStatus()) {
+            case Status.OVERDUE:
+              overduedTasksCount = dayAfterProgress.getOverduedTasksCount() + 1;
+              inputDateProgress.setOverduedTasksCount(overduedTasksCount);
+              break;
+            case Status.INCOMPLETE:
+              inputDateProgress.getIncompletedTasks().add(task);
+              break;
+            case Status.COMPLETE:
+              completedTasksCount = dayAfterProgress.getCompletedTasksCount() + 1;
+              inputDateProgress.setOverduedTasksCount(completedTasksCount);
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    }
+    List<TaskProgressResponse> taskProgressResponses = new ArrayList<>();
+    taskProgressResponses.add(inputDateProgress);
+    taskProgressResponses.add(dayAfterProgress);
+    return new BaseResponse<>(true, "Task progress", taskProgressResponses);
   }
 
   @Override
@@ -303,5 +356,24 @@ public class TaskServiceImpl implements TaskService {
       return new BaseResponse<Void>(false, "Delete Task Failed!!!", null);
     }
   }
+
+  @Override
+  public void updateTaskStatusIfOverdue(Task task) {
+    String timeExpiredString = task.getTimeExpired();
+    LocalTime timeExpired = LocalTime.parse(timeExpiredString, DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+    List<Progress> tasksProgress = task.getTasksProgress();
+    LocalDateTime currentDateTime = LocalDateTime.now();
+
+    for (Progress progress : tasksProgress) {
+      LocalDateTime expirationDateTime = LocalDateTime.of(progress.getDate(), timeExpired);
+      if (currentDateTime.isAfter(expirationDateTime) && progress.getStatus().equals(Status.INCOMPLETE)) {
+          progress.setStatus(Status.OVERDUE);
+      }
+    }
+    taskRepository.save(task);
+  }
+
+
 
 }
