@@ -1,0 +1,72 @@
+@import "../../../../constants/color.scss";
+
+.individual-small-post {
+  &-container {
+    margin: 10px 15px;
+    background-color: $light_gray;
+    padding: 10px;
+  }
+  &-user-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+  &-info-container {
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    margin-left: 10px;
+  }
+  &-username{
+    font-size: 17px;
+    font-weight: bold;
+  }
+  &-status{
+    color : $light-green;
+  }
+  &-button {
+    background-color: transparent;
+    border: none;
+  }
+  &-comment-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-button-container {
+    position: absolute;
+    right: 10px;
+  }
+  &-input {
+    width: 95%;
+  }
+  &-like-comment-container{
+    display: flex;
+    align-items: center;
+    p{
+      margin: 0;
+      padding: 0;
+    }
+  }
+  &-content {
+    padding : 0;
+    margin : 10px 0px;
+  }
+  &-image {
+    height: 400px;
+  }
+  &-content-container, &-comment-wrapper{
+    padding-left: 30px;
+  }
+  &-comment-container {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+}
