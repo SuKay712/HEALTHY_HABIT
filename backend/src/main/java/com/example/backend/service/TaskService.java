@@ -10,12 +10,13 @@ import com.example.backend.dto.request.CreateTaskRequest;
 import com.example.backend.dto.request.UpdateBigTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
+import com.example.backend.dto.response.TaskProgressResponse;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Task;
 import com.example.backend.model.enums.Status;
 
 public interface TaskService {
-  public List<Task> getAllTasksByUserId(String userId);
+  public BaseResponse<List<TaskProgressResponse>> getAllTasksByUserId(String userId, String dateTime);
 
   public BaseResponse<TasksInDateResponse> getTasksInDateTime(String userId, String dateTime);
 
@@ -34,5 +35,8 @@ public interface TaskService {
   public BaseResponse<Task> updateBigTask(UpdateBigTaskRequest req);
 
   public BaseResponse<Void> deleteBigTask(String taskId);
+
+  public void updateTaskStatusIfOverdue(Task task);
+
 
 }

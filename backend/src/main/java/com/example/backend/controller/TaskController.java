@@ -21,6 +21,7 @@ import com.example.backend.dto.request.CreateTaskRequest;
 import com.example.backend.dto.request.UpdateBigTaskRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.TaskInProgressAndEnded;
+import com.example.backend.dto.response.TaskProgressResponse;
 import com.example.backend.dto.response.TasksInDateResponse;
 import com.example.backend.model.Task;
 import com.example.backend.service.TaskService;
@@ -32,11 +33,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TaskController {
   private final TaskService taskService;
-
-  @GetMapping("/task")
-  public ResponseEntity<BaseResponse<List<Task>>> getMethodName(@RequestParam String param) {
-    return ResponseEntity.ok(new BaseResponse<>(true, "userId", taskService.getAllTasksByUserId(param)));
-  }
 
   @GetMapping("/task/{id}")
   public ResponseEntity<BaseResponse<Task>> getTaskById(@PathVariable String id) {
@@ -99,4 +95,10 @@ public class TaskController {
   public ResponseEntity<BaseResponse<Void>> deleteBigTask(@PathVariable String taskId) {
     return ResponseEntity.ok(taskService.deleteBigTask(taskId));
   }
+
+  @GetMapping("/task/all-progress")
+  public ResponseEntity<BaseResponse<List<TaskProgressResponse>>> getTasksProgress(@RequestParam String userId, @RequestParam String time) {
+      return ResponseEntity.ok(taskService.getAllTasksByUserId(userId, time));
+  }
+
 }
