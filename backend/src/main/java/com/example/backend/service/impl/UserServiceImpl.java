@@ -65,11 +65,12 @@ public class UserServiceImpl implements UserService {
     try {
       User user = userRepository.findById(userId).orElseThrow();
       // cloudinaryUtils.deleteImageByUrl(user.getAvatar());
-      user.setAvatar(cloudinaryUtils.uploadImage(image));
+      String imageURL = cloudinaryUtils.uploadImage(image);
+      user.setBackgroundImage(imageURL);
       userRepository.save(user);
-      return new BaseResponse<String>(true, "Update avatar successfull!", null);
+      return new BaseResponse<>(true, "Update avatar successfull!", imageURL);
     } catch (Exception e) {
-      return new BaseResponse<String>(false, "Update avatar failed!", null);
+      return new BaseResponse<>(false, "Update avatar failed!", null);
     }
   }
 
