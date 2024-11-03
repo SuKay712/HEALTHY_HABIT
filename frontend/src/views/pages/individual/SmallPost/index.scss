@@ -12,8 +12,8 @@
     justify-content: space-between;
   }
   &-avatar {
-    height: 40px;
-    width: 40px;
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
   }
   &-info-container {
@@ -22,10 +22,13 @@
       padding: 0;
     }
     margin-left: 10px;
+    display: flex;
+    align-items: center;
   }
   &-username{
-    font-size: 17px;
+    font-size: 22px;
     font-weight: bold;
+    margin-right: 10px !important;
   }
   &-status{
     color : $light-green;
@@ -33,6 +36,7 @@
   &-button {
     background-color: transparent;
     border: none;
+    font-size: 25px;
   }
   &-comment-container {
     position: relative;
@@ -50,9 +54,11 @@
   &-like-comment-container{
     display: flex;
     align-items: center;
+    margin : 10px 0px;
     p{
       margin: 0;
       padding: 0;
+      margin : 0px 5px
     }
   }
   &-content {
