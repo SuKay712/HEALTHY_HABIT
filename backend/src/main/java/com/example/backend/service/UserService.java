@@ -16,9 +16,9 @@ public interface UserService {
 
   public ResponseEntity<BaseResponse<UserProfileResponse>> getUserProfile(String username);
 
-  public BaseResponse<Void> updateAvatar(MultipartFile image, String userId);
+  public BaseResponse<String> updateAvatar(MultipartFile image, String userId);
 
-  public BaseResponse<Void> updateBackgroundImage(MultipartFile backgroundImage, String userId);
+  public BaseResponse<String> updateBackgroundImage(MultipartFile backgroundImage, String userId);
 
   public BaseResponse<UserProfileResponse> updateUserProfile(UpdateUserProfileRequest req);
 }
