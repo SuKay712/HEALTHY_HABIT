@@ -37,14 +37,14 @@ public class UserController {
   }
 
   @PutMapping("/profile/avatar")
-  public ResponseEntity<BaseResponse<Void>> updateAvatar(
+  public ResponseEntity<BaseResponse<String>> updateAvatar(
       @RequestParam("image") MultipartFile image,
       String userId) {
     return ResponseEntity.ok(userService.updateAvatar(image, userId));
   }
 
   @PutMapping("/profile/bgimage")
-  public ResponseEntity<BaseResponse<Void>> updateBackgroundImage(
+  public ResponseEntity<BaseResponse<String>> updateBackgroundImage(
       @RequestParam("bgImage") MultipartFile bgImage,
       String userId) {
     return ResponseEntity.ok(userService.updateBackgroundImage(bgImage, userId));
