@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -60,28 +61,29 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public BaseResponse<Void> updateAvatar(MultipartFile image, String userId) {
+  public BaseResponse<String> updateAvatar(MultipartFile image, String userId) {
     try {
       User user = userRepository.findById(userId).orElseThrow();
       // cloudinaryUtils.deleteImageByUrl(user.getAvatar());
       user.setAvatar(cloudinaryUtils.uploadImage(image));
       userRepository.save(user);
-      return new BaseResponse<Void>(true, "Update avatar successfull!", null);
+      return new BaseResponse<String>(true, "Update avatar successfull!", null);
     } catch (Exception e) {
-      return new BaseResponse<Void>(false, "Update avatar failed!", null);
+      return new BaseResponse<String>(false, "Update avatar failed!", null);
     }
   }
 
   @Override
-  public BaseResponse<Void> updateBackgroundImage(MultipartFile backgroundImage, String userId) {
+  public BaseResponse<String> updateBackgroundImage(MultipartFile backgroundImage, String userId) {
     try {
       User user = userRepository.findById(userId).orElseThrow();
       // cloudinaryUtils.deleteImageByUrl(user.getBackgroundImage());
-      user.setBackgroundImage(cloudinaryUtils.uploadImage(backgroundImage));
+      String imageURL = cloudinaryUtils.uploadImage(backgroundImage);
+      user.setBackgroundImage(imageURL);
       userRepository.save(user);
-      return new BaseResponse<Void>(true, "Update avatar successfull!", null);
+      return new BaseResponse<>(true, "Update avatar successfull!", imageURL);
     } catch (Exception e) {
-      return new BaseResponse<Void>(false, "Update avatar failed!", null);
+      return new BaseResponse<>(false, "Update avatar failed!", null);
     }
   }
 
