@@ -3,7 +3,7 @@ export const PROGRESSSTATUSENUM = {
   inComplete: "INCOMPLETE",
 };
 
-export const TASKPIORITY = [{
+export const TASKPRIORITY = [{
     value : "HIGH",
     label : "Cao",
     color : "#EF6767",

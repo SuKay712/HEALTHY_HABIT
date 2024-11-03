@@ -1,19 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./index.scss";
-import { TASKPIORITY } from "../../../constants/enum";
+import { TASKPRIORITY } from "../../../constants/enum";
 import { Button, DatePicker, Select } from "antd";
 import dayjs from "dayjs";
 import { SearchOutlined } from "@ant-design/icons";
 import "bootstrap/dist/css/bootstrap.min.css";
-import fakeData from "../../../data/fakeData.json";
 import SmallStatistic from "./component/SmallStatistic";
+import progressAPI from "../../../api/progressAPI";
+import { AuthContext } from "../../../context/authContext";
 
 function Progress() {
   const [taskPiorities, setTaskPiorities] = useState([]);
-  const [taskPiority, setTaskPiority] = useState("ALL");
+  const [taskPriority, setTaskPriority] = useState("ALL");
   const [selectedDay, setSelectedDay] = useState(dayjs());
-  const [progresses, setProgresses] = useState(fakeData.progress);
-  const [filterProgress, setFilterProgress] = useState(progresses)
+  const [progresses, setProgresses] = useState([]);
+  const [filterProgress, setFilterProgress] = useState(progresses);
+
+  const { user } = useContext(AuthContext);
+
+  const callAPI = async () => {
+    try {
+      const response = await progressAPI.getAllProgressTaskInDate(
+        user.userId,
+        selectedDay.format("DD-MM-YYYY")
+      );
+
+      const newProgresses = [];
+
+      for (let progress of response.data.data) {
+        newProgresses.push({
+          date: progress.localDate,
+          tasks: progress.incompletedTasks
+            ? progress.incompletedTasks.map((task) => {
+                return {
+                  name: task.name,
+                  time: task.timeExpired,
+                  priority: task.priority,
+                };
+              })
+            : [],
+          percent: {
+            COMPLETE: progress.completedTasksCount,
+            OVERDUE: progress.overduedTasksCount,
+            INCOMPLETE: progress.incompletedTasks
+              ? progress.incompletedTasks.length
+              : 0,
+          },
+        });
+      }
+
+      console.log(newProgresses)
+
+      setProgresses(newProgresses);
+      setFilterProgress(newProgresses);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const priorities = [
@@ -23,8 +66,7 @@ function Progress() {
       },
     ];
 
-    TASKPIORITY.forEach((item) => {
-      console.log(item);
+    TASKPRIORITY.forEach((item) => {
       priorities.push({
         value: item.value,
         label: item.label,
@@ -32,16 +74,25 @@ function Progress() {
     });
 
     setTaskPiorities(priorities);
+
+    callAPI();
   }, []);
 
-  const onChangePiority = (value) => {
-    setTaskPiority(value);
-    setFilterProgress(progresses.map((progress)=>({
-      ...progress,
-      tasks: value === "ALL"
-        ? progress.tasks 
-        : progress.tasks.filter((task) => task.piority === value),
-    })))
+  useEffect(() => {
+    callAPI();
+  }, [selectedDay]);
+
+  const onChangePriority = (value) => {
+    setTaskPriority(value);
+    setFilterProgress(
+      progresses.map((progress) => ({
+        ...progress,
+        tasks:
+          value === "ALL"
+            ? progress.tasks
+            : progress.tasks.filter((task) => task.priority === value),
+      }))
+    );
   };
   const handleChange = (date) => {
     setSelectedDay(date);
@@ -56,8 +107,8 @@ function Progress() {
             <p>Mức độ ưu tiên</p>
             <Select
               placeholder="Chọn độ ưu tiên"
-              defaultValue={taskPiority}
-              onChange={onChangePiority}
+              defaultValue={taskPriority}
+              onChange={onChangePriority}
               options={taskPiorities}
               className="progress-fitler-item-input"
             />
@@ -72,14 +123,11 @@ function Progress() {
               className="progress-fitler-item-input"
             />
           </div>
-          <Button icon={<SearchOutlined />} className="progress-search-button">
-            Search
-          </Button>
         </div>
       </div>
       <div className="progress-small-statistic-container">
         {filterProgress.map((progress) => (
-          <SmallStatistic progress={progress}/>
+          <SmallStatistic progress={progress} />
         ))}
       </div>
     </div>

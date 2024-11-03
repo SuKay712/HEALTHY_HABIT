@@ -7,8 +7,11 @@ const progressAPI = {
     },
     updateProgress: async(taskId, time, status)=>{
         const url=`/api/user/task/${taskId}`
-        console.log(taskId, time, status, url)
         return axiosClient.application.put(url,{time : time, status : status})
+    },
+    getAllProgressTaskInDate: async(userId, time)=>{
+        const url=`/api/user/task/all-progress?userId=${userId}&time=${time}`
+        return axiosClient.application.get(url)
     }
 }
 

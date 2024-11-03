@@ -57,27 +57,27 @@
                 {
                     "name" : "Làm bài tập anh",
                     "time" : "5 giờ 30 phút",
-                    "piority" : "HIGH"
+                    "priority" : "HIGH"
                 },
                 {
                     "name" : "Lau nhà",
                     "time" : "30 phút",
-                    "piority" : "MEDIUM"
+                    "priority" : "MEDIUM"
                 },
                 {
                     "name" : "Làm bài tập anh",
                     "time" : "3 giờ",
-                    "piority" : "LOW"
+                    "priority" : "LOW"
                 },
                 {
                     "name" : "Lau nhà",
                     "time" : "30 phút",
-                    "piority" : "MEDIUM"
+                    "priority" : "MEDIUM"
                 },
                 {
                     "name" : "Làm bài tập anh",
                     "time" : "3 giờ",
-                    "piority" : "LOW"
+                    "priority" : "LOW"
                 }
             ],
             "percent" : {
@@ -92,27 +92,27 @@
                 {
                     "name" : "Làm bài tập anh",
                     "time" : "5 giờ 30 phút",
-                    "piority" : "HIGH"
+                    "priority" : "HIGH"
                 },
                 {
                     "name" : "Lau nhà",
                     "time" : "30 phút",
-                    "piority" : "MEDIUM"
+                    "priority" : "MEDIUM"
                 },
                 {
                     "name" : "Làm bài tập anh",
                     "time" : "3 giờ",
-                    "piority" : "LOW"
+                    "priority" : "LOW"
                 },
                 {
                     "name" : "Lau nhà",
                     "time" : "30 phút",
-                    "piority" : "MEDIUM"
+                    "priority" : "MEDIUM"
                 },
                 {
                     "name" : "Làm bài tập anh",
                     "time" : "3 giờ",
-                    "piority" : "LOW"
+                    "priority" : "LOW"
                 }
             ],
             "percent" : {
