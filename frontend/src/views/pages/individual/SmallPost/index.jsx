@@ -9,7 +9,7 @@ import {
   PictureOutlined,
   PushpinFilled,
 } from "@ant-design/icons";
-import { FaRegCommentDots } from "react-icons/fa";
+import { FaCircle, FaRegCommentDots } from "react-icons/fa";
 import TextArea from "antd/es/input/TextArea";
 import { ImGrin } from "react-icons/im";
 import { BsCursorFill } from "react-icons/bs";
@@ -92,7 +92,9 @@ function SmallPost(props) {
           />
           <div className="individual-small-post-info-container">
             <p class="individual-small-post-username">{user.username}</p>
-            <p class="individual-small-post-status">online</p>
+            <p class="individual-small-post-status">
+              <FaCircle />
+            </p>
           </div>
         </div>
         <div>
@@ -108,15 +110,23 @@ function SmallPost(props) {
       </div>
       <div className="individual-small-post-content-container">
         <p class="individual-small-post-content">{post.content}</p>
-        <img
-          className="individual-small-post-image"
-          alt="post pic"
-          src={post.image}
-        />
+        {post.image && (
+          <img
+            className="individual-small-post-image"
+            alt="post pic"
+            src={post.image}
+          />
+        )}
         <div className="individual-small-post-like-comment-container">
           <p>{post.likeNum}</p>
           <Button
-            icon={!isLike ? <HeartOutlined /> : <HeartFilled />}
+            icon={
+              !isLike ? (
+                <HeartOutlined style={{ fontSize: "25px" }} />
+              ) : (
+                <HeartFilled style={{ fontSize: "25px" }} />
+              )
+            }
             onClick={onLike}
             className="individual-small-post-button"
             style={{ color: "#EB3223" }}

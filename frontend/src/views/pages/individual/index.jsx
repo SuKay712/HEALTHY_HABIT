@@ -1,33 +1,100 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./index.scss";
 import { AuthContext } from "../../../context/authContext";
 import { Button } from "antd";
-import { CameraFilled, PictureOutlined } from "@ant-design/icons";
+import { CameraFilled } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import { ImGrin } from "react-icons/im";
-import fakeData from "../../../data/fakeData.json";
 import SmallPost from "./SmallPost";
+import { FaRegImage } from "react-icons/fa";
+import PostAPI from "../../../api/postAPI";
+import AccountAPI from "../../../api/accountAPI";
 
 function Individual() {
-  var { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [newPost, setNewPost] = useState("");
+  const [posts, setPosts] = useState([]);
 
-  const { individual } = fakeData;
-  const [posts, setPosts] = useState(individual.posts);
+  // Refs for file inputs
+  const avatarInputRef = useRef(null);
+  const backgroundInputRef = useRef(null);
 
-  user = {
-    ...user,
-    background: user.background
-      ? user.background
-      : "https://res.cloudinary.com/deei5izfg/image/upload/v1730480903/%E1%BA%A3nh_b%C3%ACa_2_cmiiiq.png",
-    avatar:
-      (!user.avatar || user.avatar === "avatar3.png") &&
-      "https://i.pinimg.com/564x/cb/d4/45/cbd44516a552e11d908abf735786e497.jpg",
+  const callAPI = async () => {
+    try {
+      const response = await PostAPI.getAllPost(user.userId);
+
+      const newPosts = response.data.data.map((post) => ({
+        ...post,
+        id: post.id,
+        content: post.content,
+        image: post.image,
+        likeNum: post.likes?.length || 0,
+        commentNum: post.comments?.length || 0,
+        comments: post.comments
+          ? post.comments.map((comment) => ({
+              id: comment.id,
+              content: comment.content,
+              account: comment.user,
+            }))
+          : [],
+      }));
+
+      console.log(newPosts);
+      setPosts(newPosts);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const onChangeBackground = () => {};
+  useEffect(() => {
+    callAPI();
+  }, []);
 
-  const onChangeAvatar = () => {};
+  // Handler to open file picker for avatar
+  const onChangeAvatar = () => {
+    avatarInputRef.current.click();
+  };
+
+  // Handler to open file picker for background
+  const onChangeBackground = () => {
+    backgroundInputRef.current.click();
+  };
+
+  // Handler to handle avatar file change
+  const handleAvatarChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("userId", user.userId);
+      AccountAPI.updateAvatar(formData)
+        .then((res) => {
+          console.log(res.data.data);
+          setUser({ ...user, avatar: res.data.data });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  // Handler to handle background file change
+  const handleBackgroundChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append("bgImage", file);
+      formData.append("userId", user.userId);
+      AccountAPI.updateBackground(formData)
+        .then((res) => {
+          console.log(res.data.data);
+          setUser({ ...user, backgroundImage: res.data.data });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   const onChangeNewPost = (value) => {
     setNewPost(value.target.value);
@@ -38,7 +105,7 @@ function Individual() {
       <div className="individual-info-container">
         <div className="individual-background-container">
           <img
-            src={user.background}
+            src={user.backgroundImage}
             alt="user background"
             className="individual-info-background"
           />
@@ -49,6 +116,15 @@ function Individual() {
             <p>Chỉnh sửa ảnh bìa</p>
             <CameraFilled />
           </Button>
+          {/* Hidden file input for background */}
+          <input
+            type="file"
+            accept="image/*"
+            ref={backgroundInputRef}
+            style={{ display: "none" }}
+            multiple={false}
+            onChange={handleBackgroundChange}
+          />
         </div>
         <div className="individual-info-persional-container">
           <div className="position-relative">
@@ -61,12 +137,20 @@ function Individual() {
               onClick={onChangeAvatar}
               className="individual-info-avatar-button"
             >
-              <CameraFilled />
+              <CameraFilled style={{ fontSize: "25px" }} />
             </Button>
+            {/* Hidden file input for avatar */}
+            <input
+              type="file"
+              accept="image/*"
+              ref={avatarInputRef}
+              style={{ display: "none" }}
+              multiple={false}
+              onChange={handleAvatarChange}
+            />
           </div>
           <p className="individual-username">{user.username}</p>
         </div>
-        
       </div>
       <div className="individual-new-post-container">
         <img
@@ -80,11 +164,11 @@ function Individual() {
             className="individual-new-post-input"
             autoSize
             value={newPost}
-            onChange={(value) => onChangeNewPost(value)}
+            onChange={onChangeNewPost}
           />
           <div className="individual-new-post-button-container">
             <Button
-              icon={<PictureOutlined />}
+              icon={<FaRegImage />}
               className="individual-new-post-button"
             />
             <Button icon={<ImGrin />} className="individual-new-post-button" />

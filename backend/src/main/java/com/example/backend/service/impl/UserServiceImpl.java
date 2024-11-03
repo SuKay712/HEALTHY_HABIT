@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
       User user = userRepository.findById(userId).orElseThrow();
       // cloudinaryUtils.deleteImageByUrl(user.getAvatar());
       String imageURL = cloudinaryUtils.uploadImage(image);
-      user.setBackgroundImage(imageURL);
+      user.setAvatar(imageURL);
       userRepository.save(user);
       return new BaseResponse<>(true, "Update avatar successfull!", imageURL);
     } catch (Exception e) {
