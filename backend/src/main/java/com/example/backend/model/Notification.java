@@ -3,12 +3,11 @@ package com.example.backend.model;
 import java.time.LocalDateTime;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.backend.model.enums.NotificationType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Builder;
 import lombok.Data;
@@ -19,19 +18,19 @@ import lombok.Data;
 public class Notification {
 
   @Id
-  private ObjectId id;
-
-  private Long relatedId;
+  private String id;
 
   private NotificationType notiType;
 
-  private Long userId;
+  private String userId; 
 
   private String content;
+  
+  private boolean isAdmin;
 
-  @CreatedDate
+  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
   private LocalDateTime createdAt;
 
-  @LastModifiedDate
+  @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
   private LocalDateTime updatedAt;
 }
