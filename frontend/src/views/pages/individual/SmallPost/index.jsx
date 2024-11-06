@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { Button, Dropdown } from "antd";
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   DeleteFilled,
   EditFilled,
   HeartFilled,
   HeartOutlined,
-  PictureOutlined,
   PushpinFilled,
 } from "@ant-design/icons";
 import { FaCircle, FaRegCommentDots } from "react-icons/fa";
@@ -17,10 +16,10 @@ import { BsCursorFill } from "react-icons/bs";
 import SmallComment from "../SmallComment";
 import { BiDotsHorizontal } from "react-icons/bi";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaRegImage } from "react-icons/fa";
 
 function SmallPost(props) {
-  
-  const { post, user } = props;
+  const { post, user, onUpdatePost } = props;
 
   const [isLike, setIsLike] = useState(false);
 
@@ -29,9 +28,13 @@ function SmallPost(props) {
 
   const [comments, setComments] = useState(post.comments);
   const handleNavigateEdit = () => {
-    navigate('/editpost', { state: { post, user } }) // Đường dẫn đến trang bạn muốn chuyển hướng
+    Navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
   const onLike = () => {
+    onUpdatePost(post.id, {
+      ...post,
+      likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
+    });
     setIsLike(!isLike);
   };
 
@@ -62,7 +65,10 @@ function SmallPost(props) {
       label: (
         <div className="d-flex align-items-center">
           <EditFilled />{" "}
-          <p style={{ margin: 0, padding: 0, marginLeft: "10px" }} onClick={handleNavigateEdit}>
+          <p
+            style={{ margin: 0, padding: 0, marginLeft: "10px" }}
+            onClick={handleNavigateEdit}
+          >
             Chỉnh sửa bài viết
           </p>
         </div>
@@ -95,10 +101,13 @@ function SmallPost(props) {
             src={user.avatar}
           />
           <div className="individual-small-post-info-container">
-            <p class="individual-small-post-username">{user.username}</p>
-            <p class="individual-small-post-status">
-              <FaCircle />
-            </p>
+            <div className="d-flex align-items-center">
+              <p class="individual-small-post-username">{user.displayName}</p>
+              <p class="individual-small-post-status">
+                <FaCircle />
+              </p>
+            </div>
+            <p className="individual-small-post-createdAt">{post.createdAt}</p>
           </div>
         </div>
         <div>
@@ -107,6 +116,7 @@ function SmallPost(props) {
               items,
             }}
             trigger={["click"]}
+            className="individual-small-post-dropdown"
           >
             <BiDotsHorizontal onClick={(e) => e.preventDefault()} />
           </Dropdown>
@@ -150,7 +160,7 @@ function SmallPost(props) {
               className="individual-small-post-avatar"
             />
             <TextArea
-              placeholder={`Bình luận với vai trò ${user.username}`}
+              placeholder={`Bình luận với vai trò ${user.displayName}`}
               className="individual-small-post-input"
               autoSize
               value={comment}
@@ -158,7 +168,7 @@ function SmallPost(props) {
             />
             <div className="individual-small-post-button-container">
               <Button
-                icon={<PictureOutlined />}
+                icon={<FaRegImage />}
                 className="individual-small-post-button"
               />
               <Button

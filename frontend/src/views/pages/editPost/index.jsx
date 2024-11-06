@@ -82,7 +82,7 @@ const EditPostBootstrap = () => {
               <img src={user.avatar} alt="User avatar" className="rounded-circle me-2" style={{ width: '40px', height: '40px' }} />
               <span className="fw-bold" style={{
                 marginBottom: 15
-              }}>{user.username}</span>
+              }}>{user.displayName}</span>
             </div>
             <textarea
               className="form-control mb-3"
