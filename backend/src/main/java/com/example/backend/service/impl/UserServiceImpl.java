@@ -64,7 +64,6 @@ public class UserServiceImpl implements UserService {
   public BaseResponse<String> updateAvatar(MultipartFile image, String userId) {
     try {
       User user = userRepository.findById(userId).orElseThrow();
-      // cloudinaryUtils.deleteImageByUrl(user.getAvatar());
       String imageURL = cloudinaryUtils.uploadImage(image);
       user.setAvatar(imageURL);
       userRepository.save(user);
@@ -78,7 +77,6 @@ public class UserServiceImpl implements UserService {
   public BaseResponse<String> updateBackgroundImage(MultipartFile backgroundImage, String userId) {
     try {
       User user = userRepository.findById(userId).orElseThrow();
-      // cloudinaryUtils.deleteImageByUrl(user.getBackgroundImage());
       String imageURL = cloudinaryUtils.uploadImage(backgroundImage);
       user.setBackgroundImage(imageURL);
       userRepository.save(user);
