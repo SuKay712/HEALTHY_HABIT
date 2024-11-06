@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "./index.scss";
-import { FaImage } from 'react-icons/fa';
+import { FaImage,FaMapMarkerAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -19,7 +19,6 @@ const EditPostBootstrap = () => {
   const postId = post.id;
   const content = updatedPost.content;
   formData.append('postId', postId);
-  //formData.append('isDeleteImage', false);
   const handleClose = () => {
     navigate('/individual');
 
@@ -69,9 +68,11 @@ const EditPostBootstrap = () => {
   };
   return (
     <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', paddingTop: 10, paddingBottom: 10 }}>
-      <div className="modal-dialog modal-custom">
-        <div className="modal-content">
-          <div className="modal-header">
+      <div className="modal-dialog modal-custom" >
+        <div className="modal-content" style={{
+        backgroundColor: '#cdf5ff'
+      }}>
+          <div className="modal-header" style={{ borderBottom: '2px solid white' }}>
             <h5 className="modal-title">Chỉnh sửa bài viết</h5>
             <button type="button" className="btn-close" aria-label="Close" onClick={handleClose}></button>
           </div>
@@ -89,6 +90,11 @@ const EditPostBootstrap = () => {
               placeholder="Bạn đang nghĩ gì?"
               value={updatedPost.content}
               onChange={handleContentChange}
+              style={{
+                backgroundColor: '#cdf5ff',
+                border: 'none',
+                outline: 'none' 
+              }}
             />
 
             <div className="position-relative mb-3">
@@ -103,7 +109,7 @@ const EditPostBootstrap = () => {
             </div>
 
             <div className="mb-3" style={{
-              border: '1px solid #ccc',
+              border: '1px solid black',
               borderRadius: '4px',
               padding: '5px',
               display: 'flex',
@@ -113,11 +119,18 @@ const EditPostBootstrap = () => {
               <label className="form-label" style={{
                 marginBottom: 0
               }}>Thêm ảnh</label>
-              <label htmlFor="imageUpload" className="btn btn-outline-secondary ms-2" style={{
+               <div className="d-flex align-items-center">
+              <label htmlFor="imageUpload" className="btn btn-outline-secondary ms-1" style={{
                 border: 'none'
               }}>
-                <FaImage color='green' />
+                <FaImage color='green' style={{ fontSize: '1.5em' }} />
+                
               </label>
+              <FaMapMarkerAlt color="blue" className="ms-1"style={{
+                marginRight:10,
+                fontSize: '1.5em' 
+              }}/> 
+              </div>
               <input
                 className="d-none"
                 type="file"
