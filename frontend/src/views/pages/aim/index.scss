@@ -2,19 +2,45 @@
 
 h4 {
   color: $dark_blue;
+  margin-left: 20px;
+}
+
+.aim-content {
+  background: $light_blue;
+  padding: 42px;
+}
+
+.aim-list-content {
+  background: $white;
+  border-radius: 8px;
+  padding: 10px 20px;
 }
 
 .truncate-select:hover .truncate-tooltip {
   opacity: 100;
-  border-color: $dark_blue;
+  box-shadow: 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+    0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
 }
 
 .truncate-tooltip {
   bottom: 120%;
   width: 100%;
+  padding: 5px;
+  border-radius: 8px;
   opacity: 0;
-  background-color: $light_blue;
-  border-width: 1px;
+  background-color: $dark_blue;
+}
+
+.submit-btn {
+  border: 2px;
   border-style: solid;
-  border-color: transparent;
+  border-color: $dark_blue;
+  background: $dark_blue;
+  color: $white;
+}
+
+.submit-btn:hover {
+  border-color: $dark_blue;
+  background: $white;
+  color: $dark_blue;
 }

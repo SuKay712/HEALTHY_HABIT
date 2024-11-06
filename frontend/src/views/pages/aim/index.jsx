@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
-import { postTask } from "../../../api/aimAPI";
+import aimAPI from "../../../api/aimAPI";
 import { AuthContext } from "../../../context/authContext";
 import AimInCompleted from "./components/AimInCompleted";
 import AimEnded from "./components/AimEnded";
@@ -104,32 +104,42 @@ const Aim = () => {
   const [showOptions, setShowOptions] = useState(false);
 
   const handleSelectChange = (value) => {
-    let newSelectedOptions = [];
+    let newSelectedOptions = [...selectedOptions];
 
     if (selectedOptions.includes(value)) {
       if (value !== "ALL") {
-        if (selectedOptions.includes(value)) {
-          newSelectedOptions = selectedOptions.filter(
-            (option) => option !== value
-          );
-        }
+        newSelectedOptions = newSelectedOptions.filter(
+          (option) => option !== value
+        );
 
-        if (newSelectedOptions.length === 0) setSelectedOptions([]);
-        else setSelectedOptions(newSelectedOptions);
+        if (newSelectedOptions.length === 0) {
+          setSelectedOptions([]);
+        } else {
+          setSelectedOptions(newSelectedOptions);
+        }
       } else {
+        newSelectedOptions = [];
         setSelectedOptions([]);
       }
     } else {
       if (value === "ALL") {
+        newSelectedOptions = ["ALL"];
         setSelectedOptions(["ALL"]);
       } else {
-        const newSelectedOptions = selectedOptions.filter(
+        newSelectedOptions = newSelectedOptions.filter(
           (option) => option !== "ALL"
         );
-        if (newSelectedOptions.length === 6) setSelectedOptions(["ALL"]);
-        else setSelectedOptions([...newSelectedOptions, value]);
+
+        if (newSelectedOptions.length === 6) {
+          newSelectedOptions = ["ALL"];
+          setSelectedOptions(["ALL"]);
+        } else {
+          newSelectedOptions.push(value);
+          setSelectedOptions(newSelectedOptions);
+        }
       }
     }
+    console.log(newSelectedOptions);
 
     setFormData((prevState) => ({
       ...prevState,
@@ -191,7 +201,7 @@ const Aim = () => {
     console.log(dataToSend);
     try {
       // Gọi API thông qua aimAPI
-      const result = await postTask(dataToSend);
+      const result = await aimAPI.postTask(dataToSend);
       if (result) {
         toastSuccess("Thêm mục tiêu thành công!");
         console.log("API response:", result);
@@ -230,157 +240,156 @@ const Aim = () => {
       style={{
         backgroundColor: "#ffffff",
         margin: 10,
-        padding: 20,
         borderRadius: "10px",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <h2 style={{ marginLeft: 20, color: "#00CDFF" }}>Tạo mục tiêu</h2>
-      <div className="p-3 m-3">
-        {/* Hàng 1 */}
-        <div className="mb-3">
-          <div className="row">
-            <div className="col-md-3">
-              <label>Mục tiêu</label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Nhập thông tin"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="col-md-3">
-              <label> Ngày bắt đầu</label>
-              <input
-                type="date"
-                className="form-control"
-                name="dateStart"
-                value={formData.dateStart}
-                onChange={handleInputChange}
-                min={getCurrentDate()}
-              />
-            </div>
-            <div className="col-md-3">
-              <label> Ngày kết thúc</label>
-              <input
-                type="date"
-                className="form-control"
-                name="dateEnd"
-                value={formData.dateEnd}
-                onChange={handleInputChange}
-                min={formData.dateStart || getCurrentDate()}
-                disable={formData.dateStart ? false : true}
-              />
-            </div>
-            <div className="col-md-3">
-              <label>Vòng lặp</label>
-              <div className="position-relative truncate-select">
-                <div
-                  ref={ref}
-                  className="form-control  text-truncate "
-                  style={{ height: "auto", cursor: "pointer" }}
-                  onClick={handleToggleOptions}
-                >
-                  {selectedOptions.length > 0
-                    ? selectedOptions.join(", ")
-                    : "chọn vòng lặp"}
+      <div style={{ padding: 20 }}>
+        <div className="aim-content" style={{ borderRadius: "8px" }}>
+          <h2 style={{ marginLeft: 20, color: "#00CDFF" }}>Tạo mục tiêu</h2>
+          <div className="p-3 m-3">
+            {/* Hàng 1 */}
+            <div className="mb-3">
+              <div className="row">
+                <div className="col-md-3">
+                  <label>Mục tiêu</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Nhập thông tin"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                  />
                 </div>
-                {enable && (
-                  <span className="truncate-tooltip position-absolute left-0">
-                    {selectedOptions.length > 0
-                      ? selectedOptions.join(", ")
-                      : ""}
-                  </span>
-                )}
-              </div>
-              <div className="position-relative">
-                {showOptions && (
-                  <div
-                    ref={optionsRef}
-                    style={{
-                      border: "1px solid #00CDFF",
-                      borderRadius: "4px",
-                      marginTop: "5px",
-                      maxHeight: "150px",
-                      overflowY: "auto",
-                      backgroundColor: "white",
-                      zIndex: 1000,
-                    }}
-                    className="position-absolute top-0 left-0 w-100"
-                  >
-                    {options.map((option) => (
-                      <div
-                        key={option.value}
-                        onClick={() => handleSelectChange(option.value)}
-                        style={{
-                          padding: "8px",
-                          backgroundColor: selectedOptions.includes(
-                            option.value
-                          )
-                            ? "#00CDFF"
-                            : "white",
-                          color: selectedOptions.includes(option.value)
-                            ? "white"
-                            : "black",
-                          cursor: "pointer",
-                          borderBottom: "1px solid #e0e0e0",
-                        }}
-                      >
-                        {option.label}
-                      </div>
-                    ))}
+                <div className="col-md-3">
+                  <label> Ngày bắt đầu</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    name="dateStart"
+                    value={formData.dateStart}
+                    onChange={handleInputChange}
+                    min={getCurrentDate()}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <label> Ngày kết thúc</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    name="dateEnd"
+                    value={formData.dateEnd}
+                    onChange={handleInputChange}
+                    min={formData.dateStart || getCurrentDate()}
+                    disable={formData.dateStart ? false : true}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <label>Vòng lặp</label>
+                  <div className="position-relative truncate-select">
+                    <div
+                      ref={ref}
+                      className="form-control  text-truncate "
+                      style={{ height: "auto", cursor: "pointer" }}
+                      onClick={handleToggleOptions}
+                    >
+                      {selectedOptions.length > 0
+                        ? selectedOptions.join(", ")
+                        : "Chọn vòng lặp"}
+                    </div>
+                    {enable && (
+                      <span className="truncate-tooltip position-absolute left-0">
+                        {selectedOptions.length > 0
+                          ? selectedOptions.join(", ")
+                          : ""}
+                      </span>
+                    )}
                   </div>
-                )}
+                  <div className="position-relative">
+                    {showOptions && (
+                      <div
+                        ref={optionsRef}
+                        style={{
+                          border: "1px solid #00CDFF",
+                          borderRadius: "4px",
+                          marginTop: "5px",
+                          maxHeight: "150px",
+                          overflowY: "auto",
+                          backgroundColor: "white",
+                          zIndex: 1000,
+                        }}
+                        className="position-absolute top-0 left-0 w-100"
+                      >
+                        {options.map((option) => (
+                          <div
+                            key={option.value}
+                            onClick={() => handleSelectChange(option.value)}
+                            style={{
+                              padding: "8px",
+                              backgroundColor: selectedOptions.includes(
+                                option.value
+                              )
+                                ? "#00CDFF"
+                                : "white",
+                              color: selectedOptions.includes(option.value)
+                                ? "white"
+                                : "black",
+                              cursor: "pointer",
+                              borderBottom: "1px solid #e0e0e0",
+                            }}
+                          >
+                            {option.label}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        {/* Hàng 2 */}
-        <div className="row">
-          <div className="col-md-3">
-            <label>Mô tả</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Nhập mô tả"
-              name="description"
-              value={formData.description}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="col-md-3">
-            <label> Hạn thời gian</label>
-            <input
-              type="time"
-              className="form-control"
-              name="timeExpired"
-              value={formData.timeExpired}
-              onChange={handleInputChange}
-              step="1"
-            />
-          </div>
-          <div className="col-md-3">
-            <label>Phần thưởng</label>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Phần thưởng"
-              name="prize"
-              value={formData.prize}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="col-md-3">
-            <label style={{ visibility: "hidden" }}>Thêm</label>
-            <button
-              className="btn w-100"
-              onClick={handleSubmit}
-              style={{ backgroundColor: "#00CDFF" }}
-            >
-              Submit
-            </button>
+            {/* Hàng 2 */}
+            <div className="row">
+              <div className="col-md-3">
+                <label>Mô tả</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Nhập mô tả"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="col-md-3">
+                <label> Hạn thời gian</label>
+                <input
+                  type="time"
+                  className="form-control"
+                  name="timeExpired"
+                  value={formData.timeExpired}
+                  onChange={handleInputChange}
+                  step="1"
+                />
+              </div>
+              <div className="col-md-3">
+                <label>Phần thưởng</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Phần thưởng"
+                  name="prize"
+                  value={formData.prize}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="col-md-3">
+                <label style={{ visibility: "hidden" }}>Thêm</label>
+                <button className="btn w-100 submit-btn" onClick={handleSubmit}>
+                  Tạo mục tiêu
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -419,13 +428,20 @@ const Aim = () => {
         </h2>
       </div>
 
-      <div style={{ marginLeft: 20 }}>
-        <h4>Đang tiến hành</h4>
-        <AimInCompleted newAim={newAim} />
-      </div>
-      <div style={{ marginLeft: 20, marginTop: 20 }}>
-        <h4>Đã hoàn thành</h4>
-        <AimEnded />
+      <div style={{ padding: 20 }}>
+        <div className="aim-content" style={{ paddingBottom: 0 }}>
+          <div className="aim-list-content">
+            <h4>Đang tiến hành</h4>
+            <AimInCompleted newAim={newAim} />
+          </div>
+        </div>
+
+        <div className="aim-content">
+          <div className="aim-list-content">
+            <h4>Đã kết thúc</h4>
+            <AimEnded />
+          </div>
+        </div>
       </div>
     </div>
   );

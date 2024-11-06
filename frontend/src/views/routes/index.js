@@ -12,7 +12,12 @@ const MainLayout = LoadableComponent(() =>
   import("../pages/layout/MainLayout.jsx")
 );
 const Progress = LoadableComponent(() => import("../pages/progress/index.jsx"));
-const Individual = LoadableComponent(() => import("../pages/individual/index.jsx"));
+const Individual = LoadableComponent(() =>
+  import("../pages/individual/index.jsx")
+);
+const UpdateProfile = LoadableComponent(() =>
+  import("../pages/update-profile/index.jsx")
+);
 
 const AllRoutes = () => {
   return (
@@ -55,7 +60,18 @@ const AllRoutes = () => {
       />
       <Route
         path="/individual"
-        element={<MainLayout Component={<Individual />} currentPage="Cá Nhân" />}
+        element={
+          <MainLayout Component={<Individual />} currentPage="Cá Nhân" />
+        }
+      />
+      <Route
+        path="/update_profile"
+        element={
+          <MainLayout
+            Component={<UpdateProfile />}
+            currentPage="Chỉnh sửa thông tin"
+          />
+        }
       />
     </Routes>
   );

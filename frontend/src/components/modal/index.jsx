@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import './index.scss';
+import React, { useEffect } from "react";
+import "./index.scss";
 
 const Modal = ({ children, onClickOutside }) => {
   const onClickExceptChild = (e) => {
@@ -8,14 +8,17 @@ const Modal = ({ children, onClickOutside }) => {
   };
 
   useEffect(() => {
-    document.body.style.overflowY = 'hidden';
+    document.body.style.overflowY = "hidden";
     return () => {
-      document.body.style.overflowY = 'scroll';
+      document.body.style.overflowY = "scroll";
     };
   }, []);
 
   return (
-    <aside className='modal' onMouseDown={onClickExceptChild}>
+    <aside
+      className="modal"
+      onMouseDown={onClickExceptChild}
+    >
       {children}
     </aside>
   );

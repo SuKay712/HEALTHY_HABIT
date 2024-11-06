@@ -1,40 +1,36 @@
 // aimAPI.jsx
-import axios from "axios";
+import axiosClient from "./axiosClient";
 
-// Khởi tạo instance axios
-const apiClient = axios.create({
-  baseURL: "https://healthy-habit.onrender.com", // Đường dẫn cơ sở
-  headers: {
-    "Content-Type": "application/json",
+const aimAPI = {
+  postTask: async (data) => {
+    const response = await axiosClient.application.post("/api/user/task", data);
+    return response.data;
   },
-});
-
-// Hàm gửi yêu cầu POST
-export const postTask = async (data) => {
-  try {
-    const response = await apiClient.post("/api/user/task", data);
+  getTaskInComplete: async (params) => {
+    const response = await axiosClient.application.get(
+      "/api/user/task/in-progress",
+      {
+        params,
+      }
+    );
     return response.data; // Trả về dữ liệu từ phản hồi
-  } catch (error) {
-    throw error; // Ném lỗi để xử lý sau
-  }
-};
-
-export const getTaskInComplete = async (params) => {
-  try {
-    const response = await apiClient.get("/api/user/task/in-progress", {
+  },
+  getTaskEnded: async (params) => {
+    const response = await axiosClient.application.get("/api/user/task/ended", {
       params,
     });
     return response.data; // Trả về dữ liệu từ phản hồi
-  } catch (error) {
-    throw error; // Ném lỗi để xử lý sau
-  }
+  },
+  updateTask: async (data) => {
+    const response = await axiosClient.application.put("/api/user/task", data);
+    return response.data;
+  },
+  deleteTask: async (id) => {
+    const response = await axiosClient.application.delete(
+      `/api/user/task/${id}`
+    );
+    return response.data;
+  },
 };
 
-export const getTaskEnded = async (params) => {
-  try {
-    const response = await apiClient.get("/api/user/task/ended", { params });
-    return response.data; // Trả về dữ liệu từ phản hồi
-  } catch (error) {
-    throw error; // Ném lỗi để xử lý sau
-  }
-};
+export default aimAPI;
