@@ -55,7 +55,7 @@ const AllRoutes = () => {
       />
       <Route
         path="/individual"
-        element={<MainLayout Component={<Individual />} currentPage="Cá Nhân" />}
+        element={<MainLayout Component={<Individual />} currentPage="Cá nhân" />}
       />
        <Route
         path="/editpost"

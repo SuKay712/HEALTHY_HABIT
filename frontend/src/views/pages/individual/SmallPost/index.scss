@@ -15,6 +15,11 @@
     height: 60px;
     width: 60px;
     border-radius: 50%;
+    object-fit: cover;
+  }
+  &-dropdown{
+    cursor: pointer;
+    font-size: 25px;
   }
   &-info-container {
     p {
@@ -22,8 +27,10 @@
       padding: 0;
     }
     margin-left: 10px;
-    display: flex;
     align-items: center;
+  }
+  &-createdAt{
+    color : $subText;
   }
   &-username{
     font-size: 22px;
@@ -34,9 +41,9 @@
     color : $light-green;
   }
   &-button {
-    background-color: transparent;
+    background-color: transparent !important;
     border: none;
-    font-size: 25px;
+    font-size: 20px;
   }
   &-comment-container {
     position: relative;
@@ -49,7 +56,9 @@
     right: 10px;
   }
   &-input {
-    width: 95%;
+    width: 94%;
+    height: 40px !important;
+    padding-top: 5px;
   }
   &-like-comment-container{
     display: flex;

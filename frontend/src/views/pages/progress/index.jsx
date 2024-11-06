@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./index.scss";
 import { TASKPRIORITY } from "../../../constants/enum";
-import { Button, DatePicker, Select } from "antd";
+import { DatePicker, Select } from "antd";
 import dayjs from "dayjs";
-import { SearchOutlined } from "@ant-design/icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SmallStatistic from "./component/SmallStatistic";
 import progressAPI from "../../../api/progressAPI";
@@ -49,7 +48,7 @@ function Progress() {
         });
       }
 
-      console.log(newProgresses)
+      console.log(newProgresses);
 
       setProgresses(newProgresses);
       setFilterProgress(newProgresses);
@@ -67,6 +66,7 @@ function Progress() {
     ];
 
     TASKPRIORITY.forEach((item) => {
+      console.log(item);
       priorities.push({
         value: item.value,
         label: item.label,
