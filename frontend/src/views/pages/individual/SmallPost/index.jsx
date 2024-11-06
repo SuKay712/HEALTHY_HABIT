@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./index.scss";
 import { Button, Dropdown } from "antd";
+import { useNavigate } from 'react-router-dom';
 import {
   DeleteFilled,
   EditFilled,
@@ -18,6 +19,7 @@ import { BiDotsHorizontal } from "react-icons/bi";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function SmallPost(props) {
+  
   const { post, user } = props;
 
   const [isLike, setIsLike] = useState(false);
@@ -26,7 +28,9 @@ function SmallPost(props) {
   const [isShowComment, setIsShowComment] = useState(false);
 
   const [comments, setComments] = useState(post.comments);
-
+  const handleNavigateEdit = () => {
+    navigate('/editpost', { state: { post, user } }) // Đường dẫn đến trang bạn muốn chuyển hướng
+  };
   const onLike = () => {
     setIsLike(!isLike);
   };
@@ -38,7 +42,7 @@ function SmallPost(props) {
   const onChangeComment = (e) => {
     setComment(e.target.value);
   };
-
+  const navigate = useNavigate();
   const items = [
     {
       label: (
@@ -58,7 +62,7 @@ function SmallPost(props) {
       label: (
         <div className="d-flex align-items-center">
           <EditFilled />{" "}
-          <p style={{ margin: 0, padding: 0, marginLeft: "10px" }}>
+          <p style={{ margin: 0, padding: 0, marginLeft: "10px" }} onClick={handleNavigateEdit}>
             Chỉnh sửa bài viết
           </p>
         </div>
