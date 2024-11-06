@@ -1,6 +1,5 @@
 package com.example.backend.service.impl;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;

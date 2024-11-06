@@ -20,7 +20,7 @@ import lombok.Data;
 public class Comment {
 
   @Id
-  private String id;
+  private ObjectId id;
 
   private String userId;
 
