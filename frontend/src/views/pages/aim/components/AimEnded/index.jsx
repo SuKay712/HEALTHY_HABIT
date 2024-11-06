@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col, Card} from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import aimAPI from "../../../../../api/aimAPI";
 import { AuthContext } from "../../../../../context/authContext";
 import "./index.scss";
@@ -10,6 +10,7 @@ import CountdownTimer from "../CountdownTime";
 import useBlockScroll from "../../../../../hooks/use-block-scroll";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
 import Modal from "../../../../../components/modal";
+import { priority } from "../../../../../constants/priority";
 
 const AimEnded = (userID) => {
   const [dataEnded, setDataEnded] = useState([]);
@@ -64,7 +65,7 @@ const AimEnded = (userID) => {
 
   useEffect(() => {
     fetchData();
-  }, [paging, dataEnded]);
+  }, [paging]);
 
   if (dataEnded.length === 0) {
     return (
@@ -185,19 +186,25 @@ const AimEnded = (userID) => {
                         </div>
                       </Row>
                       <Row>
-                        <Col md={4} className="row-viewed">
+                        <Col md={6} className="row-viewed">
                           <span className="tile-aim-viewed">Ngày bắt đầu</span>
                           <span>{aimViewed.dateStart}</span>
                         </Col>
-                        <Col md={4} className="row-viewed">
+                        <Col md={6} className="row-viewed">
                           <span className="tile-aim-viewed">Ngày kết thúc</span>
                           {aimViewed.dateEnd}
                         </Col>
-                        <Col md={4} className="row-viewed">
+                      </Row>
+                      <Row>
+                        <Col md={6} className="row-viewed">
                           <span className="tile-aim-viewed">
                             Thời gian hết hạn
                           </span>
                           {aimViewed.timeExpired}
+                        </Col>
+                        <Col md={6} className="row-viewed">
+                          <span className="tile-aim-viewed">Độ ưu tiên</span>
+                          {priority[aimViewed.priority]}
                         </Col>
                       </Row>
                     </Card.Body>

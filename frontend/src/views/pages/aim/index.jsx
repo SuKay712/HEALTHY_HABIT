@@ -179,16 +179,14 @@ const Aim = () => {
     let dataToSend; // Khai báo biến tạm
 
     // Kiểm tra điều kiện
-    if (formData.dateEnd === "" || formData.timer.length === 0) {
-      // Nếu điều kiện thỏa mãn, gán giá trị vào dataToSend
-      dataToSend = {
-        userId: userId,
-        name: formData.name,
-        description: formData.description,
-        prize: formData.prize,
-        dateStart: formatDate(formData.dateStart),
-        timeExpired: formData.timeExpired,
-      };
+    if (
+      formData.dateEnd === "" ||
+      formData.timer.length === 0 ||
+      formData.dateStart === "" ||
+      formData.timeExpired === ""
+    ) {
+      toastError("Có lỗi gì đó");
+      return;
     } else {
       // Nếu không thỏa mãn, gán giá trị từ formData
       dataToSend = {

@@ -11,6 +11,7 @@ import CountdownTimer from "../CountdownTime";
 import { AimToEditForm } from "../AimToEditForm";
 import Modal from "../../../../../components/modal";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
+import { priority } from "../../../../../constants/priority";
 
 const AimInCompleted = ({ newAim }) => {
   const [dataInCompleted, setDataInCompleted] = useState([]);
@@ -76,7 +77,7 @@ const AimInCompleted = ({ newAim }) => {
 
   useEffect(() => {
     fetchData();
-  }, [paging, dataInCompleted]);
+  }, [paging, newAim]);
 
   if (dataInCompleted.length === 0) {
     return (
@@ -192,19 +193,25 @@ const AimInCompleted = ({ newAim }) => {
                       </div>
                     </Row>
                     <Row>
-                      <Col md={4} className="row-viewed">
+                      <Col md={6} className="row-viewed">
                         <span className="tile-aim-viewed">Ngày bắt đầu</span>
                         <span>{aimViewed.dateStart}</span>
                       </Col>
-                      <Col md={4} className="row-viewed">
+                      <Col md={6} className="row-viewed">
                         <span className="tile-aim-viewed">Ngày kết thúc</span>
                         {aimViewed.dateEnd}
                       </Col>
-                      <Col md={4} className="row-viewed">
+                    </Row>
+                    <Row>
+                      <Col md={6} className="row-viewed">
                         <span className="tile-aim-viewed">
                           Thời gian hết hạn
                         </span>
                         {aimViewed.timeExpired}
+                      </Col>
+                      <Col md={6} className="row-viewed">
+                        <span className="tile-aim-viewed">Độ ưu tiên</span>
+                        {priority[aimViewed.priority]}
                       </Col>
                     </Row>
                   </Card.Body>

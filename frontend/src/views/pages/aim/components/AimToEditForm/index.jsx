@@ -1,9 +1,10 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import aimAPI from "../../../../../api/aimAPI";
 import { toastError, toastSuccess } from "../../../../../utils/toast";
-import { AuthContext } from "../../../../../context/authContext";
 import "./index.scss";
 import useBlockScroll from "../../../../../hooks/use-block-scroll";
+import { Select } from "antd";
+import { Option } from "antd/es/mentions";
 
 export function AimToEditForm({ data, close, fetchData }) {
   useBlockScroll(true);
@@ -27,7 +28,10 @@ export function AimToEditForm({ data, close, fetchData }) {
     dateEnd: "",
     timer: [], // Lưu giá trị từ select multiple
     timeExpired: "",
+    priority: "",
   });
+
+  console.log(formData.priority);
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -144,6 +148,13 @@ export function AimToEditForm({ data, close, fetchData }) {
     }));
   };
 
+  const handlePriorityChange = (value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      priority: value,
+    }));
+  };
+
   const handleToggleOptions = () => {
     setShowOptions(!showOptions);
   };
@@ -177,6 +188,7 @@ export function AimToEditForm({ data, close, fetchData }) {
       dateEnd: formatDate(formData.dateEnd),
       timer: formData.timer,
       timeExpired: formData.timeExpired,
+      priority: formData.priority,
     };
     console.log(dataToSend);
     try {
@@ -206,6 +218,7 @@ export function AimToEditForm({ data, close, fetchData }) {
         dateEnd: dateEnd,
         timer: data.timer,
         timeExpired: data.timeExpired,
+        priority: data.priority,
       });
       setSelectedOptions(data.timer);
     }
@@ -225,7 +238,7 @@ export function AimToEditForm({ data, close, fetchData }) {
         style={{
           width: "100%",
           maxWidth: "700px",
-          maxHeight: "700px",
+          maxHeight: "750px",
           padding: "15px",
           border: "1px solid #ccc",
           background: "#fff",
@@ -373,7 +386,7 @@ export function AimToEditForm({ data, close, fetchData }) {
           </div>
 
           <div className="row">
-            <div className="col-md-4 d-flex justify-center-start text-start gap-2 flex-column">
+            <div className="col-md-6 d-flex justify-center-start text-start gap-2 flex-column">
               <label
                 style={{
                   marginLeft: "10px",
@@ -394,7 +407,7 @@ export function AimToEditForm({ data, close, fetchData }) {
               />
             </div>
 
-            <div className="col-md-4 d-flex justify-center-start text-start gap-2 flex-column">
+            <div className="col-md-6 d-flex justify-center-start text-start gap-2 flex-column">
               <label
                 style={{
                   marginLeft: "10px",
@@ -419,7 +432,10 @@ export function AimToEditForm({ data, close, fetchData }) {
                 required
               />
             </div>
-            <div className="col-md-4 d-flex justify-center-start text-start gap-2 flex-column">
+          </div>
+
+          <div className="row">
+            <div className="col-md-6 d-flex justify-center-start text-start gap-2 flex-column">
               <label
                 style={{
                   marginLeft: "10px",
@@ -437,6 +453,41 @@ export function AimToEditForm({ data, close, fetchData }) {
                 onChange={handleInputChange}
                 step="1"
                 required
+              />
+            </div>
+
+            <div className="col-md-6 d-flex justify-center-start text-start gap-2 flex-column">
+              <label
+                style={{
+                  marginLeft: "10px",
+                  fontSize: "18px",
+                  marginTop: "5px",
+                }}
+              >
+                Độ ưu tiên
+              </label>
+              <Select
+                showSearch
+                name="priority"
+                value={formData.priority}
+                onChange={handlePriorityChange}
+                placeholder="Chọn độ ưu tiên"
+                optionFilterProp="label"
+                className="priority-input"
+                options={[
+                  {
+                    value: "LOW",
+                    label: "Thấp",
+                  },
+                  {
+                    value: "MEDIUM",
+                    label: "Vừa",
+                  },
+                  {
+                    value: "HIGH",
+                    label: "Cao",
+                  },
+                ]}
               />
             </div>
           </div>
