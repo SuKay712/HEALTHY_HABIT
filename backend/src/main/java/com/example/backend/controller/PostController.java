@@ -15,8 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.backend.dto.request.CreatePostRequest;
 import com.example.backend.dto.request.LikeRequest;
+import com.example.backend.dto.request.SaveRequest;
 import com.example.backend.dto.request.UpdatePostRequest;
 import com.example.backend.dto.response.BaseResponse;
+import com.example.backend.dto.response.PagedAllPostsResponse;
 import com.example.backend.model.Post;
 import com.example.backend.service.PostService;
 
@@ -63,8 +65,10 @@ public class PostController {
   }
 
   @GetMapping("/allPost")
-  public ResponseEntity<BaseResponse<List<Post>>> getAllPosts() {
-    return ResponseEntity.ok(postService.getAllPost());
+  public ResponseEntity<BaseResponse<PagedAllPostsResponse>> getAllPosts(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "2") int size) {
+    return ResponseEntity.ok(postService.getAllPost(page, size));
   }
 
   @GetMapping("/hotPost")
@@ -75,5 +79,10 @@ public class PostController {
   @PostMapping("/post/like")
   public ResponseEntity<BaseResponse<Post>> postMethodName(@RequestBody LikeRequest req) {
     return ResponseEntity.ok(postService.likePost(req));
+  }
+
+  @PostMapping("/post/save")
+  public ResponseEntity<BaseResponse<Post>> savePost(@RequestBody SaveRequest req) {
+    return ResponseEntity.ok(postService.savePost(req));
   }
 }

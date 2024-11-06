@@ -32,13 +32,13 @@ public class UserServiceImpl implements UserService {
   private final EmailService emailService;
 
   @Override
-    public BaseResponse<User> getUserById(String userId) {
-      User user = userRepository.findById(userId)
-              .orElseThrow(() -> new RuntimeException("User not found"));
+  public BaseResponse<User> getUserById(String userId) {
+    User user = userRepository.findById(userId)
+        .orElseThrow(() -> new RuntimeException("User not found"));
 
     return new BaseResponse<>(true, "User found successfully", user);
   }
-  
+
   @Override
   public ResponseEntity<BaseResponse<List<User>>> getAllUsers() {
     List<User> users = userRepository.findAll();
@@ -126,34 +126,35 @@ public class UserServiceImpl implements UserService {
       return new BaseResponse<UserProfileResponse>(false, "Update User's Profile Failed", null);
     }
   }
+
   @Override
   public BaseResponse<String> registerUser(RegisterRequest request) {
     Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
     if (existingUser.isPresent()) {
-        return new BaseResponse<>(false, "Email already exists", null);
+      return new BaseResponse<>(false, "Email already exists", null);
     }
 
     Optional<User> existingUsername = userRepository.findByUsername(request.getUsername());
     if (existingUsername.isPresent()) {
-        return new BaseResponse<>(false, "Username already exists", null);
+      return new BaseResponse<>(false, "Username already exists", null);
     }
 
     String otp = String.format("%04d", new Random().nextInt(9999));
     LocalDateTime otpGenerateTime = LocalDateTime.now();
 
     User newUser = User.builder()
-            .username(request.getUsername())
-            .password(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt())) // Hash mật khẩu
-            .displayName(request.getDisplayName())
-            .email(request.getEmail())
-            .sex(request.isSex())
-            .birthday(request.getBirthday())
-            .otp(otp)
-            .otpGenerateTime(otpGenerateTime)
-            .isVerify(false)
-            .createdAt(LocalDateTime.now())
-            .updatedAt(LocalDateTime.now())
-            .build();
+        .username(request.getUsername())
+        .password(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt())) // Hash mật khẩu
+        .displayName(request.getDisplayName())
+        .email(request.getEmail())
+        .sex(request.isSex())
+        .birthday(request.getBirthday())
+        .otp(otp)
+        .otpGenerateTime(otpGenerateTime)
+        .isVerify(false)
+        .createdAt(LocalDateTime.now())
+        .updatedAt(LocalDateTime.now())
+        .build();
 
     userRepository.save(newUser);
 
@@ -161,28 +162,29 @@ public class UserServiceImpl implements UserService {
 
     return new BaseResponse<>(true, "User registered successfully. OTP sent to email", null);
   }
+
   @Override
   public BaseResponse<String> resendOtp(ResendOtpRequest request) {
-      Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
-      if (!userOptional.isPresent()) {
-          return new BaseResponse<>(false, "Email không tồn tại.", null);
-      }
+    Optional<User> userOptional = userRepository.findByEmail(request.getEmail());
+    if (!userOptional.isPresent()) {
+      return new BaseResponse<>(false, "Email không tồn tại.", null);
+    }
 
-      User user = userOptional.get();
-        
-      if (user.getOtpGenerateTime().plus(5, ChronoUnit.MINUTES).isBefore(LocalDateTime.now())) {
-          String otp = String.format("%04d", new Random().nextInt(9999));
-          LocalDateTime otpGenerateTime = LocalDateTime.now();
+    User user = userOptional.get();
 
-          user.setOtp(otp);
-          user.setOtpGenerateTime(otpGenerateTime);
+    if (user.getOtpGenerateTime().plus(5, ChronoUnit.MINUTES).isBefore(LocalDateTime.now())) {
+      String otp = String.format("%04d", new Random().nextInt(9999));
+      LocalDateTime otpGenerateTime = LocalDateTime.now();
 
-          userRepository.save(user);
+      user.setOtp(otp);
+      user.setOtpGenerateTime(otpGenerateTime);
 
-          emailService.sendOtpEmail(user.getEmail(), otp);
+      userRepository.save(user);
 
-          return new BaseResponse<>(true, "Mã OTP mới đã được gửi đến email của bạn.", null);
-      }
+      emailService.sendOtpEmail(user.getEmail(), otp);
+
+      return new BaseResponse<>(true, "Mã OTP mới đã được gửi đến email của bạn.", null);
+    }
     return new BaseResponse<>(false, "Mã OTP vẫn còn hiệu lực. Vui lòng kiểm tra lại email.", null);
   }
 

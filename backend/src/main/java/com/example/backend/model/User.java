@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -48,7 +49,7 @@ public class User {
 
   private boolean isAdmin;
 
-  private List<SavedPost> savedPost;
+  private List<ObjectId> savedPost;
 
   @JsonIgnore
   private boolean isVerify;
