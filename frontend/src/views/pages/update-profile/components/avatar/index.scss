@@ -1,0 +1,73 @@
+@import "../../../../../constants/color.scss";
+
+.avatar {
+  z-index: 100;
+  position: relative;
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  @media (max-width: 1249px) {
+    margin-top: -50px;
+    height: 100px;
+  }
+
+  @media (min-width: 1250px) {
+    margin-top: -60px;
+    height: 120px;
+  }
+
+  @media (min-width: 1450px) {
+    margin-top: -75px;
+    height: 150px;
+  }
+
+  @media (min-width: 1600px) {
+    margin-top: -90px;
+    height: 180px;
+  }
+}
+.avatar-content {
+  z-index: 100;
+  width: 180px;
+  aspect-ratio: 1 / 1;
+  max-width: 10.71%;
+  border-radius: 50%;
+  position: absolute;
+}
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+}
+.avatar-button {
+  position: absolute;
+  bottom: 5%;
+  right: 0%;
+  background-color: $black !important;
+  color: $white !important;
+  border-radius: 50%;
+  height: 45px;
+  width: 45px;
+  z-index: 1001;
+
+   @media (max-width: 1500px) {
+    transform: scale(0.7);
+    bottom: 0;
+    right: -10%;
+  }
+
+  @media (max-width: 1190px) {
+    transform: scale(0.5);
+    bottom: -10%;
+    right: -15%;
+  }
+
+  @media (max-width: 790px) {
+    transform: scale(0.3);
+    bottom: -20%;
+    right: -25%;
+  }
+}

@@ -1,0 +1,78 @@
+@import "../../../constants/color.scss";
+
+h4 {
+  color: $dark_blue;
+  margin: 0px 0px 10px 0px;
+}
+
+.profile-section {
+  background-color: $light_blue;
+}
+
+.display-name-section {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0px;
+}
+
+.display-name-content {
+  display: inline;
+  border: 1px solid $black;
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: $white;
+
+  font-weight: bold;
+  width: auto;
+  @media (min-width: 1450px) {
+    font-size: 24px;
+  }
+  @media (max-width: 1449px) {
+    font-size: 18px;
+  }
+}
+
+.personal-info-section {
+  margin: 30px 20px 0px 20px;
+  padding: 10px 0px;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+.contact-info-section {
+  margin: 0px 20px;
+  padding: 10px 0px;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.action-section {
+  margin: 0px 20px;
+  padding: 10px 0px;
+  border-top: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.submit-btn {
+  border: 2px;
+  border-style: solid;
+  border-color: $dark_blue;
+  background: $dark_blue;
+  color: $white;
+}
+
+.submit-btn:hover {
+  border-color: $dark_blue;
+  background: $white;
+  color: $dark_blue;
+}
+
+.cancel-btn {
+  border: 2px;
+  border-style: solid;
+  border-color: $dark_red;
+  background: $dark_red;
+  color: $white;
+}
+
+.cancel-btn:hover {
+  border-color: $dark_red;
+  background: $white;
+  color: $dark_red;
+}

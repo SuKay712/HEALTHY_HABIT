@@ -78,8 +78,8 @@ function MainLayout(props) {
   return (
     <Layout
       style={{
-        height : "100%",
-        width : "100%"
+        height: "100%",
+        width: "100%",
       }}
     >
       <Sider
@@ -114,6 +114,7 @@ function MainLayout(props) {
       <Layout>
         <HeaderComponent title={currentPage} url={user.avatar} />
         {Component}
+        <ToastNotification />
       </Layout>
     </Layout>
   );

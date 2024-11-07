@@ -1,0 +1,42 @@
+@import "../../../../../constants/color.scss";
+
+.table-viewed {
+  position: fixed;
+  @media (min-width: 1190px) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media (max-width: 1189px) {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+.cancel-btn {
+  border: 2px;
+  border-style: solid;
+  border-color: $dark_red;
+  background: $white;
+  color: $dark_red;
+}
+
+.cancel-btn:hover {
+  border-color: $dark_red;
+  background: $dark_red;
+  color: $white;
+}
+
+.priority-input {
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 400;
+  span {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+}

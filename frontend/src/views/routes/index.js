@@ -14,6 +14,10 @@ const MainLayout = LoadableComponent(() =>
 const Progress = LoadableComponent(() => import("../pages/progress/index.jsx"));
 const Individual = LoadableComponent(() => import("../pages/individual/index.jsx"));
 const EditPost=  LoadableComponent(() => import("../pages/editPost/index.jsx"));
+const UpdateProfile = LoadableComponent(() =>
+  import("../pages/update-profile/index.jsx")
+);
+
 const AllRoutes = () => {
   return (
     <Routes>
@@ -55,7 +59,18 @@ const AllRoutes = () => {
       />
       <Route
         path="/individual"
-        element={<MainLayout Component={<Individual />} currentPage="Cá nhân" />}
+        element={
+          <MainLayout Component={<Individual />} currentPage="Cá Nhân" />
+        }
+      />
+      <Route
+        path="/update_profile"
+        element={
+          <MainLayout
+            Component={<UpdateProfile />}
+            currentPage="Chỉnh sửa thông tin"
+          />
+        }
       />
        <Route
         path="/editpost"

@@ -1,9 +1,54 @@
 .action-btn {
   transform: translateX(10px);
 }
-.cancel-btn {
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1001;
+}
+
+.table-viewed {
+  position: fixed;
+  @media (min-width: 1190px) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  @media (max-width: 1189px) {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.exit-btn {
   border: none;
   background: none;
-  top: 5px;
-  right: 0;
+}
+
+.card-body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row-viewed {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 12px;
+  gap: 5px;
+}
+
+.tile-aim-viewed {
+  font-weight: 800;
+}
+.row-task {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 0;
 }
