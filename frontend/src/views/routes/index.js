@@ -12,9 +12,8 @@ const MainLayout = LoadableComponent(() =>
   import("../pages/layout/MainLayout.jsx")
 );
 const Progress = LoadableComponent(() => import("../pages/progress/index.jsx"));
-const Individual = LoadableComponent(() =>
-  import("../pages/individual/index.jsx")
-);
+const Individual = LoadableComponent(() => import("../pages/individual/index.jsx"));
+const EditPost=  LoadableComponent(() => import("../pages/editPost/index.jsx"));
 const UpdateProfile = LoadableComponent(() =>
   import("../pages/update-profile/index.jsx")
 );
@@ -72,6 +71,10 @@ const AllRoutes = () => {
             currentPage="Chỉnh sửa thông tin"
           />
         }
+      />
+       <Route
+        path="/editpost"
+        element={<MainLayout Component={<EditPost/>}  />}
       />
     </Routes>
   );

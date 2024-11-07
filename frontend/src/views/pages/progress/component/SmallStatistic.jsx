@@ -89,6 +89,7 @@ function SmallStatistic(props) {
         <p className="small-statistic-chart-title">{date}</p>
         {chartData.length > 0 && (
           <Pie
+            key={JSON.stringify(chartData)}
             appendPadding={10}
             data={chartData}
             angleField={"value"}

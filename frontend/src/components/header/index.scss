@@ -1,23 +1,29 @@
 @import '../../constants/color.scss';
 
 .header-title {
-    color : $dark_blue
+  color: $dark_blue;
 }
 
 .header-container {
-    padding : 10px 16px;
-    background-color: $white;
+  padding: 10px 16px;
+  background-color: $white;
 }
 
 .header-noti-button {
-    color : $dark_blue;
-    background-color: $white;
-    border: 1px solid $dark_blue;
-    margin : 0px 20px;
+  color: $dark_blue;
+  background-color: $white;
+  border: 1px solid $dark_blue;
+  margin: 0;
+}
+
+.header-noti-container {
+  display: inline-block;
+  position: relative;
+  margin-right: 20px;
 }
 
 .header-noti-button:hover {
-    color : $white !important;
-    background-color: $dark_blue !important;
-    border: none;
+  color: $white !important;
+  background-color: $dark_blue !important;
+  border: none;
 }

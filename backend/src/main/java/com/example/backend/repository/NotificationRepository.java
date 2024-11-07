@@ -11,5 +11,6 @@ import com.example.backend.model.Notification;
 @Repository
 public interface NotificationRepository extends MongoRepository<Notification, ObjectId> {
     List<Notification> findByUserId(String userId);
+
     List<Notification> findByIsAdmin(boolean isAdmin);
 }

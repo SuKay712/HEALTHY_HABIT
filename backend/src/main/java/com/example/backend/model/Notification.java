@@ -18,14 +18,14 @@ import lombok.Data;
 public class Notification {
 
   @Id
-  private String id;
+  private ObjectId id;
 
   private NotificationType notiType;
 
-  private String userId; 
+  private String userId;
 
   private String content;
-  
+
   private boolean isAdmin;
 
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")

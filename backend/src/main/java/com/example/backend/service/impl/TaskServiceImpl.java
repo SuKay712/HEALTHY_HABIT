@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -46,13 +47,12 @@ public class TaskServiceImpl implements TaskService {
     List<Task> listTask = taskRepository.findByUserId(userId);
     TaskProgressResponse inputDateProgress = TaskProgressResponse.builder().localDate(inputDate).build();
     TaskProgressResponse dayAfterProgress = TaskProgressResponse.builder().localDate(dayAfter).build();
-    List<Task> incompletedTasks = new ArrayList<>();
     int overduedTasksCount;
     int completedTasksCount;
     for (Task task : listTask) {
       List<Progress> tasksProgress = task.getTasksProgress(); // Assuming this gets the progress list
       for (Progress progress : tasksProgress) {
-        if (progress.getDate().isEqual(inputDate)){
+        if (progress.getDate().isEqual(inputDate)) {
           switch (progress.getStatus()) {
             case Status.OVERDUE:
               overduedTasksCount = inputDateProgress.getOverduedTasksCount() + 1;
@@ -68,8 +68,7 @@ public class TaskServiceImpl implements TaskService {
             default:
               break;
           }
-        }
-        else if (progress.getDate().isEqual(inputDate)) {
+        } else if (progress.getDate().isEqual(inputDate)) {
           switch (progress.getStatus()) {
             case Status.OVERDUE:
               overduedTasksCount = dayAfterProgress.getOverduedTasksCount() + 1;
@@ -232,15 +231,15 @@ public class TaskServiceImpl implements TaskService {
             LocalDate dateStart = task.getDateStart();
             LocalDate dateEnd = task.getDateEnd();
             return (dateStart != null
-                && ((dateStart.isBefore(now) && (dateEnd == null || dateEnd.isAfter(now))) // Đang trong tiến trình
-                    || dateStart.isAfter(now))); // Chuẩn bị bắt đầu (trong tương lai)
+                && ((dateStart.isBefore(now) && (dateEnd == null || dateEnd.isAfter(now)))
+                    || dateStart.isAfter(now)));
           })
           .collect(Collectors.toList());
 
       List<Task> endedTasks = tempTask.stream()
           .filter(task -> {
             LocalDate dateEnd = task.getDateEnd();
-            return dateEnd != null && dateEnd.isBefore(now); // Task đã quá hạn
+            return dateEnd != null && dateEnd.isBefore(now);
           })
           .collect(Collectors.toList());
 
@@ -257,7 +256,17 @@ public class TaskServiceImpl implements TaskService {
     LocalDate now = LocalDate.now();
     LocalTime currentTime = LocalTime.now();
     String nowTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-    return taskRepository.findInProgressTasks(userId, now, nowTime, pageable);
+    Page<Task> tasksPage = taskRepository.findInProgressTasks(userId, now, nowTime, pageable);
+    List<Task> filteredTasks = tasksPage.getContent().stream()
+        .filter(task -> {
+          if (task.getDateEnd() != null && task.getDateEnd().isEqual(now)) {
+            LocalTime timeExpired = LocalTime.parse(task.getTimeExpired(), DateTimeFormatter.ofPattern("HH:mm:ss"));
+            return timeExpired.isAfter(currentTime);
+          }
+          return true;
+        })
+        .collect(Collectors.toList());
+    return new PageImpl<>(filteredTasks, pageable, tasksPage.getTotalElements());
   }
 
   @Override
@@ -265,7 +274,18 @@ public class TaskServiceImpl implements TaskService {
     LocalDate now = LocalDate.now();
     LocalTime currentTime = LocalTime.now();
     String nowTime = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-    return taskRepository.findEndedTasks(userId, now, nowTime, pageable);
+    Page<Task> tasksPage = taskRepository.findEndedTasks(userId, now, nowTime, pageable);
+    List<Task> filteredTasks = tasksPage.getContent().stream()
+        .filter(task -> {
+          if (task.getDateEnd() != null && task.getDateEnd().isEqual(now)) {
+            LocalTime timeExpired = LocalTime.parse(task.getTimeExpired(), DateTimeFormatter.ofPattern("HH:mm:ss"));
+            return timeExpired.isBefore(currentTime) || timeExpired.equals(currentTime);
+          }
+          return task.getDateEnd() != null && task.getDateEnd().isBefore(now);
+        })
+        .collect(Collectors.toList());
+
+    return new PageImpl<>(filteredTasks, pageable, tasksPage.getTotalElements());
   }
 
   @Override
@@ -368,12 +388,10 @@ public class TaskServiceImpl implements TaskService {
     for (Progress progress : tasksProgress) {
       LocalDateTime expirationDateTime = LocalDateTime.of(progress.getDate(), timeExpired);
       if (currentDateTime.isAfter(expirationDateTime) && progress.getStatus().equals(Status.INCOMPLETE)) {
-          progress.setStatus(Status.OVERDUE);
+        progress.setStatus(Status.OVERDUE);
       }
     }
     taskRepository.save(task);
   }
-
-
 
 }
