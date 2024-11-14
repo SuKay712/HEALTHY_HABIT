@@ -5,7 +5,7 @@ import {
   PROGRESSTASKSTATUSENUM,
   TASKPRIORITY,
 } from "../../../../constants/enum";
-import { Pie } from "@ant-design/charts";
+import { PieChart } from '@mui/x-charts/PieChart';
 import { Table } from "antd";
 
 function SmallStatistic(props) {
@@ -57,25 +57,7 @@ function SmallStatistic(props) {
         newChartData.push({
           type: PROGRESSTASKSTATUSENUM[key],
           value: percent[key],
-        });
-      }
-    }
-
-    setChartData(newChartData);
-  }, []);
-
-  const paginationConfig = {
-    pageSize: 3,
-  };
-
-  useEffect(() => {
-    const newChartData = [];
-
-    for (let key in percent) {
-      if (percent.hasOwnProperty(key)) {
-        newChartData.push({
-          type: PROGRESSTASKSTATUSENUM[key],
-          value: percent[key],
+          label: PROGRESSTASKSTATUSENUM[key],
         });
       }
     }
@@ -83,23 +65,23 @@ function SmallStatistic(props) {
     setChartData(newChartData);
   }, [percent]);
 
+  const paginationConfig = {
+    pageSize: 3,
+  };
+
   return (
     <div className="small-statistic-container d-flex justify-content-between row">
       <div className="small-statistic-chart-container col-6">
         <p className="small-statistic-chart-title">{date}</p>
         {chartData.length > 0 && (
-          <Pie
+          <PieChart
             key={JSON.stringify(chartData)}
-            appendPadding={10}
-            data={chartData}
-            angleField={"value"}
-            colorField={"type"}
-            radius={1}
-            label={{
-              offset: "-30%",
-              style: { fontSize: 14, textAlign: "center" },
-            }}
-            style={{ height: "50px" }}
+            series={[
+              {
+                data: chartData,
+              },
+            ]}
+            height={300}
           />
         )}
       </div>
