@@ -9,6 +9,8 @@
   &-chart-container {
     height: 400px;
     position: relative;
+    display:flex;
+    align-items:center;
   }
   &-chart-title {
     position: absolute;
