@@ -3,6 +3,7 @@ package com.example.backend.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class PostServiceImpl implements PostService {
   public BaseResponse<Post> createPost(CreatePostRequest req) {
     try {
       Post post = Post.builder()
-          .userId(req.getUserId())
+          .userId(new ObjectId(req.getUserId()))
           .image(cloudinaryUtils.uploadImage(req.getImage()))
           .content(req.getContent())
           .inTrashcan(false)
@@ -44,7 +45,7 @@ public class PostServiceImpl implements PostService {
   @Override
   public BaseResponse<Post> updatePost(UpdatePostRequest req) {
     try {
-      Post updatePost = postRepository.findById(req.getPostId())
+      Post updatePost = postRepository.findById(new ObjectId(req.getPostId()))
           .orElseThrow(() -> new RuntimeException("Post not found"));
 
       updatePost.setContent(req.getContent());
@@ -74,7 +75,7 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public BaseResponse<List<Post>> getAllPostByUserId(String userId) {
-    List<Post> listPosts = postRepository.findPostsWithCommentsByUserId(userId);
+    List<Post> listPosts = postRepository.findPostsWithCommentsByUserId(new ObjectId(userId));
     return new BaseResponse<>(true, "123", listPosts);
   }
 
@@ -86,7 +87,7 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public BaseResponse<Post> likePost(LikeRequest req) {
-    Post post = postRepository.findById(req.getItemId())
+    Post post = postRepository.findById(new ObjectId(req.getItemId()))
           .orElseThrow(() -> new RuntimeException("Post not found"));
     if (!post.getLikes().contains(req.getUserId())) {
       post.getLikes().add(req.getUserId());

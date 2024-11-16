@@ -31,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public BaseResponse<Comment> createComment(CreateCommentRequest req) {
     Optional<User> userOptional = userRepository.findById(req.getUserId());
-    Post post = postRepository.findById(req.getPostId()).orElse(null);
+    Post post = postRepository.findById(new ObjectId(req.getPostId())).orElse(null);
     try {
       User user = userOptional.get();
       Comment comment = Comment.builder()
