@@ -1,215 +1,230 @@
 {
-    "task" : [
+  "task": [
+    {
+      "date": "17/10/2024",
+      "tasks": [
         {
-            "date" : "17/10/2024",
-            "tasks" : [
-                {
-                    "aim" : "Dậy sớm",
-                    "description" : "Dậy sớm mỗi sáng",
-                    "startTime" : "05:00",
-                    "checked" : true
-                },
-                {
-                    "aim" : "Tập thể dục",
-                    "description" : "Tập thể dục mỗi sáng",
-                    "startTime" : "05:15",
-                    "checked" : false
-                },
-                {
-                    "aim" : "Đọc sách",
-                    "description" : "Đọc sách mỗi ngày 30 phút",
-                    "startTime" : "07:00",
-                    "checked" : true
-                }
-            ]
+          "aim": "Dậy sớm",
+          "description": "Dậy sớm mỗi sáng",
+          "startTime": "05:00",
+          "checked": true
         },
         {
-            "date" : "18/10/2024"
+          "aim": "Tập thể dục",
+          "description": "Tập thể dục mỗi sáng",
+          "startTime": "05:15",
+          "checked": false
         },
         {
-            "date" : "19/10/2024",
-            "tasks" : [
-                {
-                    "aim" : "Dậy sớm",
-                    "description" : "Dậy sớm mỗi sáng",
-                    "startTime" : "05:00",
-                    "checked" : true
-                },
-                {
-                    "aim" : "Tập thể dục",
-                    "description" : "Tập thể dục mỗi sáng",
-                    "startTime" : "05:15",
-                    "checked" : false
-                },
-                {
-                    "aim" : "Đọc sách",
-                    "description" : "Đọc sách mỗi ngày 30 phút",
-                    "startTime" : "07:00",
-                    "checked" : true
-                }
-            ]
+          "aim": "Đọc sách",
+          "description": "Đọc sách mỗi ngày 30 phút",
+          "startTime": "07:00",
+          "checked": true
         }
-    ],
-    "progress" : [
+      ]
+    },
+    {
+      "date": "18/10/2024"
+    },
+    {
+      "date": "19/10/2024",
+      "tasks": [
         {
-            "date" : "08/09/2024",
-            "tasks" : [
-                {
-                    "name" : "Làm bài tập anh",
-                    "time" : "5 giờ 30 phút",
-                    "priority" : "HIGH"
-                },
-                {
-                    "name" : "Lau nhà",
-                    "time" : "30 phút",
-                    "priority" : "MEDIUM"
-                },
-                {
-                    "name" : "Làm bài tập anh",
-                    "time" : "3 giờ",
-                    "priority" : "LOW"
-                },
-                {
-                    "name" : "Lau nhà",
-                    "time" : "30 phút",
-                    "priority" : "MEDIUM"
-                },
-                {
-                    "name" : "Làm bài tập anh",
-                    "time" : "3 giờ",
-                    "priority" : "LOW"
-                }
-            ],
-            "percent" : {
-                "COMPLETE" : 40,
-                "INCOMPLETE" : 50,
-                "OVERDUE" : 10
-            }
+          "aim": "Dậy sớm",
+          "description": "Dậy sớm mỗi sáng",
+          "startTime": "05:00",
+          "checked": true
         },
         {
-            "date" : "07/09/2024",
-            "tasks" : [
-                {
-                    "name" : "Làm bài tập anh",
-                    "time" : "5 giờ 30 phút",
-                    "priority" : "HIGH"
-                },
-                {
-                    "name" : "Lau nhà",
-                    "time" : "30 phút",
-                    "priority" : "MEDIUM"
-                },
-                {
-                    "name" : "Làm bài tập anh",
-                    "time" : "3 giờ",
-                    "priority" : "LOW"
-                },
-                {
-                    "name" : "Lau nhà",
-                    "time" : "30 phút",
-                    "priority" : "MEDIUM"
-                },
-                {
-                    "name" : "Làm bài tập anh",
-                    "time" : "3 giờ",
-                    "priority" : "LOW"
-                }
-            ],
-            "percent" : {
-                "COMPLETE" : 40,
-                "INCOMPLETE" : 50,
-                "OVERDUE" : 10
-            }
+          "aim": "Tập thể dục",
+          "description": "Tập thể dục mỗi sáng",
+          "startTime": "05:15",
+          "checked": false
+        },
+        {
+          "aim": "Đọc sách",
+          "description": "Đọc sách mỗi ngày 30 phút",
+          "startTime": "07:00",
+          "checked": true
         }
-    ],
-    "individual" : {
-        "posts" : [
-            {
-                "content" : "Gần đây có quán nào bán món này không ạ?",
-                "image" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png",
-                "likeNum" : 200,
-                "commentNum" : 3,
-                "comments" : [
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    },
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    },
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    }
-                ]
-            },
-            {
-                "content" : "Gần đây có quán nào bán món này không ạ?",
-                "image" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png",
-                "likeNum" : 200,
-                "commentNum" : 20,
-                "comments" : [
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    },
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    },
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    }
-                ]
-            },{
-                "content" : "Gần đây có quán nào bán món này không ạ?",
-                "image" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png",
-                "likeNum" : 200,
-                "commentNum" : 20,
-                "comments" : [
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    },
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    },
-                    {
-                        "content" : "Nhớ coi video vi xử lý",
-                        "account" : {
-                            "name" : "Nguyễn Minh Hiếu",
-                            "avatar" : "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
-                        }
-                    }
-                ]
-            }
-        ]
+      ]
     }
+  ],
+  "progress": [
+    {
+      "date": "08/09/2024",
+      "tasks": [
+        {
+          "name": "Làm bài tập anh",
+          "time": "5 giờ 30 phút",
+          "priority": "HIGH"
+        },
+        {
+          "name": "Lau nhà",
+          "time": "30 phút",
+          "priority": "MEDIUM"
+        },
+        {
+          "name": "Làm bài tập anh",
+          "time": "3 giờ",
+          "priority": "LOW"
+        },
+        {
+          "name": "Lau nhà",
+          "time": "30 phút",
+          "priority": "MEDIUM"
+        },
+        {
+          "name": "Làm bài tập anh",
+          "time": "3 giờ",
+          "priority": "LOW"
+        }
+      ],
+      "percent": {
+        "COMPLETE": 40,
+        "INCOMPLETE": 50,
+        "OVERDUE": 10
+      }
+    },
+    {
+      "date": "07/09/2024",
+      "tasks": [
+        {
+          "name": "Làm bài tập anh",
+          "time": "5 giờ 30 phút",
+          "priority": "HIGH"
+        },
+        {
+          "name": "Lau nhà",
+          "time": "30 phút",
+          "priority": "MEDIUM"
+        },
+        {
+          "name": "Làm bài tập anh",
+          "time": "3 giờ",
+          "priority": "LOW"
+        },
+        {
+          "name": "Lau nhà",
+          "time": "30 phút",
+          "priority": "MEDIUM"
+        },
+        {
+          "name": "Làm bài tập anh",
+          "time": "3 giờ",
+          "priority": "LOW"
+        }
+      ],
+      "percent": {
+        "COMPLETE": 40,
+        "INCOMPLETE": 50,
+        "OVERDUE": 10
+      }
+    }
+  ],
+  "individual": {
+    "posts": [
+      {
+        "id": 1,
+        "content": "Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?",
+        "image": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png",
+        "likeNum": 200,
+        "commentNum": 3,
+        "comments": [
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          },
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          },
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          }
+        ],
+        "account": {
+          "name": "Nguyễn Minh Hiếu",
+          "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+        }
+      },
+      {
+        "id": 2,
+        "content": "Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?, Gần đây có quán nào bán món này không ạ?",
+        "likeNum": 200,
+        "commentNum": 20,
+        "comments": [
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          },
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          },
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          }
+        ],
+        "account": {
+          "name": "Nguyễn Minh Hiếu",
+          "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+        }
+      },
+      {
+        "id": 3,
+        "content": "Gần đây có quán nào bán món này không ạ?Hello",
+        "image": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png",
+        "likeNum": 200,
+        "commentNum": 20,
+        "comments": [
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          },
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          },
+          {
+            "content": "Nhớ coi video vi xử lý",
+            "account": {
+              "name": "Nguyễn Minh Hiếu",
+              "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+            }
+          }
+        ],
+        "account": {
+          "name": "Nguyễn Minh Dũng",
+          "avatar": "https://tiki.vn/blog/wp-content/uploads/2023/10/lf3fjFd24AXYeYu6KfWwVgh-xVek2LdWY_xA3X6vL-E6-ZpqB9_X6PVpxt0l_chpvl4gD3aU1S1yt1EoBJnPovFRQ_yHSYUDDuKLQdELwdV09iuPbuBbdFzIV-8jhO_XiUm-SHtwRgTTaqUO-Zope1Y.png"
+        }
+      }
+    ]
+  }
 }

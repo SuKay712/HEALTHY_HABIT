@@ -7,6 +7,7 @@ import {
 } from "../../../../constants/enum";
 import { PieChart } from '@mui/x-charts/PieChart';
 import { Table } from "antd";
+import { IMAGES } from "../../../../constants/images";
 
 function SmallStatistic(props) {
   const { progress } = props;
@@ -48,6 +49,7 @@ function SmallStatistic(props) {
   ];
 
   const [chartData, setChartData] = useState([]);
+  const [isExistData, setIsExistData] = useState(false);
 
   useEffect(() => {
     const newChartData = [];
@@ -59,6 +61,9 @@ function SmallStatistic(props) {
           value: percent[key],
           label: PROGRESSTASKSTATUSENUM[key],
         });
+      }
+      if(percent[key] > 0){
+        setIsExistData(true)
       }
     }
 
@@ -73,7 +78,7 @@ function SmallStatistic(props) {
     <div className="small-statistic-container d-flex justify-content-between row">
       <div className="small-statistic-chart-container col-6">
         <p className="small-statistic-chart-title">{date}</p>
-        {chartData.length > 0 && (
+        {chartData.length > 0 && isExistData && (
           <PieChart
             key={JSON.stringify(chartData)}
             series={[
@@ -83,6 +88,10 @@ function SmallStatistic(props) {
             ]}
             height={300}
           />
+        )}
+        {!isExistData &&(
+          // <img alt='no data' className="small-statistic-no-data" src={IMAGES.no_data}/>
+          <p className="small-statistic-no-data-text">Không có việc hôm nay</p>
         )}
       </div>
       <div className="small-statistic-tasks-container col-6">
