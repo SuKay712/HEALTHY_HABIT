@@ -1,11 +1,14 @@
 package com.example.backend.service.impl;
 
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Service;
+
 import com.example.backend.dto.request.CreatePostRequest;
+import com.example.backend.dto.request.LikeRequest;
 import com.example.backend.dto.request.UpdatePostRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.model.Post;
@@ -20,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class PostServiceImpl implements PostService {
   private final PostRepository postRepository;
   private final CloudinaryUtils cloudinaryUtils;
-
   @Override
   public BaseResponse<Post> createPost(CreatePostRequest req) {
     try {
@@ -71,8 +73,36 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public BaseResponse<List<Post>> getAllPost(String userId) {
+  public BaseResponse<List<Post>> getAllPostByUserId(String userId) {
     List<Post> listPosts = postRepository.findPostsWithCommentsByUserId(userId);
+    return new BaseResponse<>(true, "123", listPosts);
+  }
+
+  @Override
+  public BaseResponse<List<Post>> getAllPost() {
+    List<Post> listPosts = postRepository.findAllPostsWithComments();
+    return new BaseResponse<>(true, "123", listPosts);
+  }
+
+  @Override
+  public BaseResponse<Post> likePost(LikeRequest req) {
+    Post post = postRepository.findById(req.getItemId())
+          .orElseThrow(() -> new RuntimeException("Post not found"));
+    if (!post.getLikes().contains(req.getUserId())) {
+      post.getLikes().add(req.getUserId());
+      postRepository.save(post);
+      return new BaseResponse<>(true, "Liked post successfuly", post);
+    }
+    else{
+      post.getLikes().remove(req.getUserId());
+      postRepository.save(post);
+      return new BaseResponse<>(true, "Unliked post successfuly", post);
+    }
+  }
+
+  @Override
+  public BaseResponse<List<Post>> getHotPosts() {
+    List<Post> listPosts = postRepository.findAllPostsWithCommentsSortedByLikesAndComments();
     return new BaseResponse<>(true, "123", listPosts);
   }
 }

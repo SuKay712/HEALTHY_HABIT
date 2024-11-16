@@ -18,11 +18,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Document(collection = "Posts")
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Post {
 
   @Id
@@ -38,7 +40,6 @@ public class Post {
 
   private boolean isDeleted;
 
-  private List<String> likes;
   @Builder.Default
   private List<Comment> comments = new ArrayList<>();
   @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
@@ -52,4 +53,7 @@ public class Post {
   @JsonSerialize(using = LocalDateTimeSerializer.class)
   @LastModifiedDate
   private LocalDateTime updatedAt;
+  @Builder.Default
+  private List<String> likes = new ArrayList<>();
+  private Boolean hasLiked;
 }
