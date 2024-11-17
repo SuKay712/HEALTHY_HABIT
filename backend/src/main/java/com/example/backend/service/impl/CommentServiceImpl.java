@@ -34,11 +34,15 @@ public class CommentServiceImpl implements CommentService {
     Post post = postRepository.findById(new ObjectId(req.getPostId())).orElse(null);
     try {
       User user = userOptional.get();
+      String uploadedImage = null;
+      if (req.getImage() != null && !req.getImage().isEmpty()) {
+        uploadedImage = cloudinaryUtils.uploadImage(req.getImage());
+      }
       Comment comment = Comment.builder()
         .userId(new ObjectId(req.getUserId()))
         .postId(new ObjectId(req.getPostId()))
         .content(req.getContent())
-        .image(cloudinaryUtils.uploadImage(req.getImage()))
+        .image(uploadedImage)
         .user(user)
         .build();
       commentRepository.save(comment);

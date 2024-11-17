@@ -40,13 +40,17 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
 
   @Aggregation(pipeline = {
-    "{ '$lookup': { 'from': 'Comments', 'localField': '_id', 'foreignField': 'postId', 'as': 'comments' } }",  // Lookup comments
-    "{ '$lookup': { 'from': 'Users', 'localField': 'comments.userId', 'foreignField': '_id', 'as': 'commentUser' } }",  // Lookup users in comments
-    "{ '$addFields': { 'comments': { '$map': { 'input': '$comments', 'as': 'comment', 'in': { '$mergeObjects': ['$$comment', { 'user': { '$arrayElemAt': ['$commentUser', 0] } }] } } } } }",  // Merge comment and user
-    "{ '$lookup': { 'from': 'Users', 'localField': 'userId', 'foreignField': '_id', 'as': 'postUser' } }",
-    "{ '$addFields': { 'likeCount': { '$size': { '$ifNull': ['$likes', []] } }, 'commentCount': { '$size': { '$ifNull': ['$comments', []] } } } }",
-    "{ '$sort': { 'likeCount': -1, 'commentCount': -1 } }",
-    "{ '$project': { 'id': 1, 'userId': 1, 'content': 1, 'image': 1, 'inTrashcan': 1, 'isDeleted': 1, 'likes': 1, 'createdAt': 1, 'updatedAt': 1, 'comments': { '$cond': [{ '$gt': [{ '$size': '$comments' }, 0] }, '$comments', []] } } }"  // Project results
+  "{ '$lookup': { 'from': 'Comments', 'localField': '_id', 'foreignField': 'postId', 'as': 'comments' } }",  // Lookup comments
+  "{ '$lookup': { 'from': 'Users', 'localField': 'comments.userId', 'foreignField': '_id', 'as': 'commentUser' } }",  // Lookup users in comments
+  "{ '$addFields': { 'comments': { '$map': { 'input': '$comments', 'as': 'comment', 'in': { '$mergeObjects': ['$$comment', { 'user': { '$arrayElemAt': ['$commentUser', 0] } }] } } } } }",  // Merge comment and user
+  "{ '$lookup': { 'from': 'Users', 'localField': 'userId', 'foreignField': '_id', 'as': 'postUser' } }",  // Lookup post author
+  "{ '$addFields': { 'likeCount': { '$size': { '$ifNull': ['$likes', []] } }, 'commentCount': { '$size': { '$ifNull': ['$comments', []] } } } }",
+  "{ '$sort': { 'likeCount': -1, 'commentCount': -1 } }",
+  "{ '$project': { " +
+      "'id': 1, 'userId': 1, 'content': 1, 'image': 1, 'inTrashcan': 1, 'isDeleted': 1, 'likes': 1, 'createdAt': 1, 'updatedAt': 1, " +
+      "'postUser': { '$arrayElemAt': ['$postUser', 0] }, " +  // Include post author
+      "'comments': { '$cond': [{ '$gt': [{ '$size': '$comments' }, 0] }, '$comments', []] } } }"  // Include comments if present
   })
   List<Post> findAllPostsWithCommentsSortedByLikesAndComments();
+
 }
