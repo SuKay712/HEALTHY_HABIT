@@ -48,17 +48,23 @@
   &-comment-container {
     position: relative;
     display: flex;
-    align-items: center;
     justify-content: space-between;
   }
   &-button-container {
     position: absolute;
     right: 10px;
+    top : 19px
   }
   &-input {
-    width: 94%;
+    width: 100%;
     height: 40px !important;
     padding-top: 5px;
+  }
+  &-input-container {
+    position: relative;
+    width: 97%;
+    margin-left: 10px;
+    padding-top: 15px;
   }
   &-like-comment-container{
     display: flex;
@@ -75,7 +81,7 @@
     margin : 10px 0px;
   }
   &-image {
-    height: 400px;
+    height: 400px !important;
   }
   &-content-container, &-comment-wrapper{
     padding-left: 30px;
@@ -83,5 +89,25 @@
   &-comment-container {
     margin-top: 10px;
     margin-bottom: 20px;
+  }
+  &-image-comment-container {
+    position: relative;
+  }
+  &-image-comment {
+    margin-left: 10px;
+    width: 200px !important;
+    object-fit: contain;
+    margin-top: 10px;
+  }
+  &-image-comment-button {
+    position: absolute;
+    top: 15px;
+    left: 175px;
+    color : red !important;
+  }
+  &-image-comment-button:hover {
+    color: $white !important;
+    background-color: red !important;
+    border : none !important
   }
 }

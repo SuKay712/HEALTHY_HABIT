@@ -1,7 +1,49 @@
 .row {
-    padding: 0px; /* Padding cho component */
+  padding: 0px;
+}
+.item-description {
+  color: gray;
+  font-size: 12px;
+}
+
+.general-item {
+  &-container {
+    padding: 10px;
   }
-  .item-description {
-    color: gray; /* Màu xám */
-    font-size: 12px; /* Kích thước phông chữ nhỏ */
+  &-image {
+    height: 200px;
+    object-fit: contain;
+    margin-right: 20px;
   }
+  &-account-container {
+    display: flex;
+    align-items: center;
+    img {
+      height: 50px;
+      width: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    p {
+      padding: 0px;
+      margin: 0px;
+      margin-left: 5px;
+    }
+  }
+  &-post-info-container {
+    display: flex;
+    align-items: center;
+    p {
+      margin: 0px;
+      margin: 0px 10px;
+    }
+  }
+  &-heart-icon {
+    color: #f93f7a !important;
+    font-size: 25px;
+  }
+  &-comment-icon {
+    color: #3886fb !important;
+    font-size: 25px;
+  }
+}

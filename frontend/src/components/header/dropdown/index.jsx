@@ -31,7 +31,7 @@ function getItemDropDownSearchPost(filterPosts) {
                 src={post.account.avatar}
                 class="header-search-account-avatar"
               />
-              <p class="header-search-account-username">{post.account.name}</p>
+              <p class="header-search-account-username">{post.account.displayName}</p>
             </div>
           </div>
         </div>
