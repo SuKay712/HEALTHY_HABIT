@@ -9,19 +9,36 @@ import {
 } from "@ant-design/icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Notification from "./notification";
-import fakeData from "../../data/fakeData.json";
+// import fakeData from "../../data/fakeData.json";
 import getItemDropDownSearchPost from "./dropdown";
+import PostAPI from "../../api/postAPI";
 
 function HeaderComponent(props) {
   const { url, title } = props;
   const [showNoti, setShowNoti] = useState(false);
   const [txtSearch, setTxtSearch] = useState("");
-  const [posts, setPosts] = useState(fakeData.individual.posts);
+  const [posts, setPosts] = useState([]);
   const [filterPosts, setFilterPosts] = useState(posts);
 
   const onClickNoti = () => {
     setShowNoti((prev) => !prev);
   };
+
+  const callAPI = async () => {
+    try {
+      const postsAPI = await PostAPI.getAllPost();
+      setPosts(postsAPI.data.data.map((post) => ({
+        ...post,
+        account : post.postUser
+      })));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    callAPI();
+  }, []);
 
   const onChangeSearch = (value) => {
     setTxtSearch(value.target.value);
@@ -29,11 +46,14 @@ function HeaderComponent(props) {
 
   useEffect(() => {
     const searchText = txtSearch.toLowerCase();
-    const filtered = posts.filter(
-      (post) =>
-        post.content.toLowerCase().includes(searchText) ||
-        post.account.name.toLowerCase().includes(searchText)
-    );
+    const filtered =
+      searchText !== ""
+        ? posts.filter(
+            (post) =>
+              post.content.toLowerCase().includes(searchText) ||
+              post.account.displayName.toLowerCase().includes(searchText)
+          )
+        : posts;
     setFilterPosts(filtered);
   }, [txtSearch, posts]);
 

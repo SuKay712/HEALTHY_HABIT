@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import "./index.scss";
-import { Button, Dropdown } from "antd";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Button, Dropdown, Image, message } from "antd";
+import { Navigate } from "react-router-dom";
 import {
+  CloseOutlined,
   DeleteFilled,
   EditFilled,
   HeartFilled,
@@ -17,25 +18,40 @@ import SmallComment from "../SmallComment";
 import { BiDotsHorizontal } from "react-icons/bi";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaRegImage } from "react-icons/fa";
+import LikeAPI from "../../../../api/likeAPI";
+import CommentAPI from "../../../../api/commentAPI";
+import { useAuth } from "../../../../context/authContext";
 
 function SmallPost(props) {
-  const { post, user, onUpdatePost } = props;
+  const { post, onUpdatePost } = props;
+  const { user } = useAuth();
 
-  const [isLike, setIsLike] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
+  const [isLike, setIsLike] = useState(post.hasLiked);
   const [comment, setComment] = useState("");
   const [isShowComment, setIsShowComment] = useState(false);
-
   const [comments, setComments] = useState(post.comments);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const handleNavigateEdit = () => {
     Navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
+
   const onLike = () => {
-    onUpdatePost(post.id, {
-      ...post,
-      likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
-    });
-    setIsLike(!isLike);
+    LikeAPI.LikePost(user.userId, post.id)
+      .then((res) => {
+        console.log(res);
+        onUpdatePost(post.id, {
+          ...post,
+          likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
+        });
+
+        setIsLike(!isLike);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const onClickComment = () => {
@@ -45,7 +61,63 @@ function SmallPost(props) {
   const onChangeComment = (e) => {
     setComment(e.target.value);
   };
-  const navigate = useNavigate();
+
+  const onUpdateComment = (id, newComment) => {
+    setComments(
+      comments.map((comment) => {
+        if (comment.id === id) return newComment;
+        return comment;
+      })
+    );
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
+
+  const onCreateNeWComment = async () => {
+    if (comment === "") {
+      messageApi.error("Bình luận không được để trống");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("userId", user.userId);
+    formData.append("content", comment);
+    formData.append("postId", post.id);
+    formData.append("image", selectedImage);
+
+    console.log("FormData values:");
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+    CommentAPI.CreateComment(formData)
+      .then((response) => {
+        console.log({
+          ...response.data.data,
+          account: response.data.data.user,
+          hasLikedComment: false,
+        });
+        console.log(comments);
+        setComments([
+          ...comments,
+          {
+            ...response.data.data,
+            account: response.data.data.user,
+            hasLikedComment: false,
+          },
+        ]);
+        setComment("");
+        setSelectedImage(null);
+      })
+      .catch((error) => {
+        console.error("Error creating comment:", error);
+        messageApi.error("Có lỗi xảy ra khi gửi bình luận.");
+      });
+  };
+
   const items = [
     {
       label: (
@@ -93,6 +165,7 @@ function SmallPost(props) {
 
   return (
     <div className="individual-small-post-container">
+      {contextHolder}
       <div className="individual-small-post-user-info-container">
         <div className="d-flex">
           <img
@@ -125,7 +198,7 @@ function SmallPost(props) {
       <div className="individual-small-post-content-container">
         <p class="individual-small-post-content">{post.content}</p>
         {post.image && (
-          <img
+          <Image
             className="individual-small-post-image"
             alt="post pic"
             src={post.image}
@@ -159,26 +232,55 @@ function SmallPost(props) {
               src={user.avatar}
               className="individual-small-post-avatar"
             />
-            <TextArea
-              placeholder={`Bình luận với vai trò ${user.displayName}`}
-              className="individual-small-post-input"
-              autoSize
-              value={comment}
-              onChange={(value) => onChangeComment(value)}
-            />
-            <div className="individual-small-post-button-container">
-              <Button
-                icon={<FaRegImage />}
-                className="individual-small-post-button"
-              />
-              <Button
-                icon={<ImGrin />}
-                className="individual-small-post-button"
-              />
-              <Button
-                icon={<BsCursorFill />}
-                className="individual-small-post-button"
-              />
+            <div className="w-100">
+              <div className="individual-small-post-input-container">
+                <TextArea
+                  placeholder={`Bình luận với vai trò ${user.displayName}`}
+                  className="individual-small-post-input"
+                  autoSize
+                  value={comment}
+                  onChange={(value) => onChangeComment(value)}
+                />
+                <div className="individual-small-post-button-container">
+                  <Button
+                    icon={<FaRegImage />}
+                    className="individual-small-post-button"
+                    onClick={() =>
+                      document.getElementById("comment-image-input").click()
+                    }
+                  />
+                  <input
+                    type="file"
+                    id="comment-image-input"
+                    style={{ display: "none" }}
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e)}
+                  />
+                  <Button
+                    icon={<ImGrin />}
+                    className="individual-small-post-button"
+                  />
+                  <Button
+                    icon={<BsCursorFill />}
+                    className="individual-small-post-button"
+                    onClick={onCreateNeWComment}
+                  />
+                </div>
+              </div>
+              {selectedImage && (
+                <div className="individual-small-post-image-comment-container">
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="Preview"
+                    className="individual-small-post-image-comment"
+                  />
+                  <Button
+                    onClick={() => setSelectedImage(null)}
+                    icon={<CloseOutlined />}
+                    className="individual-small-post-image-comment-button"
+                  ></Button>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -188,7 +290,11 @@ function SmallPost(props) {
           {comments &&
             comments.length > 0 &&
             comments.map((comment) => (
-              <SmallComment comment={comment} user={user} />
+              <SmallComment
+                comment={comment}
+                user={user}
+                onUpdateComment={onUpdateComment}
+              />
             ))}
         </div>
       )}

@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 import "./index.scss";
-import { Button } from "antd";
+import { Button, Image } from "antd";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { useAuth } from "../../../../context/authContext";
+import LikeAPI from "../../../../api/likeAPI";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function SmallComment(props) {
-  const { comment, user } = props;
+  const { comment } = props;
 
-  const [isLike, setIsLike] = useState(false);
+  const { user } = useAuth();
 
-  const onLike = () => {
-    setIsLike(!isLike);
+  const [isLike, setIsLike] = useState(comment.hasLikedComment);
+
+  const onLike = async () => {
+    console.log(comment)
+    LikeAPI.LikeComment(user.userId, comment.id)
+      .then(() => {
+        setIsLike(!isLike);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -24,13 +36,17 @@ function SmallComment(props) {
           {comment.account.name}
         </p>
         <p>{comment.content}</p>
-        <div>
+        {
+          comment.image && <Image alt='comment img' src={comment.image} className="individual-small-comment-image"/>
+        }
+        <div className="d-flex align-items-center justify-content-between">
           <Button
             icon={!isLike ? <HeartOutlined /> : <HeartFilled />}
             onClick={onLike}
             className="individual-small-post-button"
             style={{ color: "#EB3223" }}
           />
+          <p className=" individual-small-comment-createdAt">{comment.createdAt}</p>
         </div>
       </div>
     </div>
