@@ -16,6 +16,7 @@ import com.example.backend.repository.CommentRepository;
 import com.example.backend.repository.PostRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.CommentService;
+import com.example.backend.service.NotificationService;
 import com.example.backend.utils.CloudinaryUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class CommentServiceImpl implements CommentService {
   private final CommentRepository commentRepository;
   private final CloudinaryUtils cloudinaryUtils;
   private final UserRepository userRepository;
+  private final NotificationService notificationService;
 
   @Override
   public BaseResponse<Comment> createComment(CreateCommentRequest req) {
@@ -51,6 +53,11 @@ public class CommentServiceImpl implements CommentService {
       }
       post.getComments().add(comment);
       postRepository.save(post);
+      notificationService.sendCommentNotification(
+            post.getUserId().toString(), // ID của người sở hữu bài viết
+            req.getPostId(),             // ID bài viết
+            req.getUserId()              // ID người bình luận
+        );
       return new BaseResponse<>(true, "Create Comment Success!!!", comment);
     } catch (IOException ex) {
       return new BaseResponse<>(true, "Create Comment unSuccessfuly!", null);
@@ -60,15 +67,25 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public BaseResponse<Comment> likeComment(LikeRequest req) {
     Comment comment = commentRepository.findById(new ObjectId(req.getItemId())).orElse(null);
-    if (!comment.getLikes().contains(req.getUserId())) {
+    boolean isLiked = comment.getLikes().contains(req.getUserId());
+    if (!isLiked) {
+      // Thêm userId vào danh sách likes
       comment.getLikes().add(req.getUserId());
       commentRepository.save(comment);
-      return new BaseResponse<>(true, "Liked comment successfuly", comment);
-    }
-    else{
+
+      // Gửi thông báo cho người sở hữu bình luận
+      notificationService.sendLikeCommentNotification(
+          comment.getUserId().toString(), // Người sở hữu bình luận
+          req.getItemId(),               // ID bình luận
+          req.getUserId()                // Người thích bình luận
+      );
+
+      return new BaseResponse<>(true, "Liked comment successfully", comment);
+    } else {
+      // Bỏ userId khỏi danh sách likes
       comment.getLikes().remove(req.getUserId());
       commentRepository.save(comment);
-      return new BaseResponse<>(true, "Unliked post successfuly", comment);
+      return new BaseResponse<>(true, "Unliked comment successfully", comment);
     }
   }
 }

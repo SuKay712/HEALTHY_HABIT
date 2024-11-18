@@ -27,4 +27,6 @@ public interface UserService {
   BaseResponse<String> registerUser(RegisterRequest req);
   
   BaseResponse<String> resendOtp(ResendOtpRequest req);
+
+  BaseResponse<User> getUserById(String userId);
 }

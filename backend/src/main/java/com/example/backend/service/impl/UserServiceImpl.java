@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,14 @@ public class UserServiceImpl implements UserService {
   private final CloudinaryUtils cloudinaryUtils;
   private final EmailService emailService;
 
+  @Override
+    public BaseResponse<User> getUserById(String userId) {
+      User user = userRepository.findById(userId)
+              .orElseThrow(() -> new RuntimeException("User not found"));
+
+    return new BaseResponse<>(true, "User found successfully", user);
+  }
+  
   @Override
   public ResponseEntity<BaseResponse<List<User>>> getAllUsers() {
     List<User> users = userRepository.findAll();
@@ -177,4 +186,5 @@ public class UserServiceImpl implements UserService {
       }
     return new BaseResponse<>(false, "Mã OTP vẫn còn hiệu lực. Vui lòng kiểm tra lại email.", null);
   }
+
 }
