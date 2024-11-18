@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,6 +30,11 @@ public class User {
   private String username;
 
   private String displayName;
+
+  @JsonFormat(pattern = "dd-MM-yyyy")
+  private LocalDate birthday;
+
+  private boolean sex;
 
   private String address;
 

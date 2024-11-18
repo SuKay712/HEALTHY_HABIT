@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.backend.dto.request.RegisterRequest;
+import com.example.backend.dto.request.ResendOtpRequest;
 import com.example.backend.dto.request.UpdateUserProfileRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.dto.response.UserProfileResponse;
@@ -21,4 +23,8 @@ public interface UserService {
   public BaseResponse<String> updateBackgroundImage(MultipartFile backgroundImage, String userId);
 
   public BaseResponse<UserProfileResponse> updateUserProfile(UpdateUserProfileRequest req);
+
+  BaseResponse<String> registerUser(RegisterRequest req);
+  
+  BaseResponse<String> resendOtp(ResendOtpRequest req);
 }
