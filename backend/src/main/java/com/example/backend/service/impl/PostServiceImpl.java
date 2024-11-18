@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import com.example.backend.dto.request.CreatePostRequest;
@@ -14,6 +12,7 @@ import com.example.backend.dto.request.UpdatePostRequest;
 import com.example.backend.dto.response.BaseResponse;
 import com.example.backend.model.Post;
 import com.example.backend.repository.PostRepository;
+import com.example.backend.service.NotificationService;
 import com.example.backend.service.PostService;
 import com.example.backend.utils.CloudinaryUtils;
 
@@ -24,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class PostServiceImpl implements PostService {
   private final PostRepository postRepository;
   private final CloudinaryUtils cloudinaryUtils;
+  private final NotificationService notificationService;
   @Override
   public BaseResponse<Post> createPost(CreatePostRequest req) {
     try {
@@ -87,17 +87,29 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public BaseResponse<Post> likePost(LikeRequest req) {
-    Post post = postRepository.findById(new ObjectId(req.getItemId()))
+    try {
+      ObjectId postId = new ObjectId(req.getItemId());
+      Post post = postRepository.findById(postId)
           .orElseThrow(() -> new RuntimeException("Post not found"));
-    if (!post.getLikes().contains(req.getUserId())) {
-      post.getLikes().add(req.getUserId());
+
+      boolean liked = false;
+      if (!post.getLikes().contains(req.getUserId())) {
+        post.getLikes().add(req.getUserId());
+        liked = true;
+      } else {
+        post.getLikes().remove(req.getUserId());
+      }
+
       postRepository.save(post);
-      return new BaseResponse<>(true, "Liked post successfuly", post);
-    }
-    else{
-      post.getLikes().remove(req.getUserId());
-      postRepository.save(post);
-      return new BaseResponse<>(true, "Unliked post successfuly", post);
+      
+      if (liked) {
+        notificationService.sendLikeNotification(post.getUserId().toString(), req.getItemId(), req.getUserId());
+        return new BaseResponse<>(true, "Liked post successfully", post);
+      } else {
+        return new BaseResponse<>(true, "Unliked post successfully", post);
+      }
+    } catch (Exception e) {
+      return new BaseResponse<>(false, "Error while liking/unliking post: " + e.getMessage(), null);
     }
   }
 

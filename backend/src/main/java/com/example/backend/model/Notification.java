@@ -24,6 +24,8 @@ public class Notification {
 
   private String userId;
 
+  private String postId;
+
   private String content;
 
   private boolean isAdmin;

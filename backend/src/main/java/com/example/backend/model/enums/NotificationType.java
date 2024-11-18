@@ -4,5 +4,6 @@ public enum NotificationType {
   LIKE,
   TASK,
   COMMENT,
-  POST
+  POST,
+  LIKE_COMMENT
 }
