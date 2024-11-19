@@ -1,6 +1,6 @@
-@import "../../../../constants/color.scss";
+@import "../../../../../constants/color.scss";
 
-.individual-small-comment {
+.group-small-comment {
   &-container {
     margin: 15px 0px;
     display: flex;
@@ -16,7 +16,7 @@
   }
   &-info-container {
     background-color: $white;
-    padding : 10px 15px;
+    padding: 10px 15px;
     margin-left: 10px;
     border-radius: 20px;
     p {
