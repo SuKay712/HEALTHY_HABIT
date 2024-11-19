@@ -5,5 +5,7 @@ public enum NotificationType {
   TASK,
   COMMENT,
   POST,
-  LIKE_COMMENT
+  LIKE_COMMENT,
+  COMPLETED,
+  OVERDUE
 }
