@@ -24,17 +24,20 @@ public class PostServiceImpl implements PostService {
   private final PostRepository postRepository;
   private final CloudinaryUtils cloudinaryUtils;
   private final NotificationService notificationService;
+
   @Override
   public BaseResponse<Post> createPost(CreatePostRequest req) {
     try {
       Post post = Post.builder()
           .userId(new ObjectId(req.getUserId()))
-          .image(cloudinaryUtils.uploadImage(req.getImage()))
           .content(req.getContent())
           .inTrashcan(false)
           .isDeleted(false)
           .likes(new ArrayList<>())
           .build();
+      if (!req.getImage().isEmpty()) {
+        post.setImage(cloudinaryUtils.uploadImage(req.getImage()));
+      }
       Post resulPost = postRepository.save(post);
       return new BaseResponse<Post>(true, "Create Post Success!!!", resulPost);
     } catch (Exception e) {
@@ -101,7 +104,7 @@ public class PostServiceImpl implements PostService {
       }
 
       postRepository.save(post);
-      
+
       if (liked) {
         notificationService.sendLikeNotification(post.getUserId().toString(), req.getItemId(), req.getUserId());
         return new BaseResponse<>(true, "Liked post successfully", post);

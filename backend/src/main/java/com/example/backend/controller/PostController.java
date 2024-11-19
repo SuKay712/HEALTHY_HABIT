@@ -22,7 +22,6 @@ import com.example.backend.service.PostService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
 @RequestMapping("api/user")
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class PostController {
   public ResponseEntity<BaseResponse<Post>> createPost(
       @RequestPart("userId") String userId,
       @RequestPart("content") String content,
-      @RequestPart("image") MultipartFile image) {
+      @RequestPart(value = "image", required = false) MultipartFile image) {
     CreatePostRequest req = CreatePostRequest.builder()
         .userId(userId)
         .content(content)
@@ -62,16 +61,19 @@ public class PostController {
   public ResponseEntity<BaseResponse<List<Post>>> getPosts(@RequestParam String param) {
     return ResponseEntity.ok(postService.getAllPostByUserId(param));
   }
+
   @GetMapping("/allPost")
   public ResponseEntity<BaseResponse<List<Post>>> getAllPosts() {
     return ResponseEntity.ok(postService.getAllPost());
   }
+
   @GetMapping("/hotPost")
   public ResponseEntity<BaseResponse<List<Post>>> getHotPosts() {
     return ResponseEntity.ok(postService.getHotPosts());
   }
+
   @PostMapping("/post/like")
-  public  ResponseEntity<BaseResponse<Post>> postMethodName(@RequestBody LikeRequest req) {
+  public ResponseEntity<BaseResponse<Post>> postMethodName(@RequestBody LikeRequest req) {
     return ResponseEntity.ok(postService.likePost(req));
   }
 }
