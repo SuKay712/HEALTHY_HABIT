@@ -12,11 +12,14 @@ const MainLayout = LoadableComponent(() =>
   import("../pages/layout/MainLayout.jsx")
 );
 const Progress = LoadableComponent(() => import("../pages/progress/index.jsx"));
-const Individual = LoadableComponent(() => import("../pages/individual/index.jsx"));
-const EditPost=  LoadableComponent(() => import("../pages/editPost/index.jsx"));
+const Individual = LoadableComponent(() =>
+  import("../pages/individual/index.jsx")
+);
+const EditPost = LoadableComponent(() => import("../pages/editPost/index.jsx"));
 const UpdateProfile = LoadableComponent(() =>
   import("../pages/update-profile/index.jsx")
 );
+const Group = LoadableComponent(() => import("../pages/group/index.jsx"));
 
 const AllRoutes = () => {
   return (
@@ -42,6 +45,7 @@ const AllRoutes = () => {
           path="/aim"
           element={<MainLayout Component={<Aim />} currentPage="Mục tiêu" />}
         />
+
         <Route
           path="/schedule"
           element={
@@ -49,14 +53,22 @@ const AllRoutes = () => {
           }
         />
       </Route>
+
       <Route
         path="/general"
         element={<MainLayout Component={<General />} currentPage="Tổng quan" />}
       />
+
       <Route
         path="/progress"
         element={<MainLayout Component={<Progress />} currentPage="Tiến độ" />}
       />
+
+      <Route
+        path="/group"
+        element={<MainLayout Component={<Group />} currentPage="Cộng đồng" />}
+      />
+
       <Route
         path="/individual"
         element={
@@ -72,9 +84,9 @@ const AllRoutes = () => {
           />
         }
       />
-       <Route
+      <Route
         path="/editpost"
-        element={<MainLayout Component={<EditPost/>}  />}
+        element={<MainLayout Component={<EditPost />} />}
       />
     </Routes>
   );

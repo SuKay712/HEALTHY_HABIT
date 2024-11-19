@@ -27,6 +27,7 @@ function SmallPost(props) {
   const [isShowComment, setIsShowComment] = useState(false);
 
   const [comments, setComments] = useState(post.comments);
+
   const handleNavigateEdit = () => {
     Navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
@@ -50,7 +51,7 @@ function SmallPost(props) {
     {
       label: (
         <div className="d-flex align-items-center">
-          <PushpinFilled />{" "}
+          <PushpinFilled />
           <p style={{ margin: 0, padding: 0, marginLeft: "10px" }}>
             Ghim bài viết
           </p>
@@ -64,7 +65,7 @@ function SmallPost(props) {
     {
       label: (
         <div className="d-flex align-items-center">
-          <EditFilled />{" "}
+          <EditFilled />
           <p
             style={{ margin: 0, padding: 0, marginLeft: "10px" }}
             onClick={handleNavigateEdit}

@@ -1,0 +1,100 @@
+@import "../../../constants/color.scss";
+
+.group-description-section {
+  display: flex;
+  justify-content: space-between;
+}
+
+.member-number-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.member-number {
+  display: flex;
+  gap: 5px;
+}
+
+.notify-button-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* App.css */
+
+.turn-on-notify-button {
+  background-color: #085CFF;
+  color: white;
+  border: 1px solid #085CFF !important;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+
+.turn-on-notify-button:hover {
+  background-color: white !important;
+  color: #085CFF !important;
+}
+
+.turn-off-notify-button {
+  background-color: #717171;
+  color: white;
+  border: 1px solid #717171 !important;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.turn-off-notify-button:hover {
+  background-color: white !important;
+  color: #717171 !important;
+}
+
+.new-post {
+  &-container {
+    background-color: $light_gray;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 15px 15px 0px 15px;
+    border-radius: 5px;
+  }
+  &-avatar {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  &-input-container {
+    position: relative;
+    width: 95%;
+  }
+  &-input {
+    width: 100%;
+    height: 40px !important;
+  }
+  &-button-container {
+    position: absolute;
+    right: 0;
+    top: 5px;
+  }
+  &-button {
+    height: 30px;
+    width: 30px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    margin: 0px 5px;
+  }
+}
+
+.sort {
+  margin: 5px 15px;
+}
+
+.sortLabel {
+  color: black !important;
+  font-weight: 700;
+}

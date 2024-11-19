@@ -1,0 +1,87 @@
+@import "../../../../constants/color.scss";
+
+.individual-small-post {
+  &-container {
+    margin: 10px 15px;
+    background-color: $light_gray;
+    padding: 10px;
+  }
+  &-user-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-avatar {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  &-dropdown{
+    cursor: pointer;
+    font-size: 25px;
+  }
+  &-info-container {
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    margin-left: 10px;
+    align-items: center;
+  }
+  &-createdAt{
+    color : $subText;
+  }
+  &-username{
+    font-size: 22px;
+    font-weight: bold;
+    margin-right: 10px !important;
+  }
+  &-status{
+    color : $light-green;
+  }
+  &-button {
+    background-color: transparent !important;
+    border: none;
+    font-size: 20px;
+  }
+  &-comment-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &-button-container {
+    position: absolute;
+    right: 10px;
+  }
+  &-input {
+    width: 94%;
+    height: 40px !important;
+    padding-top: 5px;
+  }
+  &-like-comment-container{
+    display: flex;
+    align-items: center;
+    margin : 10px 0px;
+    p{
+      margin: 0;
+      padding: 0;
+      margin : 0px 5px
+    }
+  }
+  &-content {
+    padding : 0;
+    margin : 10px 0px;
+  }
+  &-image {
+    height: 400px;
+  }
+  &-content-container, &-comment-wrapper{
+    padding-left: 30px;
+  }
+  &-comment-container {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+}
