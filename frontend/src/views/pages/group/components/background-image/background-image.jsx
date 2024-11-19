@@ -1,7 +1,12 @@
 export default function BackgroundImage() {
   return (
     <div style={{ width: "100%", position: "relative" }} className="bg-image">
-      <div style={{ paddingBottom: "19.44%", position: "relative" }}>
+      <div
+        style={{
+          paddingBottom: "19.44%",
+          position: "relative",
+        }}
+      >
         <img
           src="https://res.cloudinary.com/dwzhz9qkm/image/upload/v1732035014/bfdca9slihkgvtrbb9h0.jpg"
           alt="Mô tả ảnh"
@@ -14,6 +19,7 @@ export default function BackgroundImage() {
             objectFit: "cover",
             zIndex: 99,
           }}
+          className="rounded-top"
         />
       </div>
     </div>

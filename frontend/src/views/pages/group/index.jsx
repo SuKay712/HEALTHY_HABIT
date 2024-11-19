@@ -144,7 +144,7 @@ export default function Group() {
       )}
 
       <BackgroundImage />
-      <h2 className="uppercase mt-2 ms-3">
+      <h2 className="text-uppercase fw-bold mt-2 ms-3">
         Cộng đồng hướng đến lối sống lành mạnh
       </h2>
       <div className="group-description-section ms-3">
