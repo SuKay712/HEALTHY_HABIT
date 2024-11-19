@@ -8,10 +8,11 @@ import {
   HeartFilled,
   HeartOutlined,
   PushpinFilled,
+  PushpinOutlined,
 } from "@ant-design/icons";
 import { FaCircle, FaRegCommentDots } from "react-icons/fa";
 import TextArea from "antd/es/input/TextArea";
-import { ImGrin } from "react-icons/im";
+import { ImGrin, ImSpinner } from "react-icons/im";
 import { BsCursorFill } from "react-icons/bs";
 import SmallComment from "../SmallComment";
 import { BiDotsHorizontal } from "react-icons/bi";
@@ -28,8 +29,10 @@ function SmallPost(props) {
 
   const [comments, setComments] = useState(post.comments);
 
+  const [isPin, setIsPin] = useState(false);
+
   const handleNavigateEdit = () => {
-    Navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
+    navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
   const onLike = () => {
     onUpdatePost(post.id, {
@@ -46,7 +49,13 @@ function SmallPost(props) {
   const onChangeComment = (e) => {
     setComment(e.target.value);
   };
+
+  const onPin = () => {
+    setIsPin(!isPin);
+  };
+
   const navigate = useNavigate();
+
   const items = [
     {
       label: (
@@ -93,22 +102,22 @@ function SmallPost(props) {
   ];
 
   return (
-    <div className="individual-small-post-container">
-      <div className="individual-small-post-user-info-container">
+    <div className="group-small-post-container">
+      <div className="group-small-post-user-info-container">
         <div className="d-flex">
           <img
-            className="individual-small-post-avatar"
+            className="group-small-post-avatar"
             alt="user avatar"
             src={user.avatar}
           />
-          <div className="individual-small-post-info-container">
+          <div className="group-small-post-info-container">
             <div className="d-flex align-items-center">
-              <p class="individual-small-post-username">{user.displayName}</p>
-              <p class="individual-small-post-status">
+              <p class="group-small-post-username">{user.displayName}</p>
+              <p class="group-small-post-status">
                 <FaCircle />
               </p>
             </div>
-            <p className="individual-small-post-createdAt">{post.createdAt}</p>
+            <p className="group-small-post-createdAt">{post.createdAt}</p>
           </div>
         </div>
         <div>
@@ -117,22 +126,22 @@ function SmallPost(props) {
               items,
             }}
             trigger={["click"]}
-            className="individual-small-post-dropdown"
+            className="group-small-post-dropdown"
           >
             <BiDotsHorizontal onClick={(e) => e.preventDefault()} />
           </Dropdown>
         </div>
       </div>
-      <div className="individual-small-post-content-container">
-        <p class="individual-small-post-content">{post.content}</p>
+      <div className="group-small-post-content-container">
+        <p class="group-small-post-content">{post.content}</p>
         {post.image && (
           <img
-            className="individual-small-post-image"
+            className="group-small-post-image"
             alt="post pic"
             src={post.image}
           />
         )}
-        <div className="individual-small-post-like-comment-container">
+        <div className="group-small-post-like-comment-container">
           <p>{post.likeNum}</p>
           <Button
             icon={
@@ -143,49 +152,57 @@ function SmallPost(props) {
               )
             }
             onClick={onLike}
-            className="individual-small-post-button"
+            className="group-small-post-button"
             style={{ color: "#EB3223" }}
           />
           <p>{post.commentNum}</p>
           <Button
             icon={<FaRegCommentDots />}
             onClick={onClickComment}
-            className="individual-small-post-button"
+            className="group-small-post-button"
+          />
+          <Button
+            icon={
+              isPin ? (
+                <PushpinFilled style={{ fontSize: "25px", color: "#ebc351" }} />
+              ) : (
+                <PushpinOutlined style={{ fontSize: "25px" }} />
+              )
+            }
+            className="group-small-post-button"
+            onClick={onPin}
           />
         </div>
         {isShowComment && (
-          <div className="individual-small-post-comment-container">
+          <div className="group-small-post-comment-container">
             <img
               alt="user avatar"
               src={user.avatar}
-              className="individual-small-post-avatar"
+              className="group-small-post-avatar"
             />
             <TextArea
               placeholder={`Bình luận với vai trò ${user.displayName}`}
-              className="individual-small-post-input"
+              className="group-small-post-input"
               autoSize
               value={comment}
               onChange={(value) => onChangeComment(value)}
             />
-            <div className="individual-small-post-button-container">
+            <div className="group-small-post-button-container">
               <Button
                 icon={<FaRegImage />}
-                className="individual-small-post-button"
+                className="group-small-post-button"
               />
-              <Button
-                icon={<ImGrin />}
-                className="individual-small-post-button"
-              />
+              <Button icon={<ImGrin />} className="group-small-post-button" />
               <Button
                 icon={<BsCursorFill />}
-                className="individual-small-post-button"
+                className="group-small-post-button"
               />
             </div>
           </div>
         )}
       </div>
       {isShowComment && (
-        <div className="individual-small-post-comment-wrapper">
+        <div className="group-small-post-comment-wrapper">
           {comments &&
             comments.length > 0 &&
             comments.map((comment) => (
