@@ -11,12 +11,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.backend.dto.request.CreateCommentRequest;
 import com.example.backend.dto.request.LikeRequest;
 import com.example.backend.dto.response.BaseResponse;
-import com.example.backend.model.Comment;
-import com.example.backend.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
 
-
+import com.example.backend.model.Comment;
+import com.example.backend.service.CommentService;
 
 @RestController
 @RequestMapping("api/user")
@@ -24,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class CommentController {
 
   private final CommentService commentService;
+
   @PostMapping(value = "/comment", consumes = "multipart/form-data")
   public ResponseEntity<BaseResponse<Comment>> createComment(
       @RequestPart("userId") String userId,
@@ -38,8 +38,9 @@ public class CommentController {
         .build();
     return ResponseEntity.ok(commentService.createComment(req));
   }
+
   @PostMapping("/comment/like")
-  public  ResponseEntity<BaseResponse<Comment>> postMethodName(@RequestBody LikeRequest req) {
+  public ResponseEntity<BaseResponse<Comment>> postMethodName(@RequestBody LikeRequest req) {
     return ResponseEntity.ok(commentService.likeComment(req));
   }
 

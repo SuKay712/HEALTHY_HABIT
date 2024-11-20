@@ -44,7 +44,6 @@ public class Comment {
   @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDateTime updatedAt;
 
-  private List<Comment> commentChild;
   @Builder.Default
   private List<String> likes = new ArrayList<>();
   private Boolean hasLikedComment;
