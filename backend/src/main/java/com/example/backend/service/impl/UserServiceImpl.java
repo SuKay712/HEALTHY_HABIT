@@ -2,10 +2,12 @@ package com.example.backend.service.impl;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -141,6 +143,7 @@ public class UserServiceImpl implements UserService {
 
     String otp = String.format("%04d", new Random().nextInt(9999));
     LocalDateTime otpGenerateTime = LocalDateTime.now();
+    List<ObjectId> savedPost = new ArrayList<>();
 
     User newUser = User.builder()
         .username(request.getUsername())
@@ -152,8 +155,15 @@ public class UserServiceImpl implements UserService {
         .otp(otp)
         .otpGenerateTime(otpGenerateTime)
         .isVerify(false)
-        .createdAt(LocalDateTime.now())
-        .updatedAt(LocalDateTime.now())
+        .backgroundImage("")
+        .address("")
+        .avatar("")
+        .canResetPassword(false)
+        .isAdmin(false)
+        .groupNotify(true)
+        .savedPost(savedPost)
+        .isDeleted(false)
+        .tel("")
         .build();
 
     userRepository.save(newUser);

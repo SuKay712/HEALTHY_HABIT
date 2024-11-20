@@ -27,10 +27,12 @@ function HeaderComponent(props) {
   const callAPI = async () => {
     try {
       const postsAPI = await PostAPI.getAllPost();
-      setPosts(postsAPI.data.data.map((post) => ({
-        ...post,
-        account : post.postUser
-      })));
+      setPosts(
+        postsAPI.data.data.map((post) => ({
+          ...post,
+          account: post.postUser,
+        }))
+      );
     } catch (error) {
       console.log(error);
     }

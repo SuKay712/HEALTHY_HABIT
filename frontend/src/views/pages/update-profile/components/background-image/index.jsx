@@ -8,7 +8,7 @@ import profileAPI from "../../../../../api/profileAPI";
 
 export default function BackgroundImage({ formInfoData, setFormInfoData }) {
   const backgroundInputRef = useRef(null);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const onChangeBgImage = () => {
     backgroundInputRef.current.click();
@@ -27,6 +27,7 @@ export default function BackgroundImage({ formInfoData, setFormInfoData }) {
         formData.append("userId", user.userId);
         const response = await profileAPI.updateBackgroundImage(formData);
         setFormInfoData({ ...formInfoData, backgroundImage: response.data });
+        setUser({ ...user, backgroundImage: response.data });
         toastSuccess("Cập nhật ảnh bìa thành công!");
       }
     } catch (error) {

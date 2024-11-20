@@ -4,6 +4,9 @@ import UserRoute from "./user-route";
 import PublicRoute from "./public-route";
 import LoadableComponent from "../../components/loadable-component";
 import Login from "../pages/login";
+import Register from "../pages/register";
+import VerifyAccout from "../pages/verifyAccout/index.jsx";
+import VerifyAccoutSuccess from "../pages/verifyAccountSuccess/index.jsx";
 
 const Schedule = LoadableComponent(() => import("../pages/schedule/index.jsx"));
 const Aim = LoadableComponent(() => import("../pages/aim/index.jsx"));
@@ -29,6 +32,9 @@ const AllRoutes = () => {
       {/* // public route  */}
       <Route element={<PublicRoute />}>
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verify-account" element={<VerifyAccout />} />
+        <Route path="/verify-account-success" element={<VerifyAccoutSuccess />} />
       </Route>
 
       {/* admin route */}

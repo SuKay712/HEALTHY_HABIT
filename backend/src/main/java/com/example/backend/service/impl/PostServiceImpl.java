@@ -1,7 +1,9 @@
 package com.example.backend.service.impl;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -86,8 +88,22 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public BaseResponse<List<Post>> getAllPostByUserId(String userId) {
-    List<Post> listPosts = postRepository.findPostsWithCommentsByUserId(new ObjectId(userId));
-    return new BaseResponse<>(true, "123", listPosts);
+    // Lấy danh sách bài viết của userId
+    List<Post> userPosts = postRepository.findPostsWithCommentsByUserId(new ObjectId(userId));
+
+    // Lấy danh sách bài viết từ savedPosts
+    List<ObjectId> savedPostIds = userRepository.findById(userId).orElseThrow().getSavedPost();
+    List<Post> savedPosts = postRepository.findPostsBySavedPostAndUserId(savedPostIds, new ObjectId(userId));
+
+    // Gộp hai danh sách lại
+    List<Post> combinedPosts = new ArrayList<>();
+    combinedPosts.addAll(userPosts);
+    combinedPosts.addAll(savedPosts);
+
+    // Sắp xếp danh sách theo createdAt từ sớm đến muộn (tăng dần)
+    combinedPosts.sort(Comparator.comparing(Post::getCreatedAt).reversed());
+
+    return new BaseResponse<>(true, "123", combinedPosts);
   }
 
   @Override
@@ -155,7 +171,7 @@ public class PostServiceImpl implements PostService {
     Post post = postRepository.findById(new ObjectId(req.getPostId()))
         .orElseThrow(() -> new RuntimeException("Post not found"));
 
-    if (post.getUserId().equals(req.getUserId())) {
+    if (post.getUserId().equals(new ObjectId(req.getUserId()))) {
       return new BaseResponse<>(false, "Can't save your own post", post);
     }
 

@@ -17,6 +17,7 @@ import SmallPost from "./components/SmallPost";
 import AddPostForm from "./components/AddPostForm";
 import PostAPI from "../../../api/postAPI";
 import { AuthContext } from "../../../context/authContext";
+import Pagination from "./components/Pagination";
 
 export default function Group() {
   const { user, setUser } = useContext(AuthContext);
@@ -26,6 +27,8 @@ export default function Group() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [sort, setSort] = useState("Phù hợp nhất");
   const [isNotificationOn, setIsNotificationOn] = useState(false);
+  const [paging, setPaging] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
 
   const items = [
     {
@@ -48,10 +51,8 @@ export default function Group() {
 
   const callAPI = async () => {
     try {
-      const response = await PostAPI.getAllPost();
 
-      console.log({response});
-
+      const response = await PostAPI.getAllPost(paging-1);
       const newPosts = response.data.data.posts.map((post) => ({
         ...post,
         id: post.id,
@@ -68,8 +69,8 @@ export default function Group() {
           : [],
       }));
 
-      console.log(newPosts);
       setPosts(newPosts);
+      setTotalPages(response.data.data.totalPages);
     } catch (error) {
       console.log(error);
     }
@@ -84,7 +85,7 @@ export default function Group() {
   };
   useEffect(() => {
     callAPI();
-  }, []);
+  }, [paging]);
 
   const onChangeNewPost = (value) => {
     setNewPost(value.target.value);
@@ -150,6 +151,7 @@ export default function Group() {
           <AddPostForm
             handleAddLocalPost={handleAddLocalPost}
             handleCloseForm={handleCloseAddForm}
+            callAPI={callAPI}
           />
         </Modal>
       )}
@@ -239,6 +241,12 @@ export default function Group() {
           posts.length > 0 &&
           posts.map((post) => {if(post.postUser)  {return <SmallPost post={post} user={user} onUpdatePost={onUpdatePost} />}})}
       </div>
+
+      <Pagination
+        paging={paging}
+        setPaging={setPaging}
+        totalPages={totalPages}
+      />
     </div>
   );
 }

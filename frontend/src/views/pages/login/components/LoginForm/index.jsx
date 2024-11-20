@@ -4,6 +4,7 @@ import { FaFacebook } from 'react-icons/fa';
 import './index.scss';
 import { useState } from 'react';
 import { useAuth } from '../../../../../context/authContext';
+import { Link } from 'react-router-dom';
 
 function LoginForm({ className }) {
   const [data, setData] = useState({
@@ -127,9 +128,11 @@ function LoginForm({ className }) {
         </Button>
         <p className='login-form-navigate'>
           Chưa có tài khoản?
-          <Button className='login-form-link' type='link' disabled={loading}>
-            Đăng ký
-          </Button>
+          <Link to='/register'>
+            <Button className='login-form-link' type='link' disabled={loading}>
+              Đăng ký
+            </Button>
+          </Link>
         </p>
       </form>
     </>

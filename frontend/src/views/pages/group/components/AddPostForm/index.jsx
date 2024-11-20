@@ -6,7 +6,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import axiosClient from "../../../../../api/axiosClient";
 import { useAuth } from "../../../../../context/authContext";
 
-const AddPostForm = ({ handleCloseForm, handleAddLocalPost }) => {
+const AddPostForm = ({ handleCloseForm, handleAddLocalPost, callAPI }) => {
   const { user } = useAuth();
   const imageInputRef = useRef();
   const [image, setImage] = useState();
@@ -59,6 +59,7 @@ const AddPostForm = ({ handleCloseForm, handleAddLocalPost }) => {
       );
 
       handleAddLocalPost(response.data.data);
+      callAPI();
 
       handleCloseForm();
     } catch (err) {
