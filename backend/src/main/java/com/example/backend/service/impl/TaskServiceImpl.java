@@ -216,6 +216,9 @@ public class TaskServiceImpl implements TaskService {
       Task task = optionalTask.get();
       Progress progress = DateTimeUtils.findMatchingProgress(task.getTasksProgress(), time);
       progress.setStatus(status);
+      if (status == Status.COMPLETE) {
+        notificationService.sendTaskCompletedNotification(task.getUserId(), task.getId().toString());
+      }
       taskRepository.save(task);
       response = new BaseResponse<>(true, "Fetched all tasks successfully", task);
       return response;
