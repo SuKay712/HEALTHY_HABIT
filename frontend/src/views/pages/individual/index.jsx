@@ -24,7 +24,7 @@ function Individual() {
 
   const callAPI = async () => {
     try {
-      const response = await PostAPI.getAllPost(user.userId);
+      const response = await PostAPI.getAllPostByUserId(user.userId);
 
       const newPosts = response.data.data.map((post) => ({
         ...post,
@@ -35,14 +35,12 @@ function Individual() {
         commentNum: post.comments?.length || 0,
         comments: post.comments
           ? post.comments.map((comment) => ({
-              id: comment.id,
-              content: comment.content,
+              ...comment,
               account: comment.user,
             }))
           : [],
       }));
 
-      console.log(newPosts);
       setPosts(newPosts);
     } catch (error) {
       console.log(error);
@@ -131,6 +129,15 @@ function Individual() {
     setShowAddForm(true);
   };
 
+  const onUpdatePost = (id, newPost) => {
+    setPosts(
+      posts.map((post) => {
+        if (post.id !== id) return post;
+        return newPost;
+      })
+    );
+  };
+
   return (
     <div className="individual-container">
       {showAddForm && (
@@ -215,11 +222,12 @@ function Individual() {
           </div>
         </div>
       </div>
-
       <div className="individual-posts-container">
         {posts &&
           posts.length > 0 &&
-          posts.map((post) => <SmallPost post={post} user={user} />)}
+          posts.map((post) => (
+            <SmallPost post={post} onUpdatePost={onUpdatePost} user={user} />
+          ))}
       </div>
     </div>
   );
