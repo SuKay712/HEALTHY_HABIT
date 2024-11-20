@@ -20,6 +20,7 @@ import { AuthContext } from "../../../context/authContext";
 
 export default function Group() {
   const { user, setUser } = useContext(AuthContext);
+  console.log(user);
   const [newPost, setNewPost] = useState("");
   const [posts, setPosts] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -47,19 +48,21 @@ export default function Group() {
 
   const callAPI = async () => {
     try {
-      const response = await PostAPI.getAllPost(user.userId);
+      const response = await PostAPI.getAllPost();
 
-      const newPosts = response.data.data.map((post) => ({
+      console.log({response});
+
+      const newPosts = response.data.data.posts.map((post) => ({
         ...post,
         id: post.id,
         content: post.content,
         image: post.image,
         likeNum: post.likes?.length || 0,
         commentNum: post.comments?.length || 0,
+        postUser: post.postUser,
         comments: post.comments
           ? post.comments.map((comment) => ({
-              id: comment.id,
-              content: comment.content,
+              ...comment,
               account: comment.user,
             }))
           : [],
@@ -71,7 +74,14 @@ export default function Group() {
       console.log(error);
     }
   };
-
+  const onUpdatePost = (id, newPost) => {
+    setPosts(
+      posts.map((post) => {
+        if (post.id !== id) return post;
+        return newPost;
+      })
+    );
+  };
   useEffect(() => {
     callAPI();
   }, []);
@@ -227,7 +237,7 @@ export default function Group() {
       <div className="posts-container">
         {posts &&
           posts.length > 0 &&
-          posts.map((post) => <SmallPost post={post} user={user} />)}
+          posts.map((post) => {if(post.postUser)  {return <SmallPost post={post} user={user} onUpdatePost={onUpdatePost} />}})}
       </div>
     </div>
   );

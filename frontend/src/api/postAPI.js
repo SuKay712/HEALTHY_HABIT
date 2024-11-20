@@ -6,7 +6,7 @@ const PostAPI = {
         return axiosClient.application.get(url)
     },
     getAllPost: async()=>{
-        const url = `/api/user/allPost`
+        const url = `/api/user/allPost?page=0&size=20`
         return axiosClient.application.get(url)    
     },
     getHotPosts : async()=>{
