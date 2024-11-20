@@ -24,11 +24,4 @@ public class NotificationController {
         String message = notifications.isEmpty() ? "No notifications found." : "Notifications retrieved successfully.";
         return new BaseResponse<>(!notifications.isEmpty(), message, notifications);
     }
-
-    @GetMapping("/admin")
-    public BaseResponse<List<Notification>> getAdminNotifications() {
-        List<Notification> notifications = notificationService.getNotificationsForAdmin();
-        String message = notifications.isEmpty() ? "No notifications found." : "Notifications retrieved successfully.";
-        return new BaseResponse<>(!notifications.isEmpty(), message, notifications);
-    }
 }

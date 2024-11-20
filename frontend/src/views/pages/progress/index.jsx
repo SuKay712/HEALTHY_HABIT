@@ -47,9 +47,6 @@ function Progress() {
           },
         });
       }
-
-      console.log(newProgresses);
-
       setProgresses(newProgresses);
       setFilterProgress(newProgresses);
     } catch (error) {
@@ -66,7 +63,6 @@ function Progress() {
     ];
 
     TASKPRIORITY.forEach((item) => {
-      console.log(item);
       priorities.push({
         value: item.value,
         label: item.label,

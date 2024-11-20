@@ -28,6 +28,7 @@ import com.example.backend.model.enums.DateOfWeek;
 import com.example.backend.model.enums.Priority;
 import com.example.backend.model.enums.Status;
 import com.example.backend.repository.TaskRepository;
+import com.example.backend.service.NotificationService;
 import com.example.backend.service.TaskService;
 import com.example.backend.utils.DateTimeUtils;
 
@@ -37,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
   private final TaskRepository taskRepository;
+  private final NotificationService notificationService;
 
   @Override
   public BaseResponse<List<TaskProgressResponse>> getAllTasksByUserId(String userId, String dateTime) {
@@ -389,6 +391,7 @@ public class TaskServiceImpl implements TaskService {
       LocalDateTime expirationDateTime = LocalDateTime.of(progress.getDate(), timeExpired);
       if (currentDateTime.isAfter(expirationDateTime) && progress.getStatus().equals(Status.INCOMPLETE)) {
         progress.setStatus(Status.OVERDUE);
+        notificationService.sendOverdueTaskNotification(task.getUserId(), task.getId().toString());
       }
     }
     taskRepository.save(task);

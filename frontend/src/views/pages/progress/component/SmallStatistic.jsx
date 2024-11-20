@@ -5,8 +5,9 @@ import {
   PROGRESSTASKSTATUSENUM,
   TASKPRIORITY,
 } from "../../../../constants/enum";
-import { Pie } from "@ant-design/charts";
+import { PieChart } from '@mui/x-charts/PieChart';
 import { Table } from "antd";
+import { IMAGES } from "../../../../constants/images";
 
 function SmallStatistic(props) {
   const { progress } = props;
@@ -48,6 +49,7 @@ function SmallStatistic(props) {
   ];
 
   const [chartData, setChartData] = useState([]);
+  const [isExistData, setIsExistData] = useState(false);
 
   useEffect(() => {
     const newChartData = [];
@@ -57,50 +59,39 @@ function SmallStatistic(props) {
         newChartData.push({
           type: PROGRESSTASKSTATUSENUM[key],
           value: percent[key],
+          label: PROGRESSTASKSTATUSENUM[key],
         });
       }
-    }
-
-    setChartData(newChartData);
-  }, []);
-
-  const paginationConfig = {
-    pageSize: 3,
-  };
-
-  useEffect(() => {
-    const newChartData = [];
-
-    for (let key in percent) {
-      if (percent.hasOwnProperty(key)) {
-        newChartData.push({
-          type: PROGRESSTASKSTATUSENUM[key],
-          value: percent[key],
-        });
+      if(percent[key] > 0){
+        setIsExistData(true)
       }
     }
 
     setChartData(newChartData);
   }, [percent]);
 
+  const paginationConfig = {
+    pageSize: 3,
+  };
+
   return (
     <div className="small-statistic-container d-flex justify-content-between row">
       <div className="small-statistic-chart-container col-6">
         <p className="small-statistic-chart-title">{date}</p>
-        {chartData.length > 0 && (
-          <Pie
+        {chartData.length > 0 && isExistData && (
+          <PieChart
             key={JSON.stringify(chartData)}
-            appendPadding={10}
-            data={chartData}
-            angleField={"value"}
-            colorField={"type"}
-            radius={1}
-            label={{
-              offset: "-30%",
-              style: { fontSize: 14, textAlign: "center" },
-            }}
-            style={{ height: "50px" }}
+            series={[
+              {
+                data: chartData,
+              },
+            ]}
+            height={300}
           />
+        )}
+        {!isExistData &&(
+          // <img alt='no data' className="small-statistic-no-data" src={IMAGES.no_data}/>
+          <p className="small-statistic-no-data-text">Không có việc hôm nay</p>
         )}
       </div>
       <div className="small-statistic-tasks-container col-6">

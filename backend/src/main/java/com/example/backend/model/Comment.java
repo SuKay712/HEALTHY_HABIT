@@ -1,6 +1,7 @@
 package com.example.backend.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.types.ObjectId;
@@ -10,6 +11,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import lombok.Builder;
 import lombok.Data;
@@ -20,15 +23,18 @@ import lombok.Data;
 public class Comment {
 
   @Id
+  @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId id;
 
-  private String userId;
+  @JsonSerialize(using = ToStringSerializer.class)
+  private ObjectId userId;
 
-  private String postId;
+  @JsonSerialize(using = ToStringSerializer.class)
+  private ObjectId postId;
 
   private String content;
 
-  private List<String> image;
+  private String image;
 
   @CreatedDate
   @JsonFormat(pattern = "dd-MM-yyyy")
@@ -39,5 +45,8 @@ public class Comment {
   private LocalDateTime updatedAt;
 
   private List<Comment> commentChild;
+  @Builder.Default
+  private List<String> likes = new ArrayList<>();
+  private Boolean hasLikedComment;
   private User user;
 }
