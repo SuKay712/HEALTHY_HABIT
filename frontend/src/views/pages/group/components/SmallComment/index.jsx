@@ -20,7 +20,9 @@ function SmallComment(props) {
         className="group-small-comment-avatar"
       />
       <div className="group-small-comment-info-container">
-        <p className="group-small-comment-username">{comment.account.name}</p>
+        <p className="group-small-comment-username">
+          {comment.account.name}
+        </p>
         <p>{comment.content}</p>
         <div>
           <Button

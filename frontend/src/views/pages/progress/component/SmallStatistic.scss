@@ -9,10 +9,12 @@
   &-chart-container {
     height: 400px;
     position: relative;
+    display:flex;
+    align-items:center;
   }
   &-chart-title {
     position: absolute;
-    top : 50%;
+    top : calc(50% - 18px);
     left: 10px;
     color : $dark_blue;
     font-weight: bold;
@@ -28,5 +30,15 @@
     text-align: center;
     color: $dark_teal;
     margin-bottom: 15px;
+  }
+  &-no-data{
+    height: 400px;
+    margin-left: 150px;
+  }
+  &-no-data-text{
+    color : #8a96a3;
+    margin-left: 220px;
+    font-size: 20px;
+    font-weight: bold;
   }
 }

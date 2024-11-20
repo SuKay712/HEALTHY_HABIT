@@ -28,6 +28,7 @@ import com.example.backend.model.enums.DateOfWeek;
 import com.example.backend.model.enums.Priority;
 import com.example.backend.model.enums.Status;
 import com.example.backend.repository.TaskRepository;
+import com.example.backend.service.NotificationService;
 import com.example.backend.service.TaskService;
 import com.example.backend.utils.DateTimeUtils;
 
@@ -37,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
   private final TaskRepository taskRepository;
+  private final NotificationService notificationService;
 
   @Override
   public BaseResponse<List<TaskProgressResponse>> getAllTasksByUserId(String userId, String dateTime) {
@@ -161,9 +163,9 @@ public class TaskServiceImpl implements TaskService {
           .timeExpired(req.getTimeExpired())
           .isNotify(true)
           .isDeleted(false)
-          .dateEnd(req.getDateStart())
           .build();
       if (req.getTimer() != null && req.getDateEnd() != null) {
+        task.setDateEnd(req.getDateStart());
         List<Progress> progressList = new ArrayList<>();
         LocalDate currentDate = req.getDateStart();
         if (req.getTimer().get(0) == DateOfWeek.ALL) {
@@ -199,11 +201,11 @@ public class TaskServiceImpl implements TaskService {
         task.setTasksProgress(progresses);
       }
       Task resulTask = taskRepository.save(task);
+      System.out.println("CHECK: " + resulTask.getDateEnd().toString());
       return new BaseResponse<Task>(true, "Create Task Success!!!", resulTask);
     } catch (Exception e) {
       return new BaseResponse<Task>(false, e.getMessage(), null);
     }
-
   }
 
   @Override
@@ -279,7 +281,7 @@ public class TaskServiceImpl implements TaskService {
         .filter(task -> {
           if (task.getDateEnd() != null && task.getDateEnd().isEqual(now)) {
             LocalTime timeExpired = LocalTime.parse(task.getTimeExpired(), DateTimeFormatter.ofPattern("HH:mm:ss"));
-            return timeExpired.isBefore(currentTime) || timeExpired.equals(currentTime);
+            return timeExpired.isAfter(currentTime);
           }
           return task.getDateEnd() != null && task.getDateEnd().isBefore(now);
         })
@@ -389,6 +391,7 @@ public class TaskServiceImpl implements TaskService {
       LocalDateTime expirationDateTime = LocalDateTime.of(progress.getDate(), timeExpired);
       if (currentDateTime.isAfter(expirationDateTime) && progress.getStatus().equals(Status.INCOMPLETE)) {
         progress.setStatus(Status.OVERDUE);
+        notificationService.sendOverdueTaskNotification(task.getUserId(), task.getId().toString());
       }
     }
     taskRepository.save(task);

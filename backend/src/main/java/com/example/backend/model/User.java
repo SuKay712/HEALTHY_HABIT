@@ -1,8 +1,10 @@
 package com.example.backend.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -30,6 +32,11 @@ public class User {
 
   private String displayName;
 
+  @JsonFormat(pattern = "dd-MM-yyyy")
+  private LocalDate birthday;
+
+  private boolean sex;
+
   private String address;
 
   private String tel;
@@ -42,7 +49,7 @@ public class User {
 
   private boolean isAdmin;
 
-  private List<SavedPost> savedPost;
+  private List<ObjectId> savedPost;
 
   @JsonIgnore
   private boolean isVerify;

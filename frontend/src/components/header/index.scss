@@ -2,6 +2,7 @@
 
 .header-title {
   color: $dark_blue;
+  width: 200px;
 }
 
 .header-container {
@@ -26,4 +27,8 @@
   color: $white !important;
   background-color: $dark_blue !important;
   border: none;
+}
+
+.header-tx-search {
+  width: 600px;
 }

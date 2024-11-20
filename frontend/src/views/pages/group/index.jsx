@@ -8,14 +8,15 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { useContext, useEffect, useRef, useState } from "react";
-import { AuthContext } from "../../../context/authContext";
 import TextArea from "antd/es/input/TextArea";
 import { FaRegImage } from "react-icons/fa";
 import { ImGrin } from "react-icons/im";
-import PostAPI from "../../../api/postAPI";
-import SmallPost from "../individual/SmallPost";
-import AddPostForm from "../individual/AddPostForm";
+
 import Modal from "../../../components/modal";
+import SmallPost from "./components/SmallPost";
+import AddPostForm from "./components/AddPostForm";
+import PostAPI from "../../../api/postAPI";
+import { AuthContext } from "../../../context/authContext";
 
 export default function Group() {
   const { user, setUser } = useContext(AuthContext);

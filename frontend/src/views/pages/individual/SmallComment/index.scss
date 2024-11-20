@@ -24,4 +24,12 @@
       padding: 0;
     }
   }
+  &-createdAt {
+    color : $subText;
+  }
+  &-image {
+    height: 200px !important;
+    object-fit: contain;
+    margin : 10px 0px
+  }
 }
