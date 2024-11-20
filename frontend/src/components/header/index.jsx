@@ -12,15 +12,20 @@ import Notification from "./notification";
 // import fakeData from "../../data/fakeData.json";
 import getItemDropDownSearchPost from "./dropdown";
 import PostAPI from "../../api/postAPI";
+import { useNotification } from "../../context/notificationContext";
 
 function HeaderComponent(props) {
   const { url, title } = props;
   const [showNoti, setShowNoti] = useState(false);
+  const { notReadCount, readAllNotifications } = useNotification();
   const [txtSearch, setTxtSearch] = useState("");
   const [posts, setPosts] = useState([]);
   const [filterPosts, setFilterPosts] = useState(posts);
 
   const onClickNoti = () => {
+    if (showNoti) {
+      readAllNotifications();
+    }
     setShowNoti((prev) => !prev);
   };
 
@@ -89,6 +94,9 @@ function HeaderComponent(props) {
             icon={<BellOutlined />}
             className="header-noti-button"
           />
+          {notReadCount !== 0 && (
+            <label className='header-noti-not-read'>{notReadCount}</label>
+          )}
           {showNoti && <Notification show={showNoti} setShow={setShowNoti} />}
         </div>
         <Avatar size={45} icon={!url && <UserOutlined color="" />} src={url} />

@@ -15,10 +15,19 @@
   border: solid 1px #000000;
   border-radius: 12px;
   background-color: #ffffff;
+  max-height: 80vh;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
   &-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #000000;
     &-title {
       margin: 0;
       font-size: 20px;
@@ -30,7 +39,9 @@
     padding: 10px;
     display: flex;
     align-items: center;
-    border-top: 1px solid #000000;
+    &:not(:last-child) {
+      border-bottom: 1px solid #000000;
+    }
     &-icon {
       font-size: 30px;
     }
@@ -54,6 +65,9 @@
     }
     &:hover {
       background-color: #bdbdbd;
+    }
+    &-not-read {
+      background-color: #ff7d7d;
     }
   }
 }
