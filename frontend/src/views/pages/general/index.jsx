@@ -8,11 +8,11 @@ function General() {
 
   const callAPI = async () => {
     try {
-      const postsAPI = await PostAPI.getHotPosts();
+      const postsAPI = await PostAPI.getAllPosts();
       console.log(
         postsAPI.data.data
           .map((post) => ({
-            ...post,
+            ...post,  
             account: post.postUser,
           }))
           .slice(0, 6)
@@ -49,6 +49,7 @@ function General() {
         style={{
           fontSize: 25,
           fontWeight: 600,
+          marginLeft: 0,
         }}
       >
         Các thói quen tốt

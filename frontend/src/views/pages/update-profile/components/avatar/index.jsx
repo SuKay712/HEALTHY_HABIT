@@ -8,7 +8,7 @@ import profileAPI from "../../../../../api/profileAPI";
 
 export default function Avatar({ formInfoData, setFormInfoData }) {
   const avatarInputRef = useRef(null);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
 
   const onChangeAvatar = () => {
     avatarInputRef.current.click();
@@ -27,6 +27,7 @@ export default function Avatar({ formInfoData, setFormInfoData }) {
         formData.append("userId", user.userId);
         const response = await profileAPI.updateAvatar(formData);
         setFormInfoData({ ...formInfoData, avatar: response.data });
+        setUser({ ...user, avatar: response.data });
         toastSuccess("Cập nhật avatar thành công!");
       }
     } catch (error) {

@@ -53,6 +53,8 @@ function MainLayout(props) {
 
   const { user, logout } = useContext(AuthContext);
 
+  console.log(user.avatar);
+
   const pages_url = {
     "Lịch trình": "/schedule",
     "Tổng quan": "/general",

@@ -17,6 +17,7 @@ import SmallPost from "./components/SmallPost";
 import AddPostForm from "./components/AddPostForm";
 import PostAPI from "../../../api/postAPI";
 import { AuthContext } from "../../../context/authContext";
+import Pagination from "./components/Pagination";
 
 export default function Group() {
   const { user, setUser } = useContext(AuthContext);
@@ -25,6 +26,8 @@ export default function Group() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [sort, setSort] = useState("Phù hợp nhất");
   const [isNotificationOn, setIsNotificationOn] = useState(false);
+  const [paging, setPaging] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
 
   const items = [
     {
@@ -47,26 +50,27 @@ export default function Group() {
 
   const callAPI = async () => {
     try {
-      const response = await PostAPI.getAllPost(user.userId);
+      console.log(paging);
+      const response = await PostAPI.getAllPost(paging-1);
 
-      const newPosts = response.data.data.map((post) => ({
+      const newPosts = response.data.data.posts.map((post) => ({
         ...post,
         id: post.id,
         content: post.content,
         image: post.image,
         likeNum: post.likes?.length || 0,
         commentNum: post.comments?.length || 0,
+        postUser: post.postUser,
         comments: post.comments
           ? post.comments.map((comment) => ({
-              id: comment.id,
-              content: comment.content,
+              ...comment,
               account: comment.user,
             }))
           : [],
       }));
 
-      console.log(newPosts);
       setPosts(newPosts);
+      setTotalPages(response.data.data.totalPages);
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +78,7 @@ export default function Group() {
 
   useEffect(() => {
     callAPI();
-  }, []);
+  }, [paging]);
 
   const onChangeNewPost = (value) => {
     setNewPost(value.target.value);
@@ -140,6 +144,7 @@ export default function Group() {
           <AddPostForm
             handleAddLocalPost={handleAddLocalPost}
             handleCloseForm={handleCloseAddForm}
+            callAPI={callAPI}
           />
         </Modal>
       )}
@@ -227,8 +232,16 @@ export default function Group() {
       <div className="posts-container">
         {posts &&
           posts.length > 0 &&
-          posts.map((post) => <SmallPost post={post} user={user} />)}
+          posts.map((post) => {
+            return <SmallPost post={post} user={user} />;
+          })}
       </div>
+
+      <Pagination
+        paging={paging}
+        setPaging={setPaging}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
