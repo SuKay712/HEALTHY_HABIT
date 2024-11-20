@@ -197,21 +197,28 @@ function SmallPost(props) {
             <img
               alt="user avatar"
               src={post.postUser?.avatar ? post.postUser.avatar : "#"}
-              className="group-small-post-avatar"
+              className="group-small-post-comment-avatar"
             />
-            <TextArea
-              placeholder={`Bình luận với vai trò ${user.displayName}`}
-              className="group-small-post-input"
-              autoSize
-              value={comment}
-              onChange={(value) => onChangeComment(value)}
-            />
-            <div className="group-small-post-button-container">
-              <Button
-                icon={<FaRegImage />}
-                className="group-small-post-button"
-              />
-              <Button icon={<ImGrin />} className="group-small-post-button" />
+            <div className="group-small-post-input-container">
+              <div className="group-small-post-comment-input">
+                <TextArea
+                  placeholder={`Bình luận với vai trò ${user.displayName}`}
+                  className="group-small-post-input"
+                  autoSize
+                  value={comment}
+                  onChange={(value) => onChangeComment(value)}
+                />
+                <div className="group-small-post-button-container">
+                  <Button
+                    icon={<FaRegImage />}
+                    className="group-small-post-button"
+                  />
+                  <Button
+                    icon={<ImGrin />}
+                    className="group-small-post-button"
+                  />
+                </div>
+              </div>
               <Button
                 icon={<BsCursorFill />}
                 className="group-small-post-button"
