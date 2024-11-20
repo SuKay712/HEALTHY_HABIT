@@ -23,7 +23,7 @@ function SmallPost(props) {
   const { post, user, onUpdatePost } = props;
 
   const [isLike, setIsLike] = useState(false);
-
+  const [selectedImage, setSelectedImage] = useState(null);
   const [comment, setComment] = useState("");
   const [isShowComment, setIsShowComment] = useState(false);
 
@@ -44,6 +44,12 @@ function SmallPost(props) {
 
   const onClickComment = () => {
     setIsShowComment(!isShowComment);
+  };
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0]);
+    }
   };
 
   const onChangeComment = (e) => {
@@ -212,6 +218,16 @@ function SmallPost(props) {
                   <Button
                     icon={<FaRegImage />}
                     className="group-small-post-button"
+                    onClick={() =>
+                      document.getElementById("comment-image-input").click()
+                    }
+                  />
+                  <input
+                    type="file"
+                    id="comment-image-input"
+                    style={{ display: "none" }}
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e)}
                   />
                   <Button
                     icon={<ImGrin />}
