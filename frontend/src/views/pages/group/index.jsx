@@ -45,12 +45,11 @@ export default function Group() {
     },
   ];
 
-  // Refs for file inputs
-  const avatarInputRef = useRef(null);
-  const backgroundInputRef = useRef(null);
-
   const callAPI = async () => {
     try {
+
+      const response = await PostAPI.getAllPost(paging - 1, 5);
+
 
       const response = await PostAPI.getAllPost(paging-1);
       const newPosts = response.data.data.posts.map((post) => ({

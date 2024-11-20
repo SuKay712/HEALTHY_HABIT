@@ -48,20 +48,30 @@
   &-comment-container {
     position: relative;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
   }
   &-button-container {
     position: absolute;
-    right: 70px;
-    display: flex; /* Đảm bảo các nút nằm theo chiều ngang */
-    gap: 10px;
-    top: 15px
+    right: 0;
+    top: 5px;
   }
   &-input {
-    width: 94%;
+    flex: 1;
+    width: 100%;
     height: 40px !important;
     padding-top: 5px;
+  }
+  &-input-container {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    align-items: center;
+  }
+  &-comment-input {
+    position: relative;
+    width: 100%;
   }
   &-like-comment-container {
     display: flex;
@@ -87,5 +97,11 @@
   &-comment-container {
     margin-top: 10px;
     margin-bottom: 20px;
+  }
+  &-comment-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 }

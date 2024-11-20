@@ -30,6 +30,7 @@ const checkLike = (likes, userId) => {
 
 function SmallPost(props) {
   const { post, user, onUpdatePost } = props;
+
   const [messageApi, contextHolder] = message.useMessage();
   const [isLike, setIsLike] = useState(checkLike(post.likes, user.userId));
   const [selectedImage, setSelectedImage] = useState(null);
@@ -63,6 +64,12 @@ function SmallPost(props) {
   const onClickComment = () => {
     setIsShowComment(!isShowComment);
   };
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0]);
+    }
+  };
+
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedImage(e.target.files[0]);
@@ -273,33 +280,39 @@ function SmallPost(props) {
             <img
               alt="user avatar"
               src={post.postUser?.avatar ? post.postUser.avatar : "#"}
-              className="group-small-post-avatar"
+              className="group-small-post-comment-avatar"
             />
-             <div className="w-100">
-            <div className="individual-small-post-input-container">
-            <TextArea
-              placeholder={`Bình luận với vai trò ${user.displayName}`}
-              className="group-small-post-input"
-              autoSize
-              value={comment}
-              onChange={(value) => onChangeComment(value)}
-            />
-            <div className="group-small-post-button-container">
-              <Button
-                icon={<FaRegImage />}
-                className="group-small-post-button"
-                onClick={() =>
-                  document.getElementById("comment-image-input").click()
-                }
-              />
-              <input
+            <div className="group-small-post-input-container">
+              <div className="group-small-post-comment-input">
+                <TextArea
+                  placeholder={`Bình luận với vai trò ${user.displayName}`}
+                  className="group-small-post-input"
+                  autoSize
+                  value={comment}
+                  onChange={(value) => onChangeComment(value)}
+                />
+                <div className="group-small-post-button-container">
+                  <Button
+                    icon={<FaRegImage />}
+                    className="group-small-post-button"
+                    onClick={() =>
+                      document.getElementById("comment-image-input").click()
+                    }
+                  />
+                  <input
                     type="file"
                     id="comment-image-input"
                     style={{ display: "none" }}
                     accept="image/*"
                     onChange={(e) => handleImageChange(e)}
                   />
-              <Button icon={<ImGrin />} className="group-small-post-button" />
+                  <Button
+                    icon={<ImGrin />}
+                    className="group-small-post-button"
+                  />
+                </div>
+              </div>
+
               <Button
                 icon={<BsCursorFill />}
                 onClick={onCreateNeWComment}
