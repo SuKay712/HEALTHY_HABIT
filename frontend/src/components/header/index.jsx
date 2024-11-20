@@ -26,9 +26,10 @@ function HeaderComponent(props) {
 
   const callAPI = async () => {
     try {
-      const postsAPI = await PostAPI.getAllPost();
+      const postsAPI = await PostAPI.getAllPost(0);
+      console.log(postsAPI.data.data)
       setPosts(
-        postsAPI.data.data.map((post) => ({
+        postsAPI.data.data.posts.map((post) => ({
           ...post,
           account: post.postUser,
         }))
@@ -65,7 +66,7 @@ function HeaderComponent(props) {
         {title.trim().toLowerCase() !== "cá nhân" && title}
       </h1>
       {(title.trim().toLowerCase() === "cá nhân" ||
-        title.trim().toLowerCase === "cộng đồng") && (
+        title.trim().toLowerCase() === "cộng đồng") && (
         <Dropdown
           menu={{
             items: getItemDropDownSearchPost(filterPosts),

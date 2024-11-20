@@ -23,15 +23,22 @@ import { FaRegImage } from "react-icons/fa";
 import CommentAPI from "../../../../../../src/api/commentAPI";
 import { useAuth } from "../../../../../../src/context/authContext";
 import SavePostAPI from "../../../../../api/savePostAPI"
+
+const checkLike = (likes, userId) => {
+  return likes.includes(userId);
+};
+
 function SmallPost(props) {
   const { post, user, onUpdatePost } = props;
   const [messageApi, contextHolder] = message.useMessage();
-  const [isLike, setIsLike] = useState(false);
+  const [isLike, setIsLike] = useState(checkLike(post.likes, user.userId));
   const [selectedImage, setSelectedImage] = useState(null);
   const [comment, setComment] = useState("");
   const [isShowComment, setIsShowComment] = useState(false);
 
   const [comments, setComments] = useState(post.comments);
+
+  console.log(post)
 
   const [isPin, setIsPin] = useState(false);
 

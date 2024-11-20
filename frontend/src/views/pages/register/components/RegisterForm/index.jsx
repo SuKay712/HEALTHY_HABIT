@@ -59,7 +59,8 @@ function RegisterForm({ className }) {
 
       navigate(`/verify-account?email=${data.email}`);
     } catch (err) {
-      messageApi.error(err.response.data.message);
+      // messageApi.error(err.response.data.message);
+      messageApi.error("Đã có lỗi xảy ra");
     }
     setLoading(false);
   };
