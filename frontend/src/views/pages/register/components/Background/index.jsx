@@ -5,10 +5,10 @@ function Background({ className }) {
   return (
     <div
       style={{ backgroundImage: `url(${IMAGES.auth_background})` }}
-      className={`login-background ${className ?? ''}`}
+      className={`register-background ${className ?? ''}`}
     >
       <svg
-        className='login-background-svg'
+        className='register-background-svg'
         viewBox='0 0 800 600'
         xmlns='http://www.w3.org/2000/svg'
         preserveAspectRatio='none'
