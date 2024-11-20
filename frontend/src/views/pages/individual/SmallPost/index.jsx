@@ -171,11 +171,11 @@ function SmallPost(props) {
           <img
             className="individual-small-post-avatar"
             alt="user avatar"
-            src={user.avatar}
+            src={post.postUser?.avatar ? post.postUser.avatar : "#"}
           />
           <div className="individual-small-post-info-container">
             <div className="d-flex align-items-center">
-              <p class="individual-small-post-username">{user.displayName}</p>
+              <p class="individual-small-post-username">{post.postUser?.displayName ? post.postUser.displayName : "Empty User"}</p>
               <p class="individual-small-post-status">
                 <FaCircle />
               </p>

@@ -21,6 +21,7 @@ import Pagination from "./components/Pagination";
 
 export default function Group() {
   const { user, setUser } = useContext(AuthContext);
+  console.log(user);
   const [newPost, setNewPost] = useState("");
   const [posts, setPosts] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -50,9 +51,8 @@ export default function Group() {
 
   const callAPI = async () => {
     try {
-      console.log(paging);
-      const response = await PostAPI.getAllPost(paging-1);
 
+      const response = await PostAPI.getAllPost(paging-1);
       const newPosts = response.data.data.posts.map((post) => ({
         ...post,
         id: post.id,
@@ -75,7 +75,14 @@ export default function Group() {
       console.log(error);
     }
   };
-
+  const onUpdatePost = (id, newPost) => {
+    setPosts(
+      posts.map((post) => {
+        if (post.id !== id) return post;
+        return newPost;
+      })
+    );
+  };
   useEffect(() => {
     callAPI();
   }, [paging]);
@@ -232,9 +239,7 @@ export default function Group() {
       <div className="posts-container">
         {posts &&
           posts.length > 0 &&
-          posts.map((post) => {
-            return <SmallPost post={post} user={user} />;
-          })}
+          posts.map((post) => {if(post.postUser)  {return <SmallPost post={post} user={user} onUpdatePost={onUpdatePost} />}})}
       </div>
 
       <Pagination

@@ -1,15 +1,23 @@
 import React, { useState } from "react";
 import "./index.scss";
-import { Button } from "antd";
+import { Button,Image } from "antd";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
-
+import LikeAPI from "../../../../../../src/api/likeAPI";
 function SmallComment(props) {
   const { comment, user } = props;
 
   const [isLike, setIsLike] = useState(false);
 
-  const onLike = () => {
-    setIsLike(!isLike);
+  
+  const onLike = async () => {
+    console.log(comment)
+    LikeAPI.LikeComment(user.userId, comment.id)
+      .then(() => {
+        setIsLike(!isLike);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -24,6 +32,9 @@ function SmallComment(props) {
           {comment.account.name}
         </p>
         <p>{comment.content}</p>
+        {
+          comment.image && <Image alt='comment img' src={comment.image} className="individual-small-comment-image"/>
+        }
         <div>
           <Button
             icon={!isLike ? <HeartOutlined /> : <HeartFilled />}
