@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./index.scss";
-import { Button, Dropdown } from "antd";
+import { Button, Dropdown,message } from "antd";
 import { useNavigate } from "react-router-dom";
 import {
+  CloseOutlined,
   DeleteFilled,
   EditFilled,
   HeartFilled,
@@ -15,19 +16,30 @@ import TextArea from "antd/es/input/TextArea";
 import { ImGrin } from "react-icons/im";
 import { BsCursorFill } from "react-icons/bs";
 import SmallComment from "../SmallComment";
+import LikeAPI from "../../../../../../src/api/likeAPI";
 import { BiDotsHorizontal } from "react-icons/bi";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaRegImage } from "react-icons/fa";
+import CommentAPI from "../../../../../../src/api/commentAPI";
+import { useAuth } from "../../../../../../src/context/authContext";
+import SavePostAPI from "../../../../../api/savePostAPI"
+
+const checkLike = (likes, userId) => {
+  return likes.includes(userId);
+};
 
 function SmallPost(props) {
   const { post, user, onUpdatePost } = props;
 
-  const [isLike, setIsLike] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [isLike, setIsLike] = useState(checkLike(post.likes, user.userId));
   const [selectedImage, setSelectedImage] = useState(null);
   const [comment, setComment] = useState("");
   const [isShowComment, setIsShowComment] = useState(false);
 
   const [comments, setComments] = useState(post.comments);
+
+  console.log(post)
 
   const [isPin, setIsPin] = useState(false);
 
@@ -35,15 +47,27 @@ function SmallPost(props) {
     navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
   const onLike = () => {
-    onUpdatePost(post.id, {
-      ...post,
-      likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
-    });
-    setIsLike(!isLike);
-  };
+    LikeAPI.LikePost(user.userId, post.id)
+      .then((res) => {
+        console.log(res);
+        onUpdatePost(post.id, {
+          ...post,
+          likeNum: isLike ? post.likeNum - 1 : post.likeNum + 1,
+        });
 
+        setIsLike(!isLike);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const onClickComment = () => {
     setIsShowComment(!isShowComment);
+  };
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedImage(e.target.files[0]);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -55,6 +79,63 @@ function SmallPost(props) {
   const onChangeComment = (e) => {
     setComment(e.target.value);
   };
+  const handleSavePost = async () => {
+    console.log("đây là api luu bai viet")
+
+    try {
+      const response = await SavePostAPI.SavePost(user.userId, post.id);
+      if (response.data.isSuccess) {
+       console.log('Bài viết đã được lưu thành công!'); // Hiển thị thông báo thành công
+      } else {
+        console.log('Không thể lưu bài viết.'); // Thông báo nếu không thành công
+      }
+      
+    } catch (error) {
+      console.error("Error saving post:", error);
+      
+    } 
+  };
+  const onCreateNeWComment = async () => {
+    if (comment === "") {
+      messageApi.error("Bình luận không được để trống");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("userId", user.userId);
+    formData.append("content", comment);
+    formData.append("postId", post.id);
+    formData.append("image", selectedImage);
+
+    console.log("FormData values:");
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
+    CommentAPI.CreateComment(formData)
+      .then((response) => {
+        console.log({
+          ...response.data.data,
+          account: response.data.data.user,
+          hasLikedComment: false,
+        });
+        console.log(comments);
+        setComments([
+          ...comments,
+          {
+            ...response.data.data,
+            account: response.data.data.user,
+            hasLikedComment: false,
+          },
+        ]);
+        setComment("");
+        setSelectedImage(null);
+      })
+      .catch((error) => {
+        console.error("Error creating comment:", error);
+        messageApi.error("Có lỗi xảy ra khi gửi bình luận.");
+      });
+  };
+
 
   const onPin = () => {
     setIsPin(!isPin);
@@ -118,11 +199,7 @@ function SmallPost(props) {
           />
           <div className="group-small-post-info-container">
             <div className="d-flex align-items-center">
-              <p class="group-small-post-username">
-                {post.postUser?.displayName
-                  ? post.postUser.displayName
-                  : "Empty User"}
-              </p>
+              <p class="group-small-post-username">{post.postUser?.displayName ? post.postUser.displayName : "Empty User"}</p>
               <p class="group-small-post-status">
                 <FaCircle />
               </p>
@@ -195,7 +272,7 @@ function SmallPost(props) {
               )
             }
             className="group-small-post-button"
-            onClick={onPin}
+            onClick={handleSavePost}
           />
         </div>
         {isShowComment && (
@@ -235,11 +312,29 @@ function SmallPost(props) {
                   />
                 </div>
               </div>
+
               <Button
                 icon={<BsCursorFill />}
+                onClick={onCreateNeWComment}
                 className="group-small-post-button"
               />
             </div>
+            </div>
+            {selectedImage && (
+                <div className="individual-small-post-image-comment-container">
+                  <img
+                    src={URL.createObjectURL(selectedImage)}
+                    alt="Preview"
+                    className="individual-small-post-image-comment"
+                  />
+                  <Button
+                    onClick={() => setSelectedImage(null)}
+                    icon={<CloseOutlined />}
+                    className="individual-small-post-image-comment-button"
+                  ></Button>
+                </div>
+              )}
+          </div>
           </div>
         )}
       </div>

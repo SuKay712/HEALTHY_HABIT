@@ -26,7 +26,8 @@ function HeaderComponent(props) {
 
   const callAPI = async () => {
     try {
-      const postsAPI = await PostAPI.getAllPost();
+      const postsAPI = await PostAPI.getAllPost(0);
+      console.log(postsAPI.data.data)
       setPosts(
         postsAPI.data.data.posts.map((post) => ({
           ...post,

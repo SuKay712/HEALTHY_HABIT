@@ -1,6 +1,7 @@
 import axiosClient from "./axiosClient";
 
 const PostAPI = {
+
   getAllPostByUserId: async (userId) => {
     const url = `/api/user/post?param=${userId}`;
     return axiosClient.application.get(url);
@@ -23,5 +24,4 @@ const PostAPI = {
     return axiosClient.application.get(url);
   },
 };
-
 export default PostAPI;
