@@ -13,22 +13,20 @@ function SmallComment(props) {
   };
 
   return (
-    <div className="individual-small-comment-container">
+    <div className="group-small-comment-container">
       <img
         alt="user avatar"
         src={comment.account.avatar}
-        className="individual-small-comment-avatar"
+        className="group-small-comment-avatar"
       />
-      <div className="individual-small-comment-info-container">
-        <p className="individual-small-comment-username">
-          {comment.account.name}
-        </p>
+      <div className="group-small-comment-info-container">
+        <p className="group-small-comment-username">{comment.account.name}</p>
         <p>{comment.content}</p>
         <div>
           <Button
             icon={!isLike ? <HeartOutlined /> : <HeartFilled />}
             onClick={onLike}
-            className="individual-small-post-button"
+            className="group-small-post-button"
             style={{ color: "#EB3223" }}
           />
         </div>
