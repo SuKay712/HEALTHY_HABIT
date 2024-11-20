@@ -1,6 +1,6 @@
 @import '../../../../../constants/color.scss';
 
-.login-form {
+.register-form {
   display: grid;
   gap: 20px;
   padding: 20px;
@@ -18,6 +18,9 @@
   }
   &-input {
     padding: 10px;
+    &-date {
+      padding: 10px;
+    }
   }
   &-options-container {
     width: 100%;
@@ -27,16 +30,6 @@
   }
   &-button {
     height: 70px;
-    &-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 30px;
-    }
-  }
-  &-seperate {
-    color: gray;
-    text-align: center;
   }
   &-navigate {
     display: flex;
@@ -46,5 +39,17 @@
   &-link {
     padding-left: 4px;
     padding-right: 0;
+  }
+  &-gender {
+    display: flex;
+    align-items: baseline;
+  }
+  &-label {
+    margin: 0 20px 0 4px;
+  }
+  &-birthday {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 }
