@@ -50,8 +50,6 @@ export default function Group() {
 
       const response = await PostAPI.getAllPost(paging - 1, 5);
 
-
-      const response = await PostAPI.getAllPost(paging-1);
       const newPosts = response.data.data.posts.map((post) => ({
         ...post,
         id: post.id,

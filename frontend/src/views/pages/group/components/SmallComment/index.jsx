@@ -29,11 +29,11 @@ function SmallComment(props) {
       />
       <div className="group-small-comment-info-container">
         <p className="group-small-comment-username">
-          {comment.account.name}
+          {comment.account.displayName}
         </p>
         <p>{comment.content}</p>
         {
-          comment.image && <Image alt='comment img' src={comment.image} className="individual-small-comment-image"/>
+          comment.image && <Image alt='comment img' src={comment.image} className="group-small-comment-image"/>
         }
         <div>
           <Button
