@@ -24,4 +24,8 @@
       padding: 0;
     }
   }
+  &-image {
+    width: 300px !important;
+    object-fit: cover !important;
+  }
 }

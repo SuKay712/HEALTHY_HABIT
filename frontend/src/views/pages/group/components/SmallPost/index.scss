@@ -64,7 +64,6 @@
     padding-top: 5px;
   }
   &-input-container {
-    display: flex;
     flex-wrap: nowrap;
     width: 100%;
     align-items: center;
@@ -103,5 +102,24 @@
     width: 40px;
     border-radius: 50%;
     object-fit: cover;
+  }
+  &-image-comment-container {
+    position: relative;
+  }
+  &-image-comment {
+    margin-left: 10px;
+    width: 200px !important;
+    object-fit: contain;
+    margin-top: 10px;
+  }
+  &-image-comment-button {
+    position: absolute;
+    top: 15px;
+    left: 175px;
+    color : red !important;
+  }
+  &-comment-container {
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 }

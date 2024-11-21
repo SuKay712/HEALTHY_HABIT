@@ -17,6 +17,7 @@ const PostAPI = {
     }
 
     const url = `/api/user/allPost${params && "?" + params.toString()}`;
+    console.log(url)
     return axiosClient.application.get(url);
   },
   getHotPosts: async () => {

@@ -31,8 +31,8 @@ function HeaderComponent(props) {
 
   const callAPI = async () => {
     try {
-      const postsAPI = await PostAPI.getAllPost(0);
-      console.log(postsAPI.data.data)
+      const postsAPI = await PostAPI.getAllPost(0, 1000);
+      console.log(postsAPI.data.data.posts)
       setPosts(
         postsAPI.data.data.posts.map((post) => ({
           ...post,
@@ -74,7 +74,7 @@ function HeaderComponent(props) {
         title.trim().toLowerCase() === "cộng đồng") && (
         <Dropdown
           menu={{
-            items: getItemDropDownSearchPost(filterPosts),
+            items: getItemDropDownSearchPost(filterPosts.slice(0,5)),
           }}
           trigger={["click"]}
           placement="bottom"

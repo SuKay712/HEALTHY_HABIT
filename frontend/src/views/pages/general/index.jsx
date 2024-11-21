@@ -8,14 +8,13 @@ function General() {
 
   const callAPI = async () => {
     try {
-      const postsAPI = await PostAPI.getAllPosts();
+      const postsAPI = await PostAPI.getHotPosts();
       console.log(
         postsAPI.data.data
           .map((post) => ({
             ...post,  
             account: post.postUser,
           }))
-          .slice(0, 6)
       );
       setPosts(
         postsAPI.data.data.map((post) => ({
@@ -23,7 +22,7 @@ function General() {
           likeNum: post.likes ? post.likes.length : 0,
           commentNum: post.likes ? post.likes.length : 0,
           account: post.postUser,
-        }))
+        })).slice(0, 6)
       );
     } catch (error) {
       console.log(error);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./index.scss";
-import { Button, Dropdown,message } from "antd";
+import { Button, Dropdown, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import {
   CloseOutlined,
@@ -22,7 +22,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FaRegImage } from "react-icons/fa";
 import CommentAPI from "../../../../../../src/api/commentAPI";
 import { useAuth } from "../../../../../../src/context/authContext";
-import SavePostAPI from "../../../../../api/savePostAPI"
+import SavePostAPI from "../../../../../api/savePostAPI";
 
 const checkLike = (likes, userId) => {
   return likes.includes(userId);
@@ -39,7 +39,7 @@ function SmallPost(props) {
 
   const [comments, setComments] = useState(post.comments);
 
-  console.log(post)
+  console.log(post);
 
   const [isPin, setIsPin] = useState(false);
 
@@ -64,11 +64,6 @@ function SmallPost(props) {
   const onClickComment = () => {
     setIsShowComment(!isShowComment);
   };
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      setSelectedImage(e.target.files[0]);
-    }
-  };
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -80,20 +75,18 @@ function SmallPost(props) {
     setComment(e.target.value);
   };
   const handleSavePost = async () => {
-    console.log("đây là api luu bai viet")
+    console.log("đây là api luu bai viet");
 
     try {
       const response = await SavePostAPI.SavePost(user.userId, post.id);
       if (response.data.isSuccess) {
-       console.log('Bài viết đã được lưu thành công!'); // Hiển thị thông báo thành công
+        console.log("Bài viết đã được lưu thành công!"); // Hiển thị thông báo thành công
       } else {
-        console.log('Không thể lưu bài viết.'); // Thông báo nếu không thành công
+        console.log("Không thể lưu bài viết."); // Thông báo nếu không thành công
       }
-      
     } catch (error) {
       console.error("Error saving post:", error);
-      
-    } 
+    }
   };
   const onCreateNeWComment = async () => {
     if (comment === "") {
@@ -135,7 +128,6 @@ function SmallPost(props) {
         messageApi.error("Có lỗi xảy ra khi gửi bình luận.");
       });
   };
-
 
   const onPin = () => {
     setIsPin(!isPin);
@@ -199,7 +191,11 @@ function SmallPost(props) {
           />
           <div className="group-small-post-info-container">
             <div className="d-flex align-items-center">
-              <p class="group-small-post-username">{post.postUser?.displayName ? post.postUser.displayName : "Empty User"}</p>
+              <p class="group-small-post-username">
+                {post.postUser?.displayName
+                  ? post.postUser.displayName
+                  : "Empty User"}
+              </p>
               <p class="group-small-post-status">
                 <FaCircle />
               </p>
@@ -310,31 +306,29 @@ function SmallPost(props) {
                     icon={<ImGrin />}
                     className="group-small-post-button"
                   />
+
+                  <Button
+                    icon={<BsCursorFill />}
+                    onClick={onCreateNeWComment}
+                    className="group-small-post-button"
+                  />
                 </div>
               </div>
-
-              <Button
-                icon={<BsCursorFill />}
-                onClick={onCreateNeWComment}
-                className="group-small-post-button"
-              />
-            </div>
-            </div>
-            {selectedImage && (
-                <div className="individual-small-post-image-comment-container">
+              {selectedImage && (
+                <div className="group-small-post-image-comment-container">
                   <img
                     src={URL.createObjectURL(selectedImage)}
                     alt="Preview"
-                    className="individual-small-post-image-comment"
+                    className="group-small-post-image-comment"
                   />
                   <Button
                     onClick={() => setSelectedImage(null)}
                     icon={<CloseOutlined />}
-                    className="individual-small-post-image-comment-button"
+                    className="group-small-post-image-comment-button"
                   ></Button>
                 </div>
               )}
-          </div>
+            </div>
           </div>
         )}
       </div>
