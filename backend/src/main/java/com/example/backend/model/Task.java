@@ -39,9 +39,9 @@ public class Task {
   private List<DateOfWeek> timer;
 
   private Priority priority;
-  @JsonFormat(pattern = "dd-MM-yyyy")
+  @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Asia/Ho_Chi_Minh")
   private LocalDate dateStart;
-  @JsonFormat(pattern = "dd-MM-yyyy")
+  @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Asia/Ho_Chi_Minh")
   private LocalDate dateEnd;
   @JsonFormat(pattern = "HH:mm:ss")
   private String timeExpired;

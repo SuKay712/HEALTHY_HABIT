@@ -22,5 +22,4 @@ public class TaskProgressResponse {
   private int completedTasksCount;
   @JsonFormat(pattern = "dd-MM-yyyy")
   private LocalDate localDate;
-
 }

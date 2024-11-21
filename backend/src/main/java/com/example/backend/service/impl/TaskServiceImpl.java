@@ -65,23 +65,24 @@ public class TaskServiceImpl implements TaskService {
               break;
             case Status.COMPLETE:
               completedTasksCount = inputDateProgress.getCompletedTasksCount() + 1;
-              inputDateProgress.setOverduedTasksCount(completedTasksCount);
+              inputDateProgress.setCompletedTasksCount(completedTasksCount);
               break;
             default:
               break;
           }
-        } else if (progress.getDate().isEqual(inputDate)) {
+        } else if (progress.getDate().isEqual(dayAfter)) {
           switch (progress.getStatus()) {
             case Status.OVERDUE:
               overduedTasksCount = dayAfterProgress.getOverduedTasksCount() + 1;
-              inputDateProgress.setOverduedTasksCount(overduedTasksCount);
+              dayAfterProgress.setOverduedTasksCount(overduedTasksCount);
               break;
             case Status.INCOMPLETE:
-              inputDateProgress.getIncompletedTasks().add(task);
+              dayAfterProgress.getIncompletedTasks().add(task);
               break;
             case Status.COMPLETE:
               completedTasksCount = dayAfterProgress.getCompletedTasksCount() + 1;
-              inputDateProgress.setOverduedTasksCount(completedTasksCount);
+              System.out.println(completedTasksCount);
+              dayAfterProgress.setCompletedTasksCount(completedTasksCount);
               break;
             default:
               break;

@@ -100,5 +100,4 @@ public class TaskController {
   public ResponseEntity<BaseResponse<List<TaskProgressResponse>>> getTasksProgress(@RequestParam String userId, @RequestParam String time) {
       return ResponseEntity.ok(taskService.getAllTasksByUserId(userId, time));
   }
-
 }
