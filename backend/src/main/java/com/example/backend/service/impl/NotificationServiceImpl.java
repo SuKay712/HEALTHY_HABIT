@@ -8,7 +8,6 @@ import com.example.backend.repository.NotificationRepository;
 import com.example.backend.repository.TaskRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.NotificationService;
-import com.example.backend.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +22,6 @@ import org.springframework.stereotype.Service;
 public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
     private final SimpMessagingTemplate messagingTemplate;
-    private final UserService userService;
     private final UserRepository userRepository;
     private final TaskRepository taskRepository;
 
