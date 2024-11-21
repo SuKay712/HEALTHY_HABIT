@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -61,4 +62,10 @@ public class Post {
   private List<String> likes = new ArrayList<>();
   private Boolean hasLiked;
   private User postUser;
+
+  @JsonIgnore
+  private Boolean isPrivate;
+
+  @Builder.Default
+  private List<String> savePeoples = new ArrayList<>();
 }

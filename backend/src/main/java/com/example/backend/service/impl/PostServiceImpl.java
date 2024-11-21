@@ -3,7 +3,6 @@ package com.example.backend.service.impl;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
@@ -41,6 +40,7 @@ public class PostServiceImpl implements PostService {
           .inTrashcan(false)
           .isDeleted(false)
           .likes(new ArrayList<>())
+          .isPrivate(Boolean.parseBoolean(req.getIsPrivate()))
           .build();
       if (!req.getImage().isEmpty()) {
         post.setImage(cloudinaryUtils.uploadImage(req.getImage()));
@@ -186,12 +186,15 @@ public class PostServiceImpl implements PostService {
     if (!isPostSaved) {
       // Nếu bài viết chưa được lưu, thêm bài viết vào danh sách lưu của người dùng
       user.getSavedPost().add(new ObjectId(req.getPostId()));
+      post.getSavePeoples().add(user.getId());
       userRepository.save(user); // Lưu người dùng với bài viết đã lưu
-
+      postRepository.save(post);
       return new BaseResponse<>(true, "Saved post successfully", post);
     } else {
       // Nếu bài viết đã được lưu, xóa bài viết khỏi danh sách lưu của người dùng
       user.getSavedPost().removeIf(savedPost -> savedPost.toString().equals(req.getPostId()));
+      post.getSavePeoples().removeIf(savePeople -> savePeople.toString().equals(req.getUserId()));
+      postRepository.save(post);
       userRepository.save(user); // Lưu người dùng sau khi xóa bài viết
 
       return new BaseResponse<>(true, "Removed post from saved successfully", post);

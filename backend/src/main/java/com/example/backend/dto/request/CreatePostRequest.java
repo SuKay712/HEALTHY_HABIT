@@ -17,4 +17,6 @@ public class CreatePostRequest {
   private String content;
 
   private MultipartFile image;
+
+  private String isPrivate;
 }

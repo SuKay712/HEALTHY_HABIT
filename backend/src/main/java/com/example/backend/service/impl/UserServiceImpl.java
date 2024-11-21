@@ -9,6 +9,7 @@ import java.util.Random;
 
 import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +33,11 @@ public class UserServiceImpl implements UserService {
   private final UserRepository userRepository;
   private final CloudinaryUtils cloudinaryUtils;
   private final EmailService emailService;
+  @Value("${application.avatar.default}")
+  private String avatarDefault;
+
+  @Value("${application.background.default}")
+  private String backgroundDefault;
 
   @Override
   public BaseResponse<User> getUserById(String userId) {
@@ -82,10 +88,17 @@ public class UserServiceImpl implements UserService {
   public BaseResponse<String> updateAvatar(MultipartFile image, String userId) {
     try {
       User user = userRepository.findById(userId).orElseThrow();
+
+      // Kiểm tra nếu avatar hiện tại không phải avatar mặc định
+      if (!user.getAvatar().equals(avatarDefault)) {
+        cloudinaryUtils.deleteImageByUrl(user.getAvatar());
+      }
+
       String imageURL = cloudinaryUtils.uploadImage(image);
       user.setAvatar(imageURL);
       userRepository.save(user);
-      return new BaseResponse<>(true, "Update avatar successfull!", imageURL);
+
+      return new BaseResponse<>(true, "Update avatar successful!", imageURL);
     } catch (Exception e) {
       return new BaseResponse<>(false, "Update avatar failed!", null);
     }
@@ -95,12 +108,19 @@ public class UserServiceImpl implements UserService {
   public BaseResponse<String> updateBackgroundImage(MultipartFile backgroundImage, String userId) {
     try {
       User user = userRepository.findById(userId).orElseThrow();
+
+      // Kiểm tra nếu background hiện tại không phải background mặc định
+      if (!user.getBackgroundImage().equals(backgroundDefault)) {
+        cloudinaryUtils.deleteImageByUrl(user.getBackgroundImage());
+      }
+
       String imageURL = cloudinaryUtils.uploadImage(backgroundImage);
       user.setBackgroundImage(imageURL);
       userRepository.save(user);
-      return new BaseResponse<>(true, "Update avatar successfull!", imageURL);
+
+      return new BaseResponse<>(true, "Update background image successful!", imageURL);
     } catch (Exception e) {
-      return new BaseResponse<>(false, "Update avatar failed!", null);
+      return new BaseResponse<>(false, "Update background image failed!", null);
     }
   }
 
@@ -163,6 +183,8 @@ public class UserServiceImpl implements UserService {
         .groupNotify(true)
         .savedPost(savedPost)
         .isDeleted(false)
+        .avatar(avatarDefault)
+        .backgroundImage(backgroundDefault)
         .tel("")
         .build();
 
