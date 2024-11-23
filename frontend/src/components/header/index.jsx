@@ -17,15 +17,12 @@ import { useNotification } from "../../context/notificationContext";
 function HeaderComponent(props) {
   const { url, title } = props;
   const [showNoti, setShowNoti] = useState(false);
-  const { notReadCount, readAllNotifications } = useNotification();
+  const { notReadCount } = useNotification();
   const [txtSearch, setTxtSearch] = useState("");
   const [posts, setPosts] = useState([]);
   const [filterPosts, setFilterPosts] = useState(posts);
 
   const onClickNoti = () => {
-    if (showNoti) {
-      readAllNotifications();
-    }
     setShowNoti((prev) => !prev);
   };
 

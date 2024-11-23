@@ -8,13 +8,13 @@ import {
   FaAmbulance,
 } from 'react-icons/fa';
 import './index.scss';
-import { Select, Spin } from 'antd';
+import { Select, Spin, Tooltip } from 'antd';
 import { useNotification } from '../../../context/notificationContext';
 import { LoadingOutlined } from '@ant-design/icons';
 
 const Notification = ({ show, setShow }) => {
   const ref = useRef();
-  const { notifications, loading, notReadCount } = useNotification();
+  const { notifications, loading, readNotification } = useNotification();
   const [filteredValue, setFilterdValue] = useState('ALL');
   const filteredNotifications = useMemo(() => {
     if (filteredValue === 'ALL') {
@@ -57,9 +57,11 @@ const Notification = ({ show, setShow }) => {
           style={{ width: '120px' }}
           options={[
             { label: 'Tất cả', value: 'ALL' },
-            { label: 'Biểu cảm', value: 'LIKE' },
+            { label: 'Thích bài viết', value: 'LIKE' },
             { label: 'Bình luận', value: 'COMMENT' },
-            { label: 'Việc cần làm', value: 'TASK' },
+            { label: 'Thích bình luận', value: 'LIKE_COMMENT' },
+            { label: 'Quá hạn', value: 'OVERDUE' },
+            { label: 'Hoàn thành', value: 'COMPLETED' },
           ]}
         />
       </div>
@@ -68,20 +70,21 @@ const Notification = ({ show, setShow }) => {
           <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
         </div>
       ) : (
-        filteredNotifications.map(({ notiType, content }, index) => (
+        filteredNotifications.map(({ notiType, content, notRead }, index) => (
           <div
             key={index}
-            className={`noti-row${
-              index < notReadCount && filteredValue === 'ALL'
-                ? ' noti-row-not-read'
-                : ''
-            }`}
+            className={`noti-row${notRead ? ' noti-row-not-read' : ''}`}
+            onClick={() => {
+              if (notRead) readNotification(index);
+            }}
           >
             <div className='noti-row-icon'>
-              {notiIcons[notiType] ?? notiIcons['OTHER']}
+              {notiIcons[notiType] ?? notiIcons.OTHER}
             </div>
             <div className='noti-row-content'>
-              <p className='noti-row-content-text'>{content}</p>
+              <Tooltip title={content}>
+                <p className='noti-row-content-text'>{content}</p>
+              </Tooltip>
               <p className='noti-row-content-placeholder'>
                 Bạn có một thông báo
               </p>
@@ -99,7 +102,6 @@ const notiIcons = {
   LIKE: <FaThumbsUp />,
   COMMENT: <FaComment />,
   LIKE_COMMENT: <FaThumbsUp />,
-  TASK: <FaTasks />,
   OVERDUE: <FaGrimace />,
   COMPLETED: <FaCheck />,
   OTHER: <FaAmbulance />,
