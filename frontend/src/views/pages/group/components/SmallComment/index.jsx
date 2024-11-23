@@ -10,8 +10,6 @@ function SmallComment(props) {
   const { comment, user } = props;
 
   const [isLike, setIsLike] = useState(checkLike(comment.likes, user.userId));
-
-  
   const onLike = async () => {
     console.log(comment)
     LikeAPI.LikeComment(user.userId, comment.id)
