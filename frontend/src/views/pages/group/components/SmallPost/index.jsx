@@ -45,7 +45,6 @@ function SmallPost(props) {
   console.log(post);
 
   const [isPin, setIsPin] = useState(checkSave(post.savePeoples, user.userId));
-
   const handleNavigateEdit = () => {
     navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
