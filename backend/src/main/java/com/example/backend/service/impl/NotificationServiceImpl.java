@@ -8,7 +8,6 @@ import com.example.backend.repository.NotificationRepository;
 import com.example.backend.repository.TaskRepository;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.service.NotificationService;
-
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -71,6 +70,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public void sendCommentNotification(String userId, String postId, String commenterId) {
+        if (userId.equals(commenterId))
+            return;
         User commenter = userRepository.findById(commenterId).orElseThrow();
         String commenterName = commenter != null ? commenter.getUsername() : "Người dùng không xác định";
 
