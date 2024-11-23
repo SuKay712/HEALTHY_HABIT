@@ -3,10 +3,13 @@ import "./index.scss";
 import { Button,Image } from "antd";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import LikeAPI from "../../../../../../src/api/likeAPI";
+const checkLike = (likes, userId) => {
+  return likes.includes(userId);
+};
 function SmallComment(props) {
   const { comment, user } = props;
 
-  const [isLike, setIsLike] = useState(false);
+  const [isLike, setIsLike] = useState(checkLike(comment.likes, user.userId));
 
   
   const onLike = async () => {

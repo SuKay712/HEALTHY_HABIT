@@ -28,6 +28,9 @@ const checkLike = (likes, userId) => {
   return likes.includes(userId);
 };
 
+const checkSave = (save, userId) => {
+  return save.includes(userId);
+};
 function SmallPost(props) {
   const { post, user, onUpdatePost } = props;
 
@@ -41,7 +44,7 @@ function SmallPost(props) {
 
   console.log(post);
 
-  const [isPin, setIsPin] = useState(false);
+  const [isPin, setIsPin] = useState(checkSave(post.savePeoples, user.userId));
 
   const handleNavigateEdit = () => {
     navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
@@ -268,7 +271,10 @@ function SmallPost(props) {
               )
             }
             className="group-small-post-button"
-            onClick={handleSavePost}
+            onClick={() => {
+              handleSavePost(); // Gọi hàm handleSavePost
+              onPin(); // Gọi hàm onPin
+            }}s
           />
         </div>
         {isShowComment && (
