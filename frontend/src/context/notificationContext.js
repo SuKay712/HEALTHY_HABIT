@@ -12,8 +12,20 @@ export const NotificationProvider = ({ children }) => {
   const { user } = useAuth();
   const [notReadCount, setNotReadCount] = useState(0);
 
-  const readAllNotifications = () => {
-    setNotReadCount(0);
+  const readNotification = (index) => {
+    setNotReadCount((prev) => prev - 1);
+    setNotifications((prev) =>
+      prev.map((notification, i) => {
+        if (index !== i) {
+          return notification;
+        }
+
+        return {
+          ...notification,
+          notRead: false,
+        };
+      })
+    );
   };
 
   useEffect(() => {
@@ -28,7 +40,7 @@ export const NotificationProvider = ({ children }) => {
           `/api/v1/notification/user?userId=${user.userId}`
         );
         const notifications = response.data.data;
-        setNotifications(notifications);
+        setNotifications(notifications.reverse());
       } catch {
         console.error("What 's up?");
       }
@@ -48,10 +60,13 @@ export const NotificationProvider = ({ children }) => {
       onConnect: () => {
         console.log('Connected to WebSocket');
 
-        stompClient.subscribe('/topic/user/{userId}', (message) => {
+        stompClient.subscribe(`/topic/user/${user.userId}`, (message) => {
           const notification = JSON.parse(message.body);
           setNotReadCount((prev) => prev + 1);
-          setNotifications((prev) => [notification, ...prev]);
+          setNotifications((prev) => [
+            { ...notification, notRead: true },
+            ...prev,
+          ]);
         });
       },
       onDisconnect: () => {
@@ -68,7 +83,7 @@ export const NotificationProvider = ({ children }) => {
 
   return (
     <NotificationContext.Provider
-      value={{ notifications, loading, notReadCount, readAllNotifications }}
+      value={{ notifications, loading, notReadCount, readNotification }}
     >
       {children}
     </NotificationContext.Provider>
