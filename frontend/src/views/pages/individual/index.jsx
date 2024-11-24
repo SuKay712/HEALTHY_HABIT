@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './index.scss';
-import { AuthContext } from '../../../context/authContext';
+import { AuthContext, useAuth } from '../../../context/authContext';
 import { Button } from 'antd';
 import { CameraFilled } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
@@ -13,7 +13,7 @@ import Modal from '../../../components/modal';
 import AddPostForm from './AddPostForm';
 
 function Individual() {
-    const { user, setUser } = useContext(AuthContext);
+    const { user, setUser } = useAuth();
     const [newPost, setNewPost] = useState('');
     const [posts, setPosts] = useState([]);
     const [showAddForm, setShowAddForm] = useState(false);
@@ -103,6 +103,10 @@ function Individual() {
         setPosts((posts) => [
             {
                 ...post,
+                postUser: {
+                    avatar: user.avatar,
+                    displayName: user.displayName,
+                },
                 id: post.id,
                 content: post.content,
                 image: post.image,
