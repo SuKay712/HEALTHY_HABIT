@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,10 +26,10 @@ public class CommentController {
 
   @PostMapping(value = "/comment", consumes = "multipart/form-data")
   public ResponseEntity<BaseResponse<Comment>> createComment(
-      @RequestPart("userId") String userId,
-      @RequestPart("postId") String postId,
-      @RequestPart("content") String content,
-      @RequestPart(value = "image", required = false) MultipartFile image) {
+      @RequestParam("userId") String userId,
+      @RequestParam("postId") String postId,
+      @RequestParam("content") String content,
+      @RequestParam(value = "image", required = false) MultipartFile image) {
     CreateCommentRequest req = CreateCommentRequest.builder()
         .userId(userId)
         .postId(postId)

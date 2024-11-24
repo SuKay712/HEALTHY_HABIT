@@ -14,7 +14,7 @@ import com.example.backend.model.Post;
 public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
         @Aggregation(pipeline = {
-                        "{ '$match': { 'userId': { '$eq': ?0 } , 'isPrivate' : true } }",
+                        "{ '$match': { 'userId': { '$eq': ?0 } } }",
                         "{ '$lookup': { 'from': 'Users', 'localField': 'userId', 'foreignField': '_id', 'as': 'postUser' } }",
                         "{ '$addFields': { 'postUser': { '$arrayElemAt': ['$postUser', 0] } } }",
                         "{ '$lookup': { 'from': 'Comments', 'localField': '_id', 'foreignField': 'postId', 'as': 'comments' } }",

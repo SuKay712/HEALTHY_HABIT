@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,23 +32,26 @@ public class PostController {
 
   @PostMapping(value = "/post", consumes = "multipart/form-data")
   public ResponseEntity<BaseResponse<Post>> createPost(
-      @RequestPart("userId") String userId,
-      @RequestPart("content") String content,
-      @RequestPart(value = "image", required = false) MultipartFile image) {
+      @RequestParam("userId") String userId,
+      @RequestParam("content") String content,
+      @RequestParam(value = "image", required = false) MultipartFile image,
+      @RequestParam("isPrivate") String isPrivate) {
+    System.out.println("CHECK: " + content);
     CreatePostRequest req = CreatePostRequest.builder()
         .userId(userId)
         .content(content)
         .image(image)
+        .isPrivate(isPrivate)
         .build();
     return ResponseEntity.ok(postService.createPost(req));
   }
 
   @PutMapping(value = "/post", consumes = "multipart/form-data")
   public ResponseEntity<BaseResponse<Post>> updatePost(
-      @RequestPart("postId") String postId,
-      @RequestPart("content") String content,
-      @RequestPart(value = "image", required = false) MultipartFile image,
-      @RequestPart("isDeleteImage") String isDeleteImage) {
+      @RequestParam("postId") String postId,
+      @RequestParam("content") String content,
+      @RequestParam(value = "image", required = false) MultipartFile image,
+      @RequestParam("isDeleteImage") String isDeleteImage) {
     UpdatePostRequest req = UpdatePostRequest.builder()
         .postId(postId)
         .content(content)
