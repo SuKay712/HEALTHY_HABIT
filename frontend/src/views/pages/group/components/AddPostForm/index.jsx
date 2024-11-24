@@ -52,6 +52,7 @@ const AddPostForm = ({ handleCloseForm, handleAddLocalPost, callAPI }) => {
       }
       formData.append("content", content);
       formData.append("userId", user.userId);
+      formData.append("isPrivate", "false");
 
       const response = await axiosClient.formData.post(
         "/api/user/post",
