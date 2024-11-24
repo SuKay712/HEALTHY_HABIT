@@ -8,6 +8,7 @@ import DateTask from "./components/DateTask";
 import progressAPI from "../../../api/progressAPI";
 import { AuthContext } from "../../../context/authContext";
 import { PROGRESSSTATUSENUM } from "../../../constants/enum";
+import { useNavigate } from "react-router";
 
 function Schedule() {
     const [data, setData] = useState([]);
@@ -15,6 +16,8 @@ function Schedule() {
     const [selectedDay, setSelectedDay] = useState(dayjs());
 
     const { user } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const callAPI = async () => {
@@ -96,6 +99,10 @@ function Schedule() {
         setSelectedDay(date);
     };
 
+    const handleCreateTask =()=>{
+        navigate('/aim');
+    }
+
     return (
         <div className="schedule-container">
             <div className="schedule-content-container">
@@ -103,6 +110,7 @@ function Schedule() {
                     <Button
                         icon={<PlusOutlined />}
                         className="schedule-add-task-button"
+                        onClick={handleCreateTask}
                     >
                         Thêm mục tiêu
                     </Button>

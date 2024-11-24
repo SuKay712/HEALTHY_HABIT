@@ -1,5 +1,5 @@
 export const taskStatus = {
-  OVERDUE: "Quá hạng",
+  OVERDUE: "Quá hạn",
   COMPLETE: "Hoàn thành",
   INCOMPLETE: "Chưa hoàn thành",
 };

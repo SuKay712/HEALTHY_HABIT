@@ -39,7 +39,6 @@ const items = [
   getItem("Cá nhân", "/individual", <UserOutlined />),
   getItem("Cài đặt", "/setting", <SettingOutlined />, [
     getItem("Chỉnh sửa thông tin", "/update_profile", <EditOutlined />),
-    getItem("Chỉnh sửa thông báo", "/update_noti", <BellOutlined />),
   ]),
 ];
 
@@ -64,7 +63,6 @@ function MainLayout(props) {
     "Cá nhân": "/individual",
     "Cài đặt": "/setting",
     "Chỉnh sửa thông tin": "/update_profile",
-    "Chỉnh sửa thông báo": "/update_noti",
   };
 
   const navigate = useNavigate();

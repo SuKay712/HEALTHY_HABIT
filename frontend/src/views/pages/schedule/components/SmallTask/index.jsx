@@ -4,6 +4,7 @@ import { Checkbox, Input, message } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { PROGRESSSTATUSENUM } from "../../../../../constants/enum";
 import progressAPI from "../../../../../api/progressAPI";
+import dayjs from "dayjs";
 
 function SmallTask(props) {
     const { smallTask } = props;
@@ -12,6 +13,8 @@ function SmallTask(props) {
 
     const [messageApi, contextHolder] = message.useMessage();
     const [checkedTask, setCheckedTask] = useState(checked);
+
+    console.log(smallTask)
 
     const updateTask = async (status) => {
         try {
@@ -32,6 +35,14 @@ function SmallTask(props) {
         }
     };
     const onChangeChecked = () => {
+        const currentDateTime = dayjs(); // Thời gian hiện tại
+        const taskDateTime = dayjs(`${time} ${startTime}`, "YYYY-MM-DD HH:mm"); // Ghép time và startTime thành thời điểm cụ thể
+
+        if (currentDateTime.isAfter(taskDateTime)) {
+            messageApi.error("Không thể thay đổi trạng thái vì đã quá hạn!");
+            return;
+        }
+
         const afterStatus = !checkedTask;
         updateTask(afterStatus);
         setCheckedTask(afterStatus);
