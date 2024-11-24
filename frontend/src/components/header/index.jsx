@@ -13,6 +13,7 @@ import Notification from "./notification";
 import getItemDropDownSearchPost from "./dropdown";
 import PostAPI from "../../api/postAPI";
 import { useNotification } from "../../context/notificationContext";
+import { useNavigate } from "react-router";
 
 function HeaderComponent(props) {
   const { url, title } = props;
@@ -22,6 +23,8 @@ function HeaderComponent(props) {
   const [posts, setPosts] = useState([]);
   const [filterPosts, setFilterPosts] = useState(posts);
 
+  const navigate = useNavigate();
+
   const onClickNoti = () => {
     setShowNoti((prev) => !prev);
   };
@@ -29,7 +32,7 @@ function HeaderComponent(props) {
   const callAPI = async () => {
     try {
       const postsAPI = await PostAPI.getAllPost(0, 1000);
-      console.log(postsAPI.data.data.posts)
+      // console.log(postsAPI.data.data.posts)
       setPosts(
         postsAPI.data.data.posts.map((post) => ({
           ...post,
@@ -49,6 +52,10 @@ function HeaderComponent(props) {
     setTxtSearch(value.target.value);
   };
 
+  const onClickAvatar = () => {
+    navigate("/individual");
+  };
+
   useEffect(() => {
     const searchText = txtSearch.toLowerCase();
     const filtered =
@@ -64,14 +71,20 @@ function HeaderComponent(props) {
 
   return (
     <div class="d-flex align-items-center justify-content-between header-container">
-      <h1 class="header-title">
+      <h1
+        class={`header-title ${
+          (title.trim().toLowerCase() === "cá nhân" ||
+            title.trim().toLowerCase() === "cộng đồng") &&
+          "header-title-search"
+        } `}
+      >
         {title.trim().toLowerCase() !== "cá nhân" && title}
       </h1>
       {(title.trim().toLowerCase() === "cá nhân" ||
         title.trim().toLowerCase() === "cộng đồng") && (
         <Dropdown
           menu={{
-            items: getItemDropDownSearchPost(filterPosts.slice(0,5)),
+            items: getItemDropDownSearchPost(filterPosts.slice(0, 5)),
           }}
           trigger={["click"]}
           placement="bottom"
@@ -92,11 +105,17 @@ function HeaderComponent(props) {
             className="header-noti-button"
           />
           {notReadCount !== 0 && (
-            <label className='header-noti-not-read'>{notReadCount}</label>
+            <label className="header-noti-not-read">{notReadCount}</label>
           )}
           {showNoti && <Notification show={showNoti} setShow={setShowNoti} />}
         </div>
-        <Avatar size={45} icon={!url && <UserOutlined color="" />} src={url} />
+        <Avatar
+          onClick={onClickAvatar}
+          size={45}
+          icon={!url && <UserOutlined color="" />}
+          src={url}
+          className="header-user-avatar"
+        />
       </div>
     </div>
   );

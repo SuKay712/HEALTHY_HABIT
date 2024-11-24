@@ -22,12 +22,46 @@ import LikeAPI from "../../../../api/likeAPI";
 import CommentAPI from "../../../../api/commentAPI";
 import { useAuth } from "../../../../context/authContext";
 
+function formatDate(createdAt) {
+  // Parse input date string to Date object
+  const createdDate = new Date(
+    createdAt.split(" ")[0].split("-").reverse().join("-") +
+      "T" +
+      createdAt.split(" ")[1]
+  );
+
+  // Get the current date
+  const currentDate = new Date();
+
+  // Check if the created date is today
+  const isToday =
+    createdDate.getDate() === currentDate.getDate() &&
+    createdDate.getMonth() === currentDate.getMonth() &&
+    createdDate.getFullYear() === currentDate.getFullYear();
+
+  if (isToday) {
+    // Return only time if it's today
+    return `${createdDate.getHours().toString().padStart(2, "0")}:${createdDate
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}`;
+  } else {
+    // Return date in DD-MM-YYYY format if it's not today
+    return `${createdDate.getDate().toString().padStart(2, "0")}-${(
+      createdDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}-${createdDate.getFullYear()}`;
+  }
+}
+
 function SmallPost(props) {
-  const { post, onUpdatePost } = props;
+  const { onUpdatePost } = props;
   const { user } = useAuth();
 
   const [messageApi, contextHolder] = message.useMessage();
 
+  const [post, setPost] = useState(props.post);
   const [isLike, setIsLike] = useState(post.hasLiked);
   const [comment, setComment] = useState("");
   const [isShowComment, setIsShowComment] = useState(false);
@@ -37,6 +71,8 @@ function SmallPost(props) {
   const handleNavigateEdit = () => {
     Navigate("/editpost", { state: { post, user } }); // Đường dẫn đến trang bạn muốn chuyển hướng
   };
+
+  console.log(post);
 
   const onLike = () => {
     LikeAPI.LikePost(user.userId, post.id)
@@ -109,6 +145,10 @@ function SmallPost(props) {
             hasLikedComment: false,
           },
         ]);
+        setPost({
+          ...post,
+          commentNum: post.commentNum + 1,
+        });
         setComment("");
         setSelectedImage(null);
       })
@@ -175,12 +215,16 @@ function SmallPost(props) {
           />
           <div className="individual-small-post-info-container">
             <div className="d-flex align-items-center">
-              <p class="individual-small-post-username">{post.postUser?.displayName ? post.postUser.displayName : "Empty User"}</p>
+              <p class="individual-small-post-username">
+                {post.postUser?.displayName
+                  ? post.postUser.displayName
+                  : "Empty User"}
+              </p>
               <p class="individual-small-post-status">
                 <FaCircle />
               </p>
             </div>
-            <p className="individual-small-post-createdAt">{post.createdAt}</p>
+            <p className="individual-small-post-createdAt">{formatDate(post.createdAt)}</p>
           </div>
         </div>
         <div>

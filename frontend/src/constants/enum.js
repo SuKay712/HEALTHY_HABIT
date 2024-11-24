@@ -15,13 +15,13 @@ export const TASKPRIORITY = [{
   },
   {
     value : "LOW",
-    label : "Thắp",
+    label : "Thấp",
     color : "#0669FC"
   }
 ];
 
 export const PROGRESSTASKSTATUSENUM = {
-  OVERDUE: "Quá hạng",
+  OVERDUE: "Quá hạn",
   COMPLETE : "Đã hoàn thành",
   INCOMPLETE : "Chưa hoàn thành"
 }

@@ -2,6 +2,8 @@
 
 .header-title {
   color: $dark_blue;
+}
+.header-title-search {
   width: 250px;
 }
 
@@ -47,4 +49,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.header-user-avatar {
+  cursor: pointer;
 }
