@@ -1,34 +1,32 @@
-import axios from 'axios'
-import queryString from 'query-string'
+import axios from 'axios';
+import queryString from 'query-string';
 
 const axiosClient = {
-    
-    application : axios.create({
+    application: axios.create({
         baseURL: process.env.REACT_APP_API_URL,
-        
+
         headers: {
             'content-type': 'application/json',
         },
         paramsSerializer: (params) => queryString.stringify(params),
     }),
 
-    applicationNoAuth : axios.create({
+    applicationNoAuth: axios.create({
         baseURL: process.env.REACT_APP_API_URL,
-        
+
         headers: {
             'content-type': 'application/json',
         },
         paramsSerializer: (params) => queryString.stringify(params),
     }),
 
-    formData : axios.create({
+    formData: axios.create({
         baseURL: process.env.REACT_APP_API_URL,
-        
+
         headers: {
             'content-type': 'multipart/form-data',
         },
-    })
-}
-
+    }),
+};
 
 export default axiosClient;
