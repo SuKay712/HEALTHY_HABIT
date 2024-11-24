@@ -26,6 +26,7 @@ function Individual() {
     try {
       const response = await PostAPI.getAllPostByUserId(user.userId);
 
+
       const newPosts = response.data.data.map((post) => ({
         ...post,
         id: post.id,
@@ -70,7 +71,6 @@ function Individual() {
       formData.append("userId", user.userId);
       AccountAPI.updateAvatar(formData)
         .then((res) => {
-          console.log(res.data.data);
           setUser({ ...user, avatar: res.data.data });
         })
         .catch((error) => {
@@ -88,7 +88,6 @@ function Individual() {
       formData.append("userId", user.userId);
       AccountAPI.updateBackground(formData)
         .then((res) => {
-          console.log(res.data.data);
           setUser({ ...user, backgroundImage: res.data.data });
         })
         .catch((error) => {
