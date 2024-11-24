@@ -11,17 +11,18 @@ function SmallComment(props) {
 
   const { user } = useAuth();
 
-  const [isLike, setIsLike] = useState(comment.hasLikedComment);
+  const [likeNum, setLikeNum] = useState(comment.likes.length);
+  const [isLike, setIsLike] = useState(comment.likes.includes(user.userId));
 
   const onLike = async () => {
-    console.log(comment)
-    LikeAPI.LikeComment(user.userId, comment.id)
-      .then(() => {
-        setIsLike(!isLike);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    console.log(comment);
+    try {
+      LikeAPI.LikeComment(user.userId, comment.id);
+      setIsLike(!isLike);
+      setLikeNum(isLike ? likeNum - 1 : likeNum + 1);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -33,20 +34,29 @@ function SmallComment(props) {
       />
       <div className="individual-small-comment-info-container">
         <p className="individual-small-comment-username">
-          {comment.account.name}
+          {comment.account.displayName}
         </p>
         <p>{comment.content}</p>
-        {
-          comment.image && <Image alt='comment img' src={comment.image} className="individual-small-comment-image"/>
-        }
-        <div className="d-flex align-items-center justify-content-between">
-          <Button
-            icon={!isLike ? <HeartOutlined /> : <HeartFilled />}
-            onClick={onLike}
-            className="individual-small-post-button"
-            style={{ color: "#EB3223" }}
+        {comment.image && (
+          <Image
+            alt="comment img"
+            src={comment.image}
+            className="individual-small-comment-image"
           />
-          <p className=" individual-small-comment-createdAt">{comment.createdAt}</p>
+        )}
+        <div className="d-flex align-items-center justify-content-between">
+          <div className="d-flex align-items-center">
+            <Button
+              icon={!isLike ? <HeartOutlined /> : <HeartFilled />}
+              onClick={onLike}
+              className="individual-small-post-button"
+              style={{ color: "#EB3223" }}
+            />
+            <div>{likeNum}</div>
+          </div>
+          <p className=" individual-small-comment-createdAt">
+            {comment.createdAt}
+          </p>
         </div>
       </div>
     </div>

@@ -5,9 +5,16 @@ import {
   PROGRESSTASKSTATUSENUM,
   TASKPRIORITY,
 } from "../../../../constants/enum";
-import { PieChart } from '@mui/x-charts/PieChart';
+import { PieChart } from "@mui/x-charts/PieChart";
 import { Table } from "antd";
 import { IMAGES } from "../../../../constants/images";
+
+function TruncateText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength) + "...";
+}
 
 function SmallStatistic(props) {
   const { progress } = props;
@@ -19,6 +26,9 @@ function SmallStatistic(props) {
       title: "Công việc",
       dataIndex: "name",
       key: "name",
+      render: (text) => {
+        return TruncateText(text, 31);
+      },
     },
     {
       title: "Thời gian",
@@ -62,8 +72,8 @@ function SmallStatistic(props) {
           label: PROGRESSTASKSTATUSENUM[key],
         });
       }
-      if(percent[key] > 0){
-        setIsExistData(true)
+      if (percent[key] > 0) {
+        setIsExistData(true);
       }
     }
 
@@ -89,7 +99,7 @@ function SmallStatistic(props) {
             height={300}
           />
         )}
-        {!isExistData &&(
+        {!isExistData && (
           // <img alt='no data' className="small-statistic-no-data" src={IMAGES.no_data}/>
           <p className="small-statistic-no-data-text">Không có việc hôm nay</p>
         )}

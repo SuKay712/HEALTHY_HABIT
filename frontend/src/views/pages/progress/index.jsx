@@ -75,6 +75,8 @@ function Progress() {
   }, []);
 
   useEffect(() => {
+    console.log(taskPriority)
+    setTaskPriority("ALL")
     callAPI();
   }, [selectedDay]);
 
@@ -103,7 +105,7 @@ function Progress() {
             <p>Mức độ ưu tiên</p>
             <Select
               placeholder="Chọn độ ưu tiên"
-              defaultValue={taskPriority}
+              value={taskPriority}
               onChange={onChangePriority}
               options={taskPiorities}
               className="progress-fitler-item-input"

@@ -19,10 +19,14 @@
     padding: 10px 15px;
     margin-left: 10px;
     border-radius: 20px;
+    min-width: 200px;
     p {
       margin: 0;
       padding: 0;
     }
+  }
+  &-createdAt {
+    color: $subText;
   }
   &-image {
     width: 300px !important;

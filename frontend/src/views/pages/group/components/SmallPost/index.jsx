@@ -31,8 +31,40 @@ const checkLike = (likes, userId) => {
 const checkSave = (save, userId) => {
   return save.includes(userId);
 };
+
+function formatDate(createdAt) {
+  // Parse input date string to Date object
+  const createdDate = new Date(
+    createdAt.split(" ")[0].split("-").reverse().join("-") + "T" + createdAt.split(" ")[1]
+  );
+
+  // Get the current date
+  const currentDate = new Date();
+
+  // Check if the created date is today
+  const isToday =
+    createdDate.getDate() === currentDate.getDate() &&
+    createdDate.getMonth() === currentDate.getMonth() &&
+    createdDate.getFullYear() === currentDate.getFullYear();
+
+  if (isToday) {
+    // Return only time if it's today
+    return `${createdDate.getHours().toString().padStart(2, "0")}:${createdDate
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}`;
+  } else {
+    // Return date in DD-MM-YYYY format if it's not today
+    return `${createdDate.getDate().toString().padStart(2, "0")}-${(createdDate.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${createdDate.getFullYear()}`;
+  }
+}
+
 function SmallPost(props) {
-  const { post, user, onUpdatePost } = props;
+  const { user, onUpdatePost } = props;
+
+  const [post, setPost] = useState(props.post);
 
   const [messageApi, contextHolder] = message.useMessage();
   const [isLike, setIsLike] = useState(checkLike(post.likes, user.userId));
@@ -42,7 +74,7 @@ function SmallPost(props) {
 
   const [comments, setComments] = useState(post.comments);
 
-  console.log(post);
+  // console.log(post);
 
   const [isPin, setIsPin] = useState(checkSave(post.savePeoples, user.userId));
   const handleNavigateEdit = () => {
@@ -122,6 +154,10 @@ function SmallPost(props) {
             hasLikedComment: false,
           },
         ]);
+        setPost({
+          ...post,
+          commentNum: post.commentNum + 1,
+        });
         setComment("");
         setSelectedImage(null);
       })
@@ -202,7 +238,7 @@ function SmallPost(props) {
                 <FaCircle />
               </p>
             </div>
-            <p className="group-small-post-createdAt">{post.createdAt}</p>
+            <p className="group-small-post-createdAt">{formatDate(post.createdAt)}</p>
           </div>
         </div>
         <div>
@@ -273,7 +309,8 @@ function SmallPost(props) {
             onClick={() => {
               handleSavePost(); // Gọi hàm handleSavePost
               onPin(); // Gọi hàm onPin
-            }}s
+            }}
+            s
           />
         </div>
         {isShowComment && (
