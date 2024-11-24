@@ -14,7 +14,7 @@ import com.example.backend.model.Post;
 public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
         @Aggregation(pipeline = {
-                        "{ '$match': { 'userId': { '$eq': ?0 } , 'isPrivate' : true } }",
+                        "{ '$match': { 'userId': { '$eq': ?0 } } }",
                         "{ '$lookup': { 'from': 'Users', 'localField': 'userId', 'foreignField': '_id', 'as': 'postUser' } }",
                         "{ '$addFields': { 'postUser': { '$arrayElemAt': ['$postUser', 0] } } }",
                         "{ '$lookup': { 'from': 'Comments', 'localField': '_id', 'foreignField': 'postId', 'as': 'comments' } }",
@@ -32,8 +32,9 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
                         "{ '$match': { '_id': { '$in': ?0 } } }",
                         "{ '$lookup': { 'from': 'Users', 'localField': 'userId', 'foreignField': '_id', 'as': 'postUser' } }",
                         "{ '$lookup': { 'from': 'Comments', 'localField': '_id', 'foreignField': 'postId', 'as': 'comments' } }",
+                        "{ '$lookup': { 'from': 'Users', 'localField': 'comments.userId', 'foreignField': '_id', 'as': 'commentUsers' } }",
+                        "{ '$addFields': { 'comments': { '$map': { 'input': '$comments', 'as': 'comment', 'in': { '$mergeObjects': [ '$$comment', { 'user': { '$arrayElemAt': ['$commentUsers', { '$indexOfArray': ['$commentUsers._id', '$$comment.userId'] }] } } ] } } } } }",
                         "{ '$addFields': { 'hasLiked': { '$in': [ { '$toString': ?1 }, '$likes' ] } } }",
-                        "{ '$addFields': { 'comments': { '$map': { 'input': '$comments', 'as': 'comment', 'in': { '$mergeObjects': ['$$comment', { 'user': { '$arrayElemAt': ['$commentUser', 0] } }] } } } } }",
                         "{ '$project': { 'id': 1, 'userId': 1, 'content': 1, 'image': 1, 'inTrashcan': 1, 'isDeleted': 1, 'likes': 1, 'createdAt': 1, 'updatedAt': 1, 'comments': { '$cond': [{ '$gt': [{ '$size': '$comments' }, 0] }, '$comments', []] }, 'hasLiked': 1, 'isPrivate': 1, 'postUser': { '$arrayElemAt': ['$postUser', 0] }, 'savePeoples': 1 } }"
         })
         List<Post> findPostsBySavedPostAndUserId(List<ObjectId> savedPost, ObjectId userId);
@@ -56,6 +57,8 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
         List<Post> findAllPosts();
 
         @Aggregation(pipeline = {
+                        "{ '$match' : { 'isPrivate': false }}",
+
                         "{ '$lookup': { 'from': 'Comments', 'localField': '_id', 'foreignField': 'postId', 'as': 'comments' } }",
 
                         "{ '$lookup': { 'from': 'Users', 'localField': 'comments.userId', 'foreignField': '_id', 'as': 'commentUser' } }",
