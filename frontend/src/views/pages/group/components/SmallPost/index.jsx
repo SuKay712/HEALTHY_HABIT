@@ -35,7 +35,9 @@ const checkSave = (save, userId) => {
 function formatDate(createdAt) {
   // Parse input date string to Date object
   const createdDate = new Date(
-    createdAt.split(" ")[0].split("-").reverse().join("-") + "T" + createdAt.split(" ")[1]
+    createdAt.split(" ")[0].split("-").reverse().join("-") +
+      "T" +
+      createdAt.split(" ")[1]
   );
 
   // Get the current date
@@ -55,13 +57,16 @@ function formatDate(createdAt) {
       .padStart(2, "0")}`;
   } else {
     // Return date in DD-MM-YYYY format if it's not today
-    return `${createdDate.getDate().toString().padStart(2, "0")}-${(createdDate.getMonth() + 1)
+    return `${createdDate.getDate().toString().padStart(2, "0")}-${(
+      createdDate.getMonth() + 1
+    )
       .toString()
       .padStart(2, "0")}-${createdDate.getFullYear()}`;
   }
 }
 
 function SmallPost(props) {
+  const { user: userProfile } = useAuth();
   const { user, onUpdatePost } = props;
 
   const [post, setPost] = useState(props.post);
@@ -238,7 +243,9 @@ function SmallPost(props) {
                 <FaCircle />
               </p>
             </div>
-            <p className="group-small-post-createdAt">{formatDate(post.createdAt)}</p>
+            <p className="group-small-post-createdAt">
+              {formatDate(post.createdAt)}
+            </p>
           </div>
         </div>
         <div>
@@ -282,42 +289,44 @@ function SmallPost(props) {
             onClick={onClickComment}
             className="group-small-post-button"
           />
-          <Button
-            icon={
-              isPin ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 384 512"
-                  fill="#ebc351"
-                  width="22px"
-                  height="22px"
-                >
-                  <path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z" />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 384 512"
-                  width="22px"
-                  height="22px"
-                >
-                  <path d="M0 48C0 21.5 21.5 0 48 0l0 48 0 393.4 130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4 336 48 48 48 48 0 336 0c26.5 0 48 21.5 48 48l0 440c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488L0 48z" />
-                </svg>
-              )
-            }
-            className="group-small-post-button"
-            onClick={() => {
-              handleSavePost(); // Gọi hàm handleSavePost
-              onPin(); // Gọi hàm onPin
-            }}
-            s
-          />
+          {post.postUser.id !== userProfile.userId && (
+            <Button
+              icon={
+                isPin ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 384 512"
+                    fill="#ebc351"
+                    width="22px"
+                    height="22px"
+                  >
+                    <path d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z" />
+                  </svg>
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 384 512"
+                    width="22px"
+                    height="22px"
+                  >
+                    <path d="M0 48C0 21.5 21.5 0 48 0l0 48 0 393.4 130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4 336 48 48 48 48 0 336 0c26.5 0 48 21.5 48 48l0 440c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488L0 48z" />
+                  </svg>
+                )
+              }
+              className="group-small-post-button"
+              onClick={() => {
+                handleSavePost(); // Gọi hàm handleSavePost
+                onPin(); // Gọi hàm onPin
+              }}
+              s
+            />
+          )}
         </div>
         {isShowComment && (
           <div className="group-small-post-comment-container">
             <img
               alt="user avatar"
-              src={post.postUser?.avatar ? post.postUser.avatar : "#"}
+              src={userProfile?.avatar ? userProfile.avatar : "#"}
               className="group-small-post-comment-avatar"
             />
             <div className="group-small-post-input-container">
